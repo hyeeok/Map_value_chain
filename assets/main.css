@@ -1,0 +1,32 @@
+input[type=checkbox] {
+  margin: 0.25em 0.5em
+}
+
+.dropdown-label {
+  margin: 1rem 0.25rem 0.25rem;
+}
+
+div#all_company_info_container {
+  display: block;
+}
+
+div.col-4 {
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  div#all_company_info_container {
+    display: flex;
+  }
+  div.col-4 {
+    width: 33.33%;
+  }
+}
+
+div#cfs_22_date_KRW_filtered {
+  min-height: 70vh;
+}
+
+div.user-select-none.svg-container {
+  height: 100% !important;
+}
