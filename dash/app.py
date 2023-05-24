@@ -38,12 +38,12 @@ app.layout = html.Div(
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def display_page(pathname):
     if pathname == "/":
-    #     return login.layout
-    # elif pathname == "/search":
-    #     return search.layout
-    # elif pathname == "/company_info":
-    #     return company_info.layout
-    # elif pathname == "/all_company_info":
+        #     return login.layout
+        # elif pathname == "/search":
+        #     return search.layout
+        # elif pathname == "/company_info":
+        #     return company_info.layout
+        # elif pathname == "/all_company_info":
         return all_company_info.layout
     else:
         return "404 Error: Page not found"
@@ -53,4 +53,6 @@ def display_page(pathname):
 # register_callbacks(app)
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(
+        # debug=True
+    )

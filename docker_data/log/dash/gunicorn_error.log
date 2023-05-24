@@ -1,0 +1,13 @@
+[2023-05-24 01:19:11 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-05-24 01:19:11 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-05-24 01:19:11 +0000] [1] [INFO] Using worker: sync
+[2023-05-24 01:19:11 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-05-24 01:19:11 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-05-24 01:19:11 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-05-24 01:19:11 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-05-24 04:34:59 +0000] [1] [INFO] Handling signal: term
+[2023-05-24 04:34:59 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-05-24 04:34:59 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-05-24 04:34:59 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-05-24 04:34:59 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-05-24 04:35:02 +0000] [1] [INFO] Shutting down: Master
