@@ -7,6 +7,7 @@ dash-core-components==2.0.0
 dash-html-components==2.0.0
 dash-table==5.0.0
 Flask==2.2.3
+gunicorn==20.1.0
 importlib-metadata==6.5.0
 isort==5.12.0
 itsdangerous==2.1.2
@@ -26,7 +27,7 @@ pytz==2023.3
 six==1.16.0
 tenacity==8.2.2
 tomli==2.0.1
-typing-extensions==4.5.0
+typing_extensions==4.5.0
 tzdata==2023.3
 wcwidth==0.2.6
 Werkzeug==2.2.3
