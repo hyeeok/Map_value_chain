@@ -11,3 +11,797 @@
 [2023-05-24 04:34:59 +0000] [9] [INFO] Worker exiting (pid: 9)
 [2023-05-24 04:34:59 +0000] [8] [INFO] Worker exiting (pid: 8)
 [2023-05-24 04:35:02 +0000] [1] [INFO] Shutting down: Master
+[2023-06-02 01:51:43 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 01:51:43 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 01:51:43 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 01:51:43 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 01:51:43 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 01:51:43 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 01:51:43 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 01:51:44 +0000] [9] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:51:44 +0000] [10] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:51:44 +0000] [11] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:51:44 +0000] [8] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:51:44 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 01:51:44 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 01:51:44 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 01:51:44 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 01:51:44 +0000] [1] [WARNING] Worker with pid 8 was terminated due to signal 15
+[2023-06-02 01:52:14 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 01:52:14 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 01:52:14 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 01:52:14 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 01:52:14 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 01:52:14 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 01:52:14 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 01:52:14 +0000] [8] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:52:14 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 01:52:14 +0000] [9] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:52:14 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 01:52:14 +0000] [1] [WARNING] Worker with pid 9 was terminated due to signal 15
+[2023-06-02 01:52:14 +0000] [10] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:52:14 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 01:52:14 +0000] [11] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/usr/local/lib/python3.8/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/local/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 843, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/app/app.py", line 4, in <module>
+    import dash_auth
+ModuleNotFoundError: No module named 'dash_auth'
+[2023-06-02 01:52:14 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 01:56:15 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 01:56:15 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 01:56:15 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 01:56:15 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 01:56:15 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 01:56:15 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 01:56:15 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 02:22:35 +0000] [1] [INFO] Handling signal: term
+[2023-06-02 02:22:35 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 02:22:35 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 02:22:35 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 02:22:35 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 02:22:38 +0000] [1] [INFO] Shutting down: Master
+[2023-06-02 02:24:31 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 02:24:31 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 02:24:31 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 02:24:31 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 02:24:31 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 02:24:32 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 02:24:32 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 02:40:04 +0000] [1] [INFO] Handling signal: term
+[2023-06-02 02:40:04 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 02:40:04 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 02:40:04 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 02:40:04 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 02:40:07 +0000] [1] [INFO] Shutting down: Master
+[2023-06-02 02:40:24 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 02:40:24 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 02:40:24 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 02:40:24 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 02:40:24 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 02:40:24 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 02:40:24 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 02:44:23,883] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'PerShare'
+[2023-06-02 02:44:26,800] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'PerShare'
+[2023-06-02 02:44:27,903] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'PerShare'
+[2023-06-02 02:44:29,055] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'PerShare'
+[2023-06-02 02:44:30,558] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: '안정성'
+[2023-06-02 02:44:39,894] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'Multiple'
+[2023-06-02 02:44:42,296] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: '수익성'
+[2023-06-02 02:44:43,944] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: '수익성'
+[2023-06-02 02:44:53,103] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'PerShare'
+[2023-06-02 02:44:54,255] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: 'Multiple'
+[2023-06-02 02:44:55,374] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
+KeyError: '안정성'
+[2023-06-02 02:47:37,974] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/ridgeline.py", line 250, in update_graph
+    column_ratio_dict_to_show = {column_dict_key: column_ratio_dict[column_dict_key]}
+KeyError: '안정성'
+[2023-06-02 02:47:49 +0000] [1] [INFO] Handling signal: term
+[2023-06-02 02:47:49 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 02:47:49 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 02:47:49 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 02:47:49 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 02:47:50 +0000] [1] [INFO] Shutting down: Master
+[2023-06-02 02:47:54 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 02:47:54 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 02:47:54 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 02:47:54 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 02:47:54 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 02:47:54 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 02:47:54 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 02:52:28,112] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:28,765] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:29,391] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:44,827] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:48,436] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:50,090] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:50,876] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 02:52:51,408] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/app/src/pages/scatter.py", line 310, in update_graph
+    quantile_data = plot_data[[xaxis_value, yaxis_value]].dropna()
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/frame.py", line 3766, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5871, in _get_indexer_strict
+    indexer = self.get_indexer_for(keyarr)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 5858, in get_indexer_for
+    return self.get_indexer(target)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3801, in get_indexer
+    return self._get_indexer(target, method, limit, tolerance)
+  File "/usr/local/lib/python3.8/site-packages/pandas/core/indexes/base.py", line 3828, in _get_indexer
+    indexer = self._engine.get_indexer(tgt_values)
+  File "pandas/_libs/index.pyx", line 321, in pandas._libs.index.IndexEngine.get_indexer
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7131, in pandas._libs.hashtable.PyObjectHashTable.lookup
+TypeError: unhashable type: 'list'
+[2023-06-02 03:01:34 +0000] [1] [INFO] Handling signal: term
+[2023-06-02 03:01:34 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 03:01:34 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 03:01:34 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 03:01:34 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 03:01:35 +0000] [1] [INFO] Shutting down: Master
+[2023-06-02 03:01:38 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 03:01:38 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 03:01:38 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 03:01:38 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 03:01:38 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 03:01:38 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 03:01:38 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 03:07:10 +0000] [1] [INFO] Handling signal: term
+[2023-06-02 03:07:10 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 03:07:10 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 03:07:10 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 03:07:10 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 03:07:10 +0000] [1] [INFO] Shutting down: Master
+[2023-06-02 03:07:13 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-02 03:07:13 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-02 03:07:13 +0000] [1] [INFO] Using worker: sync
+[2023-06-02 03:07:13 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-02 03:07:13 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-02 03:07:13 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-02 03:07:13 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-02 03:08:35 +0000] [1] [INFO] Handling signal: term
+[2023-06-02 03:08:35 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-02 03:08:35 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-02 03:08:35 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-02 03:08:35 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-02 03:08:36 +0000] [1] [INFO] Shutting down: Master

@@ -29,14 +29,23 @@ div.col-4 {
   }
 }
 
-div#cfs_22_date_KRW_filtered {
-  min-height: 70vh;
-}
-
 div.user-select-none.svg-container {
   height: 100% !important;
 }
 
+div#cfs_22_date_KRW_filtered {
+  min-height: 70vh;
+}
+
+div#scatter_comparison {
+  min-height: 50vh
+}
+div#scatter_ratio_comparison {
+  min-height: 50vh
+}
 div#ridgeline_comparison {
-  min-height: 40vh
+  min-height: 50vh
+}
+div#ridgeline_ratio_comparison {
+  min-height: 50vh
 }

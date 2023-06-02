@@ -146,7 +146,7 @@ content = html.Div(
     children=[
         dbc.Col(
             [
-                dcc.Graph(id="two_vars_comparison", figure=fig, responsive=True),
+                dcc.Graph(id="scatter_comparison", figure=fig, responsive=True),
             ]
         ),
         dbc.Col(
@@ -160,13 +160,9 @@ content = html.Div(
                             value="2022",
                         ),
                         html.Label("X축", className="dropdown-label"),
-                        dbc.Select(
-                            id="xaxis-dropdown", options=dropdown_options, value="자산총계"
-                        ),
+                        dbc.Select(id="xaxis-dropdown", options=dropdown_options, value="자산총계"),
                         html.Label("Y축", className="dropdown-label"),
-                        dbc.Select(
-                            id="yaxis-dropdown", options=dropdown_options, value="영업이익"
-                        ),
+                        dbc.Select(id="yaxis-dropdown", options=dropdown_options, value="영업이익"),
                         # dcc.Dropdown(
                         #     id="quantiles-dropdown", options=quantiles_dropdown_options, value="True"
                         # ),
@@ -227,7 +223,7 @@ content2 = html.Div(
     children=[
         dbc.Col(
             [
-                dcc.Graph(id="two_vars_ratio_comparison", figure=fig2, responsive=True),
+                dcc.Graph(id="scatter_ratio_comparison", figure=fig2, responsive=True),
             ]
         ),
         dbc.Col(
@@ -270,7 +266,7 @@ layout = dbc.Container(
     [
         dbc.Row(
             [
-                dbc.Col(html.H2("전체 기업 정보 분석")),
+                # dbc.Col(html.H2("전체 기업 정보 분석")),
             ]
         ),
         content,
@@ -280,7 +276,7 @@ layout = dbc.Container(
 
 
 @dash.callback(
-    Output("two_vars_comparison", "figure"),
+    Output("scatter_comparison", "figure"),
     [
         Input("year-dropdown", "value"),
         Input("xaxis-dropdown", "value"),
@@ -298,18 +294,14 @@ def update_graph(
 ):
     log = True if log else False
     plot_data = (
-        pd.DataFrame(
-            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
-        )
+        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
         .T.astype(float)
         .reset_index()
     )
 
     # select data
     plot_data = (
-        pd.DataFrame(
-            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
-        )
+        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
         .T.astype(float)
         .reset_index()
     )
@@ -356,7 +348,7 @@ def update_graph(
 
 
 @dash.callback(
-    Output("two_vars_ratio_comparison", "figure"),
+    Output("scatter_ratio_comparison", "figure"),
     [
         Input("year-dropdown2", "value"),
         Input("xaxis-dropdown2", "value"),
@@ -373,9 +365,7 @@ def update_graph(
 ):
     log = True if log else False
     plot_data = (
-        pd.DataFrame(
-            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
-        )
+        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
         .T.astype(float)
         .reset_index()
     )

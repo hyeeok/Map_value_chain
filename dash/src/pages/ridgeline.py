@@ -73,6 +73,7 @@ fig = ridgeline(
 
 year_dropdown_options = [{"label": year, "value": year} for year in data_years]
 dropdown_options = [{"label": column, "value": column} for column in columns]
+company_dropdown_options = [{"label": column, "value": column} for column in data.keys()]
 column_dict_dropdown_options = [
     {"label": column, "value": column} for column in column_dict.keys()
 ] + [{"label": "All", "value": "all"}]
@@ -96,14 +97,19 @@ content = html.Div(
                             options=year_dropdown_options,
                             value="2022",
                         ),
-                        # html.Label("회사1", className='dropdown-label'),
-                        # dcc.Dropdown(
-                        #     id="company1-dropdown", options=dropdown_options, value="엘지에너지솔루션(연결)"
-                        # ),
-                        # html.Label("회사2", className='dropdown-label'),
-                        # dcc.Dropdown(
-                        #     id="company2-dropdown", options=dropdown_options, value="삼성SDI(연결)"
-                        # ),
+                        html.Label("회사1", className="dropdown-label"),
+                        dbc.Select(
+                            id="company1-dropdown",
+                            options=company_dropdown_options,
+                            value="엘지에너지솔루션(연결)",
+                        ),
+                        html.Label("회사2", className="dropdown-label"),
+                        dbc.Select(
+                            id="company2-dropdown",
+                            options=company_dropdown_options,
+                            value="삼성SDI(연결)",
+                        ),
+                        html.Label("분류", className="dropdown-label"),
                         dbc.Select(
                             id="column-dict-dropdown",
                             options=column_dict_dropdown_options,
@@ -136,8 +142,9 @@ fig_ratio = ridgeline_ratio(
 
 year_dropdown_options2 = [{"label": year, "value": year} for year in data_years]
 dropdown_options2 = [{"label": column, "value": column} for column in columns]
+company_dropdown_options = [{"label": column, "value": column} for column in data.keys()]
 column_dict_dropdown_options2 = [
-    {"label": column, "value": column} for column in column_dict.keys()
+    {"label": column, "value": column} for column in column_ratio_dict.keys()
 ] + [{"label": "All", "value": "all"}]
 
 content2 = html.Div(
@@ -146,9 +153,7 @@ content2 = html.Div(
     children=[
         dbc.Col(
             [
-                dcc.Graph(
-                    id="ridgeline_ratio_comparison", figure=fig_ratio, responsive=True
-                ),
+                dcc.Graph(id="ridgeline_ratio_comparison", figure=fig_ratio, responsive=True),
             ]
         ),
         dbc.Col(
@@ -161,20 +166,25 @@ content2 = html.Div(
                             options=year_dropdown_options,
                             value="2022",
                         ),
-                        # html.Label("회사1", className='dropdown-label'),
-                        # dcc.Dropdown(
-                        #     id="company1-dropdown2", options=dropdown_options, value="엘지에너지솔루션(연결)"
-                        # ),
-                        # html.Label("회사2", className='dropdown-label'),
-                        # dcc.Dropdown(
-                        #     id="company2-dropdown2", options=dropdown_options, value="삼성SDI(연결)"
-                        # ),
+                        html.Label("회사1", className="dropdown-label"),
+                        dbc.Select(
+                            id="company1-dropdown2",
+                            options=company_dropdown_options,
+                            value="엘지에너지솔루션(연결)",
+                        ),
+                        html.Label("회사2", className="dropdown-label"),
+                        dbc.Select(
+                            id="company2-dropdown2",
+                            options=company_dropdown_options,
+                            value="삼성SDI(연결)",
+                        ),
+                        html.Label("분류", className="dropdown-label"),
                         dbc.Select(
                             id="column-dict-dropdown2",
                             options=column_dict_dropdown_options2,
                             value=["all"],
                         ),
-                        dbc.Select(
+                        dbc.Checklist(
                             id="log-checkbox2",
                             options=[{"label": "log 처리", "value": "True"}],
                             value=["True"],
@@ -192,7 +202,7 @@ layout = dbc.Container(
     [
         dbc.Row(
             [
-                dbc.Col(html.H2("전체 기업 정보 분석")),
+                # dbc.Col(html.H2("전체 기업 정보 분석")),
             ]
         ),
         content,
@@ -205,19 +215,25 @@ layout = dbc.Container(
     Output("ridgeline_comparison", "figure"),
     [
         Input("year-dropdown", "value"),
-        # Input("company1-dropdown", "value"),
-        # Input("company2-dropdown", "value"),
+        Input("company1-dropdown", "value"),
+        Input("company2-dropdown", "value"),
         Input("column-dict-dropdown", "value"),
         Input("log-checkbox", "value"),
     ],
     prevent_initial_call=True,
 )
-# def update_graph(year, company_name1, company_name2, column_dict_key, log,):
 def update_graph(
     year,
+    company_name1,
+    company_name2,
     column_dict_key,
     log,
 ):
+    # def update_graph(
+    #     year,
+    #     column_dict_key,
+    #     log,
+    # ):
     log = True if log else False
     if column_dict_key == "all" or isinstance(column_dict_key, list):
         column_dict_to_show = column_dict
@@ -231,26 +247,30 @@ def update_graph(
     Output("ridgeline_ratio_comparison", "figure"),
     [
         Input("year-dropdown2", "value"),
-        # Input("company1-dropdown2", "value"),
-        # Input("company2-dropdown2", "value"),
+        Input("company1-dropdown2", "value"),
+        Input("company2-dropdown2", "value"),
         Input("column-dict-dropdown2", "value"),
         Input("log-checkbox2", "value"),
     ],
     prevent_initial_call=True,
 )
-# def update_graph(year,  company_name1, company_name2, column_dict_key, log,):
 def update_graph(
     year,
+    company_name1,
+    company_name2,
     column_dict_key,
     log,
 ):
+    # def update_graph(
+    #     year,
+    #     column_dict_key,
+    #     log,
+    # ):
     log = True if log else False
 
     if column_dict_key == "all" or isinstance(column_dict_key, list):
         column_ratio_dict_to_show = column_ratio_dict
     else:
-        column_ratio_dict_to_show = {column_dict_key: column_dict[column_dict_key]}
-    fig = ridgeline_ratio(
-        data, year, company_name1, company_name2, column_ratio_dict_to_show, log
-    )
+        column_ratio_dict_to_show = {column_dict_key: column_ratio_dict[column_dict_key]}
+    fig = ridgeline_ratio(data, year, company_name1, company_name2, column_ratio_dict_to_show, log)
     return fig
