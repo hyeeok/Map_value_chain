@@ -73,7 +73,9 @@ fig = ridgeline(
 
 year_dropdown_options = [{"label": year, "value": year} for year in data_years]
 dropdown_options = [{"label": column, "value": column} for column in columns]
-company_dropdown_options = [{"label": column, "value": column} for column in data.keys()]
+company_dropdown_options = [
+    {"label": column, "value": column} for column in data.keys()
+]
 column_dict_dropdown_options = [
     {"label": column, "value": column} for column in column_dict.keys()
 ] + [{"label": "All", "value": "all"}]
@@ -142,7 +144,9 @@ fig_ratio = ridgeline_ratio(
 
 year_dropdown_options2 = [{"label": year, "value": year} for year in data_years]
 dropdown_options2 = [{"label": column, "value": column} for column in columns]
-company_dropdown_options = [{"label": column, "value": column} for column in data.keys()]
+company_dropdown_options = [
+    {"label": column, "value": column} for column in data.keys()
+]
 column_dict_dropdown_options2 = [
     {"label": column, "value": column} for column in column_ratio_dict.keys()
 ] + [{"label": "All", "value": "all"}]
@@ -153,7 +157,9 @@ content2 = html.Div(
     children=[
         dbc.Col(
             [
-                dcc.Graph(id="ridgeline_ratio_comparison", figure=fig_ratio, responsive=True),
+                dcc.Graph(
+                    id="ridgeline_ratio_comparison", figure=fig_ratio, responsive=True
+                ),
             ]
         ),
         dbc.Col(
@@ -271,6 +277,10 @@ def update_graph(
     if column_dict_key == "all" or isinstance(column_dict_key, list):
         column_ratio_dict_to_show = column_ratio_dict
     else:
-        column_ratio_dict_to_show = {column_dict_key: column_ratio_dict[column_dict_key]}
-    fig = ridgeline_ratio(data, year, company_name1, company_name2, column_ratio_dict_to_show, log)
+        column_ratio_dict_to_show = {
+            column_dict_key: column_ratio_dict[column_dict_key]
+        }
+    fig = ridgeline_ratio(
+        data, year, company_name1, company_name2, column_ratio_dict_to_show, log
+    )
     return fig

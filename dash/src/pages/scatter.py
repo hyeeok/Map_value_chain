@@ -10,13 +10,12 @@ import plotly.graph_objects as go
 
 from src.const.default import (
     data_source,
-    data_source_color,
     data_years,
     currency_dict,
     columns,
     columns_ratio,
 )
-from src.config.default import cal_ratio
+from src.config.default import cal_ratio, scatter, scatter_ratio
 
 # load function formula data
 function_data = pd.read_excel("src/data/기업정보 데이터 함수식.xlsx")
@@ -60,81 +59,7 @@ y_name = "영업이익"  # columns
 quantiles = [0.05, 0.25, 0.5, 0.75, 0.95]
 log_plot = True
 
-# select data
-plot_data = (
-    pd.DataFrame({key: value.set_index("항목명")[year] for key, value in data.items()})
-    .T.astype(float)
-    .reset_index()
-)
-
-# select data
-plot_data = (
-    pd.DataFrame({key: value.set_index("항목명")[year] for key, value in data.items()})
-    .T.astype(float)
-    .reset_index()
-)
-
-# quantile regression
-quantile_data = plot_data[[x_name, y_name]].dropna()
-
-if quantile_data.empty:
-    raise Exception("해당하는 값이 없습니다.")
-
-quantile_data = quantile_data[quantile_data[x_name] > 0]
-quantile_data = quantile_data[quantile_data[y_name] > 0]
-quantile_data = np.log(quantile_data)
-
-X = quantile_data.loc[:, x_name].values.reshape(-1, 1)
-y = quantile_data.loc[:, y_name]
-
-
-xx = np.linspace(np.min(X), np.max(X), 100).reshape(-1, 1)
-
-predictions = {}
-for quantile in quantiles:
-    qr = QuantileRegressor(quantile=quantile, alpha=0, solver="highs")
-    yy = qr.fit(X, y).predict(xx)
-    predictions[quantile] = yy
-
-# plot
-fig = px.scatter(
-    plot_data,
-    x=x_name,
-    y=y_name,
-    log_x=log_plot,
-    log_y=log_plot,
-    hover_name="index",
-    opacity=0.4,
-)
-
-for quantile, yy in predictions.items():
-    fig.add_trace(
-        go.Scatter(
-            x=np.exp(xx.reshape(-1)),
-            y=np.exp(yy),
-            name=f"Quantile: {quantile}",
-            opacity=0.5,
-        )
-    )
-
-
-fig.update_layout(title_text="2차전지 기업 - 2변수 비교 그래프")
-
-
-if log_plot:
-    fig.update_layout(xaxis=currency_dict, yaxis=currency_dict)
-else:
-    fig.update_layout(
-        xaxis=dict(
-            tickformat=",",
-            ticksuffix="백만",
-        ),
-        yaxis=dict(
-            tickformat=",",
-            ticksuffix="백만",
-        ),
-    )
-
+fig = scatter(data, year, x_name, y_name, quantiles, log_plot)
 
 year_dropdown_options = [{"label": year, "value": year} for year in data_years]
 dropdown_options = [{"label": column, "value": column} for column in columns]
@@ -160,9 +85,13 @@ content = html.Div(
                             value="2022",
                         ),
                         html.Label("X축", className="dropdown-label"),
-                        dbc.Select(id="xaxis-dropdown", options=dropdown_options, value="자산총계"),
+                        dbc.Select(
+                            id="xaxis-dropdown", options=dropdown_options, value="자산총계"
+                        ),
                         html.Label("Y축", className="dropdown-label"),
-                        dbc.Select(id="yaxis-dropdown", options=dropdown_options, value="영업이익"),
+                        dbc.Select(
+                            id="yaxis-dropdown", options=dropdown_options, value="영업이익"
+                        ),
                         # dcc.Dropdown(
                         #     id="quantiles-dropdown", options=quantiles_dropdown_options, value="True"
                         # ),
@@ -189,29 +118,9 @@ y_name = "비유동부채비율"  # columns_ratio
 log_plot = False
 
 
-# select data
-plot_data = (
-    pd.DataFrame({key: value.set_index("항목명")[year] for key, value in data.items()})
-    .T.astype(float)
-    .reset_index()
+fig2 = scatter_ratio(
+    data, year, x_name, y_name, log_plot
 )
-
-if plot_data[[x_name, y_name]].dropna().empty:
-    raise Exception("해당하는 값이 없습니다.")
-
-# plot
-fig2 = px.scatter(
-    plot_data,
-    x=x_name,
-    y=y_name,
-    log_x=log_plot,
-    log_y=log_plot,
-    hover_name="index",
-    opacity=0.4,
-)
-
-fig2.update_layout(title_text="2차전지 기업 - 2개의 비율 변수 비교 그래프")
-
 
 dropdown_options2 = [
     {"label": column_ratio, "value": column_ratio} for column_ratio in columns_ratio
@@ -294,14 +203,18 @@ def update_graph(
 ):
     log = True if log else False
     plot_data = (
-        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
+        pd.DataFrame(
+            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
+        )
         .T.astype(float)
         .reset_index()
     )
 
     # select data
     plot_data = (
-        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
+        pd.DataFrame(
+            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
+        )
         .T.astype(float)
         .reset_index()
     )
@@ -365,7 +278,9 @@ def update_graph(
 ):
     log = True if log else False
     plot_data = (
-        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
+        pd.DataFrame(
+            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
+        )
         .T.astype(float)
         .reset_index()
     )
