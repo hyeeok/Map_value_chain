@@ -9,6 +9,9 @@ input[type=checkbox] {
 div#all_company_info_container {
   display: block;
 }
+div#fig_container {
+  display: block;
+}
 
 div.col-4 {
   width: 100%;
@@ -16,6 +19,9 @@ div.col-4 {
 
 @media (min-width: 992px) {
   div#all_company_info_container {
+    display: flex;
+  }
+  div#fig_container {
     display: flex;
   }
   div.col-4 {
@@ -29,4 +35,8 @@ div#cfs_22_date_KRW_filtered {
 
 div.user-select-none.svg-container {
   height: 100% !important;
+}
+
+div#ridgeline_comparison {
+  min-height: 40vh
 }
