@@ -1,6 +1,12 @@
 import dash
 from dash import dcc, html, Input, Output, State
 import dash_bootstrap_components as dbc
+import dash_auth
+
+
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'admin': 'dnflwlq1!'
+}
 
 # 각각의 컴포넌트에서 사용할 콜백 함수들을 모듈로부터 import합니다.
 # from callbacks import register_callbacks
@@ -10,6 +16,10 @@ from src.pages import login, search, company_info, all_company_info, scatter, ri
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 app.config.suppress_callback_exceptions = True
+
+auth = dash_auth.BasicAuth(
+    app, VALID_USERNAME_PASSWORD_PAIRS
+)
 
 navbar = dbc.NavbarSimple(
     brand="Greta MVC",
