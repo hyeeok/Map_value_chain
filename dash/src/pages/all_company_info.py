@@ -76,37 +76,42 @@ content = html.Div(
     id="all_company_info_container",
     style={"padding": "1rem 1.5rem"},
     children=[
-    dbc.Col([
-        dcc.Graph(id="cfs_22_date_KRW_filtered", figure=fig, responsive=True),
-    ]),
-    dbc.Col([
-        html.Div(
+        dbc.Col(
             [
-                html.Label("X축", className='dropdown-label'),
-                dcc.Dropdown(
-                    id="xaxis-dropdown", options=dropdown_options, value="자본총계"
-                ),
-                dcc.Checklist(
-                    id="xaxis-log-checkbox",
-                    options=[{"label": "log 처리", "value": "True"}],
-                    value=["True"],
-                ),
+                dcc.Graph(id="cfs_22_date_KRW_filtered", figure=fig, responsive=True),
             ]
         ),
-        html.Div(
+        dbc.Col(
             [
-                html.Label("Y축", className='dropdown-label'),
-                dcc.Dropdown(
-                    id="yaxis-dropdown", options=dropdown_options, value="당기순이익"
+                html.Div(
+                    [
+                        html.Label("X축", className="dropdown-label"),
+                        dbc.Select(
+                            id="xaxis-dropdown", options=dropdown_options, value="자본총계"
+                        ),
+                        dbc.Checklist(
+                            id="xaxis-log-checkbox",
+                            options=[{"label": "log 처리", "value": "True"}],
+                            value=["True"],
+                        ),
+                    ]
                 ),
-                dcc.Checklist(
-                    id="yaxis-log-checkbox",
-                    options=[{"label": "log 처리", "value": "True"}],
-                    value=["True"],
+                html.Div(
+                    [
+                        html.Label("Y축", className="dropdown-label"),
+                        dbc.Select(
+                            id="yaxis-dropdown", options=dropdown_options, value="당기순이익"
+                        ),
+                        dbc.Checklist(
+                            id="yaxis-log-checkbox",
+                            options=[{"label": "log 처리", "value": "True"}],
+                            value=["True"],
+                        ),
+                    ]
                 ),
-            ]
+            ],
+            width=4,
         ),
-    ], width=4)
     ],
 )
 

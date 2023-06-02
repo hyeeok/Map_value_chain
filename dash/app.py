@@ -4,9 +4,7 @@ import dash_bootstrap_components as dbc
 import dash_auth
 
 
-VALID_USERNAME_PASSWORD_PAIRS = {
-    'admin': 'dnflwlq1!'
-}
+VALID_USERNAME_PASSWORD_PAIRS = {"admin": "dnflwlq1!"}
 
 # 각각의 컴포넌트에서 사용할 콜백 함수들을 모듈로부터 import합니다.
 # from callbacks import register_callbacks
@@ -17,9 +15,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 app.config.suppress_callback_exceptions = True
 
-auth = dash_auth.BasicAuth(
-    app, VALID_USERNAME_PASSWORD_PAIRS
-)
+auth = dash_auth.BasicAuth(app, VALID_USERNAME_PASSWORD_PAIRS)
 
 navbar = dbc.NavbarSimple(
     brand="Greta MVC",
@@ -57,9 +53,9 @@ def display_page(pathname):
         #     return company_info.layout
         # elif pathname == "/all_company_info":
         return all_company_info.layout
-    elif pathname == '/scatter':
+    elif pathname == "/scatter":
         return scatter.layout
-    elif pathname == '/ridgeline':
+    elif pathname == "/ridgeline":
         return ridgeline.layout
     else:
         return "404 Error: Page not found"
