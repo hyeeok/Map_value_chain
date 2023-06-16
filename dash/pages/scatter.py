@@ -1,28 +1,23 @@
-import dash
 import dash_bootstrap_components as dbc
 import numpy as np
 import pandas as pd
 import plotly.express as px
-from dash import Input, Output, dcc, html
+import plotly.graph_objects as go
 from sklearn.linear_model import QuantileRegressor
 
-import plotly.graph_objects as go
+import dash
+from config.default import cal_ratio, scatter, scatter_ratio
+from const.default import columns, columns_ratio, currency_dict, data_source, data_years
+from dash import Input, Output, dcc, html
 
-from src.const.default import (
-    data_source,
-    data_years,
-    currency_dict,
-    columns,
-    columns_ratio,
-)
-from src.config.default import cal_ratio, scatter, scatter_ratio
+dash.register_page(__name__)
 
 # load function formula data
-function_data = pd.read_excel("src/data/기업정보 데이터 함수식.xlsx")
+function_data = pd.read_excel("data/기업정보 데이터 함수식.xlsx")
 function_data["분류"] = function_data["분류"].fillna(method="ffill")
 
 # make default data
-xls = pd.ExcelFile("src/data/기업데이터수집_2차전지업체_230526.xlsx")
+xls = pd.ExcelFile("data/기업데이터수집_2차전지업체_230526.xlsx")
 
 data = {}
 for cnt in xls.sheet_names:
@@ -118,9 +113,7 @@ y_name = "비유동부채비율"  # columns_ratio
 log_plot = False
 
 
-fig2 = scatter_ratio(
-    data, year, x_name, y_name, log_plot
-)
+fig2 = scatter_ratio(data, year, x_name, y_name, log_plot)
 
 dropdown_options2 = [
     {"label": column_ratio, "value": column_ratio} for column_ratio in columns_ratio

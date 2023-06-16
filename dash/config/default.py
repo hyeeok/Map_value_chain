@@ -1,20 +1,16 @@
-import pandas as pd
-import numpy as np
-
-import dash
 import dash_bootstrap_components as dbc
 import numpy as np
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 from sklearn.linear_model import QuantileRegressor
 
-import plotly.graph_objects as go
-
-from src.const.default import (
-    data_source_color,
-    currency_dict,
+import dash
+from const.default import (
     column_dict,
     company_col,
+    currency_dict,
+    data_source_color,
     log_currency_dict,
 )
 

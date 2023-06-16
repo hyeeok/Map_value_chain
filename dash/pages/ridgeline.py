@@ -1,33 +1,34 @@
-import dash
 import dash_bootstrap_components as dbc
 import numpy as np
 import pandas as pd
 import plotly.express as px
-from dash import Input, Output, dcc, html
+import plotly.graph_objects as go
 from sklearn.linear_model import QuantileRegressor
 
-import plotly.graph_objects as go
-
-from src.const.default import (
+import dash
+from config.default import cal_ratio, ridgeline, ridgeline_ratio
+from const.default import (
+    column_dict,
+    column_ratio_dict,
+    columns,
+    columns_ratio,
+    company_col,
+    currency_dict,
     data_source,
     data_source_color,
     data_years,
-    currency_dict,
-    columns,
-    columns_ratio,
-    column_ratio_dict,
-    column_dict,
-    company_col,
     log_currency_dict,
 )
-from src.config.default import cal_ratio, ridgeline, ridgeline_ratio
+from dash import Input, Output, dcc, html
+
+dash.register_page(__name__)
 
 # load function formula data
-function_data = pd.read_excel("src/data/기업정보 데이터 함수식.xlsx")
+function_data = pd.read_excel("data/기업정보 데이터 함수식.xlsx")
 function_data["분류"] = function_data["분류"].fillna(method="ffill")
 
 # make default data
-xls = pd.ExcelFile("src/data/기업데이터수집_2차전지업체_230526.xlsx")
+xls = pd.ExcelFile("data/기업데이터수집_2차전지업체_230526.xlsx")
 
 data = {}
 for cnt in xls.sheet_names:
@@ -81,7 +82,7 @@ column_dict_dropdown_options = [
 ] + [{"label": "All", "value": "all"}]
 
 content = html.Div(
-    id="fig_container",
+    id="ridgeline_fig_container1",
     style={"padding": "1rem 1.5rem"},
     children=[
         dbc.Col(
@@ -152,7 +153,7 @@ column_dict_dropdown_options2 = [
 ] + [{"label": "All", "value": "all"}]
 
 content2 = html.Div(
-    id="fig_container",
+    id="ridgeline_fig_container2",
     style={"padding": "1rem 1.5rem"},
     children=[
         dbc.Col(
