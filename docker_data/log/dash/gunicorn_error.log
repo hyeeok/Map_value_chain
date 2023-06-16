@@ -805,3 +805,45 @@ TypeError: unhashable type: 'list'
 [2023-06-02 03:08:35 +0000] [8] [INFO] Worker exiting (pid: 8)
 [2023-06-02 03:08:35 +0000] [10] [INFO] Worker exiting (pid: 10)
 [2023-06-02 03:08:36 +0000] [1] [INFO] Shutting down: Master
+[2023-06-16 16:15:36 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-16 16:15:36 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-16 16:15:36 +0000] [1] [INFO] Using worker: sync
+[2023-06-16 16:15:36 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-16 16:15:36 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-16 16:15:37 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-16 16:15:37 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-16 16:16:31,363] ERROR in app: Exception on /_dash-update-component [POST]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 2528, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.8/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/usr/local/lib/python3.8/site-packages/dash_auth/basic_auth.py", line 36, in wrap
+    response = f(*args, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 1283, in dispatch
+    ctx.run(
+  File "/usr/local/lib/python3.8/site-packages/dash/_callback.py", line 450, in add_context
+    output_value = func(*func_args, **func_kwargs)  # %% callback invoked %%
+  File "/usr/local/lib/python3.8/site-packages/dash/dash.py", line 2083, in update
+    layout(**path_variables, **query_parameters)
+  File "/app/pages/company.py", line 35, in layout
+    desc_df = data_dict["desc_df"].drop(0).fillna("")
+TypeError: 'NoneType' object is not subscriptable
+[2023-06-16 16:18:32 +0000] [1] [INFO] Handling signal: term
+[2023-06-16 16:18:32 +0000] [9] [INFO] Worker exiting (pid: 9)
+[2023-06-16 16:18:32 +0000] [10] [INFO] Worker exiting (pid: 10)
+[2023-06-16 16:18:32 +0000] [8] [INFO] Worker exiting (pid: 8)
+[2023-06-16 16:18:32 +0000] [11] [INFO] Worker exiting (pid: 11)
+[2023-06-16 16:18:32 +0000] [1] [INFO] Shutting down: Master
+[2023-06-16 16:18:35 +0000] [1] [INFO] Starting gunicorn 20.1.0
+[2023-06-16 16:18:35 +0000] [1] [INFO] Listening at: http://0.0.0.0:8050 (1)
+[2023-06-16 16:18:35 +0000] [1] [INFO] Using worker: sync
+[2023-06-16 16:18:35 +0000] [8] [INFO] Booting worker with pid: 8
+[2023-06-16 16:18:35 +0000] [9] [INFO] Booting worker with pid: 9
+[2023-06-16 16:18:35 +0000] [10] [INFO] Booting worker with pid: 10
+[2023-06-16 16:18:35 +0000] [11] [INFO] Booting worker with pid: 11
+[2023-06-16 16:18:51 +0000] [1] [INFO] Handling signal: term

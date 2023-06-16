@@ -3,11 +3,11 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from config.default import cal_ratio, scatter, scatter_ratio
+from const.default import columns, columns_ratio, currency_dict, data_source, data_years
 from sklearn.linear_model import QuantileRegressor
 
 import dash
-from config.default import cal_ratio, scatter, scatter_ratio
-from const.default import columns, columns_ratio, currency_dict, data_source, data_years
 from dash import Input, Output, dcc, html
 
 dash.register_page(__name__)
@@ -61,7 +61,7 @@ dropdown_options = [{"label": column, "value": column} for column in columns]
 quantiles_dropdown_options = [0.05, 0.25, 0.5, 0.75, 0.95]
 
 content = html.Div(
-    id="fig_container",
+    id="scatter_fig_container1",
     style={"padding": "1rem 1.5rem"},
     children=[
         dbc.Col(
@@ -80,13 +80,9 @@ content = html.Div(
                             value="2022",
                         ),
                         html.Label("X축", className="dropdown-label"),
-                        dbc.Select(
-                            id="xaxis-dropdown", options=dropdown_options, value="자산총계"
-                        ),
+                        dbc.Select(id="xaxis-dropdown", options=dropdown_options, value="자산총계"),
                         html.Label("Y축", className="dropdown-label"),
-                        dbc.Select(
-                            id="yaxis-dropdown", options=dropdown_options, value="영업이익"
-                        ),
+                        dbc.Select(id="yaxis-dropdown", options=dropdown_options, value="영업이익"),
                         # dcc.Dropdown(
                         #     id="quantiles-dropdown", options=quantiles_dropdown_options, value="True"
                         # ),
@@ -120,7 +116,7 @@ dropdown_options2 = [
 ]
 
 content2 = html.Div(
-    id="fig_container",
+    id="scatter_fig_container2",
     style={"padding": "1rem 1.5rem"},
     children=[
         dbc.Col(
@@ -196,18 +192,14 @@ def update_graph(
 ):
     log = True if log else False
     plot_data = (
-        pd.DataFrame(
-            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
-        )
+        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
         .T.astype(float)
         .reset_index()
     )
 
     # select data
     plot_data = (
-        pd.DataFrame(
-            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
-        )
+        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
         .T.astype(float)
         .reset_index()
     )
@@ -271,9 +263,7 @@ def update_graph(
 ):
     log = True if log else False
     plot_data = (
-        pd.DataFrame(
-            {key: value.set_index("항목명")[year_value] for key, value in data.items()}
-        )
+        pd.DataFrame({key: value.set_index("항목명")[year_value] for key, value in data.items()})
         .T.astype(float)
         .reset_index()
     )
