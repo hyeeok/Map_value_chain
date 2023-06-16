@@ -2,11 +2,28 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 
 import dash
-from dash import html
+from dash import dcc, html
 
 dash.register_page(__name__)
 
 domain_map_df = pd.read_csv("data/domain_map.csv")
+
+xls = pd.ExcelFile("data/기업데이터수집_2차전지업체_230526.xlsx")
+
+
+def get_business_num_dict(xls_df: pd.ExcelFile) -> dict:
+    business_num_dict = {}
+    years = ["2018", "2019", "2020", "2021", "2022"]
+    for sheet_name in xls_df.sheet_names:
+        df = pd.read_excel(xls_df, sheet_name)
+        business_num = df.loc[df["항목명"] == "사업자번호", years[-1]].values[0]
+        company_name = df.loc[df["항목명"] == "기업", years[-1]].values[0]
+        business_num_dict[company_name] = business_num
+    return business_num_dict
+
+
+business_num_dict = get_business_num_dict(xls)
+
 
 nested_dicts = {}
 for _, row in domain_map_df.iterrows():
@@ -39,7 +56,13 @@ def generate_division_checklist(division_list):
         # options = generate_content_options(content_list)
         options = [
             {
-                "label": f'{content["name"]} : {content["percent"]}%',
+                "label": dcc.Link(
+                    f'{content["name"]} : {content["percent"]}%',
+                    href="company/" + business_num_dict[content["name"]]
+                    if content["name"] in business_num_dict.keys()
+                    else content["name"],
+                    style={"color": "#333"},
+                ),
                 "value": f'{division["division"]}-{content["name"]}',
             }
             for content in content_list
