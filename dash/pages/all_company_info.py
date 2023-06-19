@@ -1,15 +1,16 @@
-import dash
 import dash_bootstrap_components as dbc
 import numpy as np
 import pandas as pd
 import plotly.express as px
+
+import dash
+from const.all_company_info import data_category, select_axis
 from dash import Input, Output, dcc, html
 
-from src.const.all_company_info import data_category, select_axis
-
+dash.register_page(__name__)
 # data load
-data_key = pd.read_csv("src/data/krx_corp.csv", encoding="cp949")
-data = pd.read_csv("src/data/cfs_22_date_KRW_filter.csv")
+data_key = pd.read_csv("data/krx_corp.csv", encoding="cp949")
+data = pd.read_csv("data/cfs_22_date_KRW_filter.csv")
 
 
 # 전처리
