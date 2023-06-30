@@ -49,3 +49,17 @@ div#ridgeline_comparison {
 div#ridgeline_ratio_comparison {
   min-height: 50vh
 }
+
+.image {
+  width: 100%;
+  height: auto
+}
+.hover-image {
+  display: none;
+}
+#image-container:hover .image {
+  display: none;
+}
+#image-container:hover .hover-image {
+  display: inline-block;
+}
