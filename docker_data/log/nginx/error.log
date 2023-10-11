@@ -1,7 +1,0 @@
-2023/05/24 00:34:03 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
-2023/05/24 00:46:36 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
-2023/05/24 00:49:22 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
-2023/05/24 01:08:27 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
-2023/05/24 01:17:12 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
-2023/06/02 01:51:44 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
-2023/06/02 01:52:15 [emerg] 1#1: host not found in upstream "dash" in /etc/nginx/nginx.conf:24
