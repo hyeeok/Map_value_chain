@@ -1,44 +1,44 @@
-import React from 'react';
+import React from 'react'
 
-const sidebar = [
-  {
-    chat: {
-      label: 'Chat'
-    },
-    menus: {
-      label: 'Menus',
-      items:[
-      {name: 'Menu 1', href: '#'},
-      {name: 'Menu 2', href: '#'},
-      {name: 'Menu 3', href: '#'},
-    ]},
-    account: {
-      label: 'Account',
-      loginOption: 'Log in'
-    }
-  }
-]
+export const sidebar = {
+  chat: {
+    label: 'Chat',
+  },
+  menus: {
+    label: 'Menus',
+    items: [
+      { name: 'Menu 1', href: '#' },
+      { name: 'Menu 2', href: '#' },
+      { name: 'Menu 3', href: '#' },
+    ],
+  },
+  account: {
+    label: 'Account',
+    loginOption: 'Log in',
+  },
+}
+
+const a = 'a'
 
 const Sidebar = () => {
   return (
     <div>
+      <div>MVC Logo</div>
+      <div>{sidebar.chat.label}</div>
       <div>
-        MVC Logo
-      </div>
-      <div>
-
-      </div>
-      <div>
-        <label></label>
+        <label>{sidebar.menus.label}</label>
         <ul>
-          <li></li>
+          {sidebar.menus.items.map((item, i) => (
+            <li key={i}> {item.name}</li>
+          ))}
         </ul>
       </div>
       <div>
-
+        {sidebar.account.label}
+        {sidebar.account.loginOption}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

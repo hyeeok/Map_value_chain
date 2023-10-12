@@ -10,4 +10,4 @@ module.exports = {
   bracketSpacing: true, // object literal의 {} 안에 앞뒤 공백을 넣을지 여부
   bracketSameLine: false, // JSX 내부 요소를 닫는 태그를 마지막 줄에 붙여서 표시할지 여부
   arrowParens: 'always', // 화살표 함수의 인자가 1개인 경우 괄호로 감쌀지 여부
-};
+}
