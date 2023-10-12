@@ -1,23 +1,25 @@
-.logo {
-  display: flex;
-  align-items: center;
-  height: 56px;
-  padding: 0 20px;
-}
-
 .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 320px;
+  width: 320px;
   height: 100vh;
+  max-height: 100vh;
+  padding: 0 8px;
   background-color: aliceblue;
+}
+
+.hidden {
+  width: 0;
+  padding: 0;
+  visibility: hidden;
 }
 
 .container label {
   display: block;
-  padding: 0.75rem 1.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 12px 12px 8px;
+  font-size: 12px;
+  border-top: 1px solid black;
 }
 
 .container a {
@@ -37,5 +39,19 @@
 
 .container li {
   display: block;
-  padding: 1rem 1.25rem;
+  padding: 16px 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 12px;
+}
+
+.menulinks {
+  flex: 1;
+  padding-right: 2px;
+  margin-right: -2px;
+  overflow-y: auto;
 }

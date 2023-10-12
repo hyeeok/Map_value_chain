@@ -1,7 +1,10 @@
-// import './globals.css'
+import './globals.css';
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import Footer from '@/components/base/footer/footer';
+import Header from '@/components/base/header/header';
 import Sidebar from '@/components/base/sidebar/sidebar';
 
 import styles from './layout.module.css';
@@ -21,10 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* <Providers> */}
         <div className={styles.container}>
           <Sidebar />
-          <main className={styles.main}>{children}</main>
+          <main className={styles.main}>
+            <Header />
+            <div className={styles.content}>{children}</div>
+            <Footer />
+          </main>
         </div>
+        {/* </Providers> */}
       </body>
     </html>
   );

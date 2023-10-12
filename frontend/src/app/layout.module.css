@@ -1,8 +1,15 @@
 .container {
-  display: grid;
-  grid-template-columns: 2fr 10fr;
+  display: flex;
   min-height: 100vh;
 }
 
 .main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
 }
