@@ -1,11 +1,14 @@
-import React from 'react'
+import React from 'react';
+
+import styles from './sidebar.module.css';
 
 export const sidebar = {
-  chat: {
-    label: 'Chat',
+  action: {
+    label: 'Actions',
+    chat: { name: 'Chat', href: '#' },
   },
-  menus: {
-    label: 'Menus',
+  menuLinks: {
+    label: 'Menu Links',
     items: [
       { name: 'Menu 1', href: '#' },
       { name: 'Menu 2', href: '#' },
@@ -14,31 +17,43 @@ export const sidebar = {
   },
   account: {
     label: 'Account',
-    loginOption: 'Log in',
+    loginOption: { name: 'Log in', href: '#' },
   },
-}
-
-const a = 'a'
+};
 
 const Sidebar = () => {
   return (
-    <div>
-      <div>MVC Logo</div>
-      <div>{sidebar.chat.label}</div>
+    <div className={styles.container}>
       <div>
-        <label>{sidebar.menus.label}</label>
+        <div className={styles.logo}>MVC Logo</div>
+        <section>
+          <ul>
+            <a href={sidebar.action.chat.href}>
+              <li>{sidebar.action.chat.name}</li>
+            </a>
+          </ul>
+        </section>
+        <section>
+          <label>{sidebar.menuLinks.label}</label>
+          <ul>
+            {sidebar.menuLinks.items.map((item, i) => (
+              <a key={i} href={item.href}>
+                <li> {item.name}</li>
+              </a>
+            ))}
+          </ul>
+        </section>
+      </div>
+      <section>
+        <label>{sidebar.account.label}</label>
         <ul>
-          {sidebar.menus.items.map((item, i) => (
-            <li key={i}> {item.name}</li>
-          ))}
+          <a href={sidebar.account.loginOption.href}>
+            <li>{sidebar.account.loginOption.name}</li>
+          </a>
         </ul>
-      </div>
-      <div>
-        {sidebar.account.label}
-        {sidebar.account.loginOption}
-      </div>
+      </section>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
