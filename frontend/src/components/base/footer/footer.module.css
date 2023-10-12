@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 20px;
+  font-size: 10px;
+  background-color: azure;
+}
+
+.container p {
+  margin: 4px 0;
+}
+
+.company {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.info {
+  font-weight: 700;
+}
