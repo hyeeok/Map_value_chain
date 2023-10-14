@@ -1,0 +1,8 @@
+.theme div {
+  border: 1px solid black;
+}
+
+.domain div {
+  background-color: bisque;
+  border-radius: 16px;
+}
