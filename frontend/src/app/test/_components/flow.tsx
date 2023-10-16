@@ -1,17 +1,62 @@
 'use client';
+
 import 'reactflow/dist/style.css';
 
-import React from 'react';
-import ReactFlow from 'reactflow';
+import React, { useCallback, useRef } from 'react';
+import ReactFlow, {
+  addEdge,
+  OnConnect,
+  updateEdge,
+  useEdgesState,
+  useNodesState,
+} from 'reactflow';
 
-import { edges, nodes } from '@/app/test/_components/const';
+import { initialEdges, initialNodes } from '@/app/test/_components/const';
 import CustomNode from '@/app/test/_components/custom-node';
 
 const nodeTypes = { custom: CustomNode };
 
 const Flow = () => {
+  const edgeUpdateSuccessful = useRef(true);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const onConnect: OnConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
+
+  const onEdgeUpdateStart = useCallback(() => {
+    edgeUpdateSuccessful.current = false;
+  }, []);
+
+  const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
+    edgeUpdateSuccessful.current = true;
+    setEdges((els) => updateEdge(oldEdge, newConnection, els));
+  }, []);
+
+  const onEdgeUpdateEnd = useCallback((_, edge) => {
+    if (!edgeUpdateSuccessful.current) {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+    }
+
+    edgeUpdateSuccessful.current = true;
+  }, []);
+
   return (
-    <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView />
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      nodeTypes={nodeTypes}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      snapToGrid
+      onEdgeUpdate={onEdgeUpdate}
+      onEdgeUpdateStart={onEdgeUpdateStart}
+      onEdgeUpdateEnd={onEdgeUpdateEnd}
+      onConnect={onConnect}
+      fitView
+    />
   );
 };
 

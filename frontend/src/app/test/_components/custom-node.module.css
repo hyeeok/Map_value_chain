@@ -1,8 +1,74 @@
-.theme div {
-  border: 1px solid black;
+.bg {
+  height: 100%;
+}
+
+.color-1 {
+  background-color: gray;
+}
+
+.color-2 {
+  background-color: green;
+}
+
+.color-3 {
+  background-color: purple;
+}
+
+.color-4 {
+  background-color: crimson;
+}
+
+.color-5 {
+  background-color: yellow;
+}
+
+.color-6 {
+  background-color: blue;
+}
+
+.container {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 1rem;
+}
+
+.container label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 90%;
+  overflow-y: auto;
+}
+
+.domain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .domain div {
-  background-color: bisque;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  background-color: white;
   border-radius: 16px;
+}
+
+.theme {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.theme div {
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  background-color: lightgray;
+  border: 1px solid black;
 }
