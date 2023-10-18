@@ -14,7 +14,7 @@ interface CustomNodeProps {
 
 const CustomNode = ({ data, selected }: CustomNodeProps) => {
   const mvcObj = mvc.find((item) => item.category === data.label);
-  console.log(mvcObj);
+  // console.log(mvcObj);
   const color = mvcObj ? mvcObj.color : 1;
 
   return (

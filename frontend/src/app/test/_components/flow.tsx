@@ -42,7 +42,7 @@ const Flow = () => {
 
     edgeUpdateSuccessful.current = true;
   }, []);
-
+  console.log(nodes);
   return (
     <ReactFlow
       nodes={nodes}
