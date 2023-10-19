@@ -1,0 +1,115 @@
+﻿MVC_DOMAIN_CODE,MVC_DOMAIN_NAME,TYPE,MVC_INDUSTRY_CLASS_CODE,MVC_INDUSTRY_CLASS_NAME
+AF,농림축수산,C,AFCAA,농축산업
+AF,농림축수산,C,AFCFS,수산업
+AF,농림축수산,C,AFCFR,임업
+AF,농림축수산,T,AFTSF,스마트팜
+ER,에너지/자원,C,ERCOG,석유/가스/석탄
+ER,에너지/자원,C,ERCEE,에너지장비/서비스
+ER,에너지/자원,C,ERCWR,폐기/재생/광업지원
+ER,에너지/자원,C,ERCRE,신재생에너지
+ER,에너지/자원,T,ERTNP,원자력
+ER,에너지/자원,T,ERTHD,수소
+ER,에너지/자원,T,ERTCN,탄소중립/자원순환
+UT,유틸리티,C,UTCEU,전기유틸리티
+UT,유틸리티,C,UTCGU,가스유틸리티
+UT,유틸리티,C,UTCCU,복합유틸리티
+UT,유틸리티,C,UTCWU,수도유틸리티
+UT,유틸리티,C,UTCFR,연료유통
+UT,유틸리티,T,UTTSG,스마트그리드
+UT,유틸리티,T,UTTEF,ESS/연료전지
+CI,건설/인프라,C,CICCS,건설
+CI,건설/인프라,C,CICBM,건축자재/제품
+CI,건설/인프라,C,CICTI,운송인프라
+CI,건설/인프라,T,CITSC,스마트시티
+TL,교통/물류,C,TLCLT,육상운송
+TL,교통/물류,C,TLCWT,수상운송
+TL,교통/물류,C,TLCLA,물류/항공화물
+TL,교통/물류,C,TLCAP,항공여객
+MD,이동장비/국방,C,MDCSB,조선/해양
+MD,이동장비/국방,C,MDCAD,우주항공/국방
+MD,이동장비/국방,C,MDCAM,자동차/부품/유통
+MD,이동장비/국방,C,MDCMB,자동차외육상이동
+MD,이동장비/국방,T,MDTEV,전기차충전
+MD,이동장비/국방,T,MDTUD,UAM/드론
+MD,이동장비/국방,T,MDTAD,자율주행
+EF,장비/설비,C,EFCMC,기계장비/설비
+EF,장비/설비,C,EFCEE,전기장비/설비
+EF,장비/설비,C,EFCPO,정밀/광학기기
+EF,장비/설비,T,EFTSR,스마트팩토리/로봇
+EF,장비/설비,T,EFTRT,뿌리기술(소부장)
+EF,장비/설비,T,EFTTP,3D프린팅
+MB,소재/기초제품,C,MBCPW,종이/목재제품
+MB,소재/기초제품,C,MBCCW,용기/포장지
+MB,소재/기초제품,C,MBCMM,금속채광/제조
+MB,소재/기초제품,C,MBCNM,비금속채광/제조
+MB,소재/기초제품,C,MBCRP,고무/플라스틱제조
+MB,소재/기초제품,C,MBCCM,화학제조
+MB,소재/기초제품,T,MBTNM,신소재/카본/나노
+CG,생활소비재,C,CGCFM,식품제조
+CG,생활소비재,C,CGCBA,음료/주류
+CG,생활소비재,C,CGCCG,담배
+CG,생활소비재,C,CGCCP,화장품/개인용품
+CG,생활소비재,C,CGCFL,패션/섬유/호화품
+CG,생활소비재,C,CGCFT,가구
+CG,생활소비재,C,CGCLL,생활/여가용품
+CG,생활소비재,T,CGTPB,프리미엄브랜드
+CG,생활소비재,T,CGTAI,엔젤산업
+DS,유통/서비스,C,DSCFD,음식료품유통
+DS,유통/서비스,C,DSCRD,복합소매유통
+DS,유통/서비스,C,DSCSD,전문소매유통
+DS,유통/서비스,C,DSCLR,생활서비스/수리
+DS,유통/서비스,C,DSCTR,여행/음식/여가/예약
+DS,유통/서비스,C,DSCRT,임대/렌탈
+DS,유통/서비스,C,DSCDT,기타유통/무역
+DS,유통/서비스,T,DSTPV,플랫폼/버티컬
+MH,의학/헬스케어,C,MHCMW,의료기관및서비스
+MH,의학/헬스케어,C,MHCAV,반려동물/수의학
+MH,의학/헬스케어,C,MHCHT,헬스케어기술/서비스
+MH,의학/헬스케어,C,MHCME,의료기기/용품
+MH,의학/헬스케어,C,MHCPD,제약/의약품
+MH,의학/헬스케어,C,MHCBB,바이오/생물공학
+MH,의학/헬스케어,T,MHTTM,원격진료
+MH,의학/헬스케어,T,MHTVD,백신/방역/진단시약
+MH,의학/헬스케어,T,MHTHF,건강기능식품
+MH,의학/헬스케어,T,MHTMD,메디컬뷰티/더마코스메틱
+MH,의학/헬스케어,T,MHTSS,실버산업/시니어
+IH,ICT HW,C,IHCSC,반도체/부품/장비
+IH,ICT HW,C,IHCDP,디스플레이/부품/장비
+IH,ICT HW,C,IHCBT,배터리/부품/장비
+IH,ICT HW,C,IHCED,전자장비/기기/부품
+IH,ICT HW,C,IHCCP,컴퓨터/주변기기
+IH,ICT HW,C,IHCMB,휴대폰/통신기기/부품
+IH,ICT HW,C,IHCEH,전자제품/가정용기기
+IH,ICT HW,T,IHTQC,양자컴퓨터
+IS,ICT SW/NW,C,ISCCM,통신서비스
+IS,ICT SW/NW,C,IBCIS,인터넷정보서비스
+IS,ICT SW/NW,C,IBCIT,IT서비스/솔루션
+IS,ICT SW/NW,C,IBCSW,소프트웨어
+IS,ICT SW/NW,T,ISTAI,인공지능
+IS,ICT SW/NW,T,ISTCS,사이버보안
+IS,ICT SW/NW,T,ISTCB,클라우드/빅데이터
+IS,ICT SW/NW,T,ISTBC,블록체인
+IS,ICT SW/NW,T,ISTNN,차세대통신
+IS,ICT SW/NW,T,ISTIO,사물인터넷
+CM,콘텐츠/미디어,C,CMCME,미디어/엔터테인먼트
+CM,콘텐츠/미디어,C,CMCBP,도서/출판
+CM,콘텐츠/미디어,C,CMCGM,게임
+CM,콘텐츠/미디어,C,CMCAS,광고서비스
+CM,콘텐츠/미디어,C,CMCES,교육서비스
+CM,콘텐츠/미디어,T,CMTOT,OTT
+CM,콘텐츠/미디어,T,CMTWT,웹툰
+CM,콘텐츠/미디어,T,CMTMV,메타버스/가상현실
+CM,콘텐츠/미디어,T,CMTKC,K컬처
+BS,비즈니스/지원,C,BSCST,과학/기술서비스
+BS,비즈니스/지원,C,BSCCP,상업/전문서비스
+BS,비즈니스/지원,C,BSCCG,복합기업
+BS,비즈니스/지원,C,BSCPU,공공/기관/단체
+BS,비즈니스/지원,T,BSTSW,스마트워크
+BS,비즈니스/지원,T,BSTES,ESG
+FR,금융/부동산,C,FRCBK,은행
+FR,금융/부동산,C,FRCIS,보험
+FR,금융/부동산,C,FRCFS,금융서비스
+FR,금융/부동산,C,FRCRE,부동산/리츠
+FR,금융/부동산,T,FRTIB,인터넷은행
+FR,금융/부동산,T,FRTFT,핀테크/전자결제
+ZZ,분류없음,T,ZZZZZ,분류없음
