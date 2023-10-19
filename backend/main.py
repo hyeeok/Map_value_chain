@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.mvc.routers import router as mvc_router
+from app.flowmap.routers import router as flowmap_router
 
 app = FastAPI()
 
@@ -17,4 +17,4 @@ app.add_middleware(
     allow_headers=["*"],  # 허용할 HTTP 헤더
 )
 
-app.include_router(mvc_router)
+app.include_router(flowmap_router)
