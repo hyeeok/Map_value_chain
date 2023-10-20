@@ -16,14 +16,8 @@ def read_industry_class_list(db: Session = Depends(get_db)):
     return response
 
 
-@router.get("", response_model=Flowmap)
+@router.get("", response_model=FlowmapList)
 def read_flowmap(db: Session = Depends(get_db)):
-    result = crud.get_flowmap(db=db)
-    try:
-        if result:
-            response = {"node": result.node, "edge": result.edge}
-            return response
-        else:
-            raise HTTPException(status_code=404)
-    except:
-        raise HTTPException(status_code=404)
+    result = crud.get_flowmap_list(db=db)
+    response = {"length": len(result), "data": result}
+    return response

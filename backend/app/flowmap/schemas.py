@@ -9,33 +9,44 @@ class IndustryClassBase(BaseModel):
     code: str
     name: str
     type: str
-    domain_id: str
+    domain_id: int
 
 
 class IndustryClass(IndustryClassBase):
     id: int
 
     class Config:
-        orm_mode = True
-        alias_generator = stringcase.camelcase
+        from_attributes = True
 
 
 class IndustryClassList(BaseModel):
     length: int
-    data: List[Union[IndustryClass, None]]
+    data: List[IndustryClass]
 
     class Config:
-        orm_mode = True
-        alias_generator = stringcase.camelcase
+        from_attributes = True
 
 
 class FlowmapBase(BaseModel):
-    node: Json
-    edge: Json
+    node: List[int]
+    edge: List[int]
     industry_class_id: Optional[int]
+
+    class Config:
+        from_attributes = True
 
 
 class Flowmap(FlowmapBase):
+    id: int
+    domain_id: int
+
     class Config:
-        orm_mode = True
-        alias_generator = stringcase.camelcase
+        from_attributes = True
+
+
+class FlowmapList(BaseModel):
+    length: int
+    data: List[FlowmapBase]
+
+    class Config:
+        from_attributes = True

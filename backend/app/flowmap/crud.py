@@ -8,8 +8,7 @@ def get_industry_class_list(db: Session):
     return result
 
 
-def get_flowmap(db: Session):
-    query = text("select * from flowmap where industry_class_id is null;")
-    result = db.execute(query).fetchone()
-    print(result)
+def get_flowmap_list(db: Session):
+    query = text("select node, edge, industry_class_id from flowmap;")
+    result = db.execute(query).all()
     return result
