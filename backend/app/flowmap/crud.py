@@ -41,3 +41,9 @@ def get_domain_id_by_domain_code(domain_code: str, db: Session):
 
 def insert_industry_class(db: Session):
     return
+
+
+def get_domain(db: Session):
+    query = text("SELECT * FROM domain")
+    result = db.execute(query).all()
+    return result

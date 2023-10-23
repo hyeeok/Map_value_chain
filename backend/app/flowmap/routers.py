@@ -1,9 +1,12 @@
+from typing import List
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
 from app.database import get_db
+
 from . import crud
 from .models import *
-from typing import List
 from .schemas import *
 
 router = APIRouter(prefix="/flowmap")
@@ -21,3 +24,9 @@ def read_flowmap(db: Session = Depends(get_db)):
     result = crud.get_flowmap_list(db=db)
     response = {"length": len(result), "data": result}
     return response
+
+
+@router.get("/domain")
+def read_test(db: Session = Depends(get_db)):
+    result = crud.get_domain(db=db)
+    return result
