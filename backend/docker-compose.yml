@@ -8,7 +8,6 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: admin123
-      POSTGRES_HOST: postgres
       POSTGRES_DB: mvc_db
     volumes:
       - ./data/postgres/:/var/lib/postgresql/data
@@ -16,6 +15,7 @@ services:
 
   backend:
     build: .
+    restart: always
     ports:
       - "8000:8000"
     depends_on:

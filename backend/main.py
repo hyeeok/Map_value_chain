@@ -28,20 +28,19 @@ async def wait_for_postgres():
             await asyncio.sleep(1)
 
 
-def lifespan(app: FastAPI):
-    asyncio.create_task(wait_for_postgres())
+async def lifespan(app: FastAPI):
+    # asyncio.create_task(wait_for_postgres())
+    await initialize_db()
     yield
 
 
 app = FastAPI(lifespan=lifespan)
-# app = FastAPI()
 
 # 허용할 오리진(출처) 목록
 origins = [
-    "http://127.0.0.1",
     "http://localhost",
-    "http://127.0.0.1:3000",
     "http://localhost:3000",
+    "http://localhost:5173",
 ]
 
 # CORS 미들웨어 추가해 오리진 허용
