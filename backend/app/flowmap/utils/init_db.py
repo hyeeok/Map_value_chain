@@ -1,9 +1,9 @@
 import csv
+from random import randint
 
+from app.flowmap.models import Domain, Flowmap, IndustryClass
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-
-from app.flowmap.models import Domain, IndustryClass
 
 
 def check_industry_type(type):
@@ -20,6 +20,7 @@ def load_csv_to_db(filepath, db: Session):
     if db.query(IndustryClass).count() > 0:
         return
 
+    nodes = []
     with open(filepath, "r", encoding="UTF8") as file:
         next(file)
         for row in csv.reader(file):
@@ -37,6 +38,14 @@ def load_csv_to_db(filepath, db: Session):
                 db.add(domain)
                 db.flush()
 
+                node = {
+                    'id': domain_code,
+                    'position':{'x': randint(0, 500), 'y': randint(0, 500)},
+                    'data': {'domainName': domain_name},
+                    'type': 'custom'
+                }
+                nodes.append(node)
+
             industry_class = IndustryClass(
                 code=industry_class_code,
                 name=industry_class_name,
@@ -44,3 +53,9 @@ def load_csv_to_db(filepath, db: Session):
                 domain_id=domain.id,
             )
             db.add(industry_class)
+
+    flowmap = Flowmap(
+        node = nodes,
+        edge = [],
+    )
+    db.add(flowmap)
