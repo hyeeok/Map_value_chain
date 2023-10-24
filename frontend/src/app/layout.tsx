@@ -3,12 +3,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import Footer from '@/components/base/footer/footer';
-import Header from '@/components/base/header/header';
-import Sidebar from '@/components/base/sidebar/sidebar';
-
-import styles from './layout.module.css';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -24,16 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <Providers> */}
-        <div className={styles.container}>
-          <Sidebar />
-          <main className={styles.main}>
-            <Header />
-            <div className={styles.content}>{children}</div>
-            <Footer />
-          </main>
+        <div className="flex flex-col min-h-screen h-screen">
+          <header>this is header</header>
+          <main className="flex-1">{children}</main>
+          <footer>this is footer</footer>
         </div>
-        {/* </Providers> */}
       </body>
     </html>
   );

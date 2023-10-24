@@ -1,3 +1,3 @@
 import { atom } from 'jotai';
 
-export const showSidebarAtom = atom(true);
+export const showThemeAtom = atom(true);

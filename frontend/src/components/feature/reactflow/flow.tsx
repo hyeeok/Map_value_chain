@@ -11,12 +11,16 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow';
 
-import { initialEdges, initialNodes } from '@/app/flowmap/_components/const';
-import CustomNode from '@/app/flowmap/_components/custom-node';
+import CustomNode from '@/components/feature/reactflow/custom-node';
+
+interface FlowProps {
+  initialEdges?: object[];
+  initialNodes?: object[];
+}
 
 const nodeTypes = { custom: CustomNode };
 
-const Flow = () => {
+const Flow = ({ initialNodes, initialEdges }: FlowProps) => {
   const edgeUpdateSuccessful = useRef(true);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -42,7 +46,7 @@ const Flow = () => {
 
     edgeUpdateSuccessful.current = true;
   }, []);
-  console.log(nodes);
+
   return (
     <ReactFlow
       nodes={nodes}
