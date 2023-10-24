@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { BellIcon, HelpCircle, MenuIcon } from 'lucide-react';
 import React from 'react';
 
+import { Button } from '@/components/ui/button';
 import { showSidebarAtom } from '@/lib/atoms/base';
 
 import styles from './header.module.css';
@@ -17,9 +18,9 @@ const Header = () => {
   return (
     <header className={styles.container}>
       <div>
-        <button onClick={toggleShowSidebar}>
-          <MenuIcon size={16} />
-        </button>
+        <Button variant="outline" size="icon" onClick={toggleShowSidebar}>
+          <MenuIcon className="h-4 w-4" />
+        </Button>
       </div>
       <div className={styles.title}>Menu name</div>
       <div className={styles.options}>

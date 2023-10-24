@@ -11,8 +11,8 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow';
 
-import { initialEdges, initialNodes } from '@/app/test/_components/const';
-import CustomNode from '@/app/test/_components/custom-node';
+import { initialEdges, initialNodes } from '@/app/flowmap/_components/const';
+import CustomNode from '@/app/flowmap/_components/custom-node';
 
 const nodeTypes = { custom: CustomNode };
 

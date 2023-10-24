@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
 import React from 'react';
 import { Handle, NodeResizer, Position } from 'reactflow';
 
-import { mvc } from '@/app/test/_components/const';
+import { mvc } from '@/app/flowmap/_components/const';
 
 import styles from './custom-node.module.css';
 
