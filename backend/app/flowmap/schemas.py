@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 import stringcase
-from typing import Union, List, Optional
+from typing import Union, List, Optional, Tuple
+
 
 from pydantic import Json
 
@@ -10,6 +11,8 @@ class IndustryClassBase(BaseModel):
     name: str
     type: str
     domain_id: int
+    domain_name: str
+    domain_code: str
 
 
 class IndustryClass(IndustryClassBase):
@@ -28,9 +31,7 @@ class IndustryClassList(BaseModel):
 
 
 class FlowmapBase(BaseModel):
-    node: List[int]
-    edge: List[int]
-    industry_class_id: Optional[int]
+    data: List[Tuple[List[int], List[int]]]
 
     class Config:
         from_attributes = True
@@ -38,15 +39,8 @@ class FlowmapBase(BaseModel):
 
 class Flowmap(FlowmapBase):
     id: int
-    domain_id: int
-
-    class Config:
-        from_attributes = True
-
-
-class FlowmapList(BaseModel):
-    length: int
-    data: List[FlowmapBase]
+    industry_class_id: Optional[int]
+    domain_id: Optional[int]
 
     class Config:
         from_attributes = True
