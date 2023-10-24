@@ -19,14 +19,7 @@ def read_industry_class_list(db: Session = Depends(get_db)):
     return response
 
 
-@router.get("", response_model=FlowmapList)
+@router.get("", response_model=FlowmapBase)
 def read_flowmap(db: Session = Depends(get_db)):
-    result = crud.get_flowmap_list(db=db)
-    response = {"length": len(result), "data": result}
-    return response
-
-
-@router.get("/domain")
-def read_test(db: Session = Depends(get_db)):
-    result = crud.get_domain(db=db)
+    result = crud.get_flowmap(db)
     return result
