@@ -34,11 +34,16 @@ const Flowmap = ({ nodes, edges }: FlowmapProps) => {
   return (
     <>
       <Tabs defaultValue="map" className="h-full">
-        <TabsList>
-          <TabsTrigger value="map">Map</TabsTrigger>
-          <TabsTrigger value="list">List</TabsTrigger>
-        </TabsList>
-        <Switch checked={showTheme} onCheckedChange={toggleShowSidebar} />
+        <div className="flex gap-4 items-center">
+          <TabsList>
+            <TabsTrigger value="map">Map</TabsTrigger>
+            <TabsTrigger value="list">List</TabsTrigger>
+          </TabsList>
+          <div>
+            <Switch checked={showTheme} onCheckedChange={toggleShowSidebar} />{' '}
+            Show themes
+          </div>
+        </div>
         <TabsContent value="map" className="h-full">
           <Flow initialNodes={nodeData} initialEdges={edgeData} />
         </TabsContent>

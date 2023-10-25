@@ -2,7 +2,7 @@
 
 import 'reactflow/dist/style.css';
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import ReactFlow, {
   addEdge,
   OnConnect,
@@ -24,6 +24,8 @@ const Flow = ({ initialNodes, initialEdges }: FlowProps) => {
   const edgeUpdateSuccessful = useRef(true);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  const [nodeColor, setNodeColor] = useState('#fff');
 
   const onConnect: OnConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
