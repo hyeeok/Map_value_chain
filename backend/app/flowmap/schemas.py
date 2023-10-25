@@ -1,9 +1,7 @@
-from pydantic import BaseModel, Json
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import stringcase
-from typing import Union, List, Optional, Tuple, Dict, Any
-
-
-from pydantic import Json
+from pydantic import BaseModel, Json
 
 
 class IndustryClassBase(BaseModel):
@@ -36,3 +34,9 @@ class FlowmapBase(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class Flowmap(FlowmapBase):
+    class Config:
+        form_attributes = True
+        stringcase.camelcase = True
