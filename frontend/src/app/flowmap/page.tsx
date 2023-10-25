@@ -8,11 +8,11 @@ const FlowmapPage = async () => {
 
   return (
     <div className="container h-full flex flex-col">
-      <section>
-        <h2>flowmap</h2>
+      <section className="flex max-w-[980px] flex-col items-start gap-2 pt-8 md:pt-12 page-header pb-8">
+        <h2 className="text-3xl font-bold tracking-tight">Value Chain Map</h2>
       </section>
 
-      <section className="flex-1">
+      <section className="flex-1 w-full">
         <Flowmap nodes={data.node} edges={data.edge} />
       </section>
     </div>

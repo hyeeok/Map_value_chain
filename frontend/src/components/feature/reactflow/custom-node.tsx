@@ -2,8 +2,14 @@
 
 import { useAtomValue } from 'jotai';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import { Handle, NodeResizer, Position } from 'reactflow';
+import React from 'react';
+import {
+  Handle,
+  NodeResizer,
+  Position,
+  useReactFlow,
+  useStoreApi,
+} from 'reactflow';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -16,6 +22,7 @@ interface IndustryClass {
 }
 
 interface CustomNodeProps {
+  id: string;
   data: {
     domainId: number;
     domainCode: number;
@@ -23,7 +30,7 @@ interface CustomNodeProps {
     classes: IndustryClass[];
     themes: IndustryClass[];
     contents: object[];
-    color?: string;
+    color: string;
   };
   selected: boolean;
 }
@@ -35,11 +42,28 @@ const nodeColors = {
   green: 'bg-green-500',
 };
 
-const CustomNode = ({ data, selected }: CustomNodeProps) => {
+const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
   const showTheme = useAtomValue(showThemeAtom);
-  const [nodeColor, setNodeColor] = useState();
-  const updateNodeColor = (event) => {
-    setNodeColor(event.target.value);
+  const { setNodes } = useReactFlow();
+  const store = useStoreApi();
+
+  const updateNodeColor = (nodeId: string, color: string) => {
+    const { nodeInternals } = store.getState();
+    setNodes(
+      Array.from(nodeInternals.values()).map((node) => {
+        if (node.id === nodeId) {
+          node.data = {
+            ...node.data,
+            color: color,
+          };
+        }
+        return node;
+      })
+    );
+    data = {
+      ...data,
+      color: color,
+    };
   };
 
   return (
@@ -51,8 +75,7 @@ const CustomNode = ({ data, selected }: CustomNodeProps) => {
       <Handle type="target" position={Position.Bottom} id="bottom" />
       <Card
         className={`h-full box-border`}
-        style={{ backgroundColor: nodeColor ? nodeColor : '#fff' }}
-        // style={{ backgroundColor: data.color ? data.color : '#fff' }}
+        style={{ backgroundColor: data.color }}
       >
         <CardHeader className="w-full h-[64px]">
           <CardTitle className="inline-block flex justify-between">
@@ -60,11 +83,11 @@ const CustomNode = ({ data, selected }: CustomNodeProps) => {
             <input
               className="nodrag h-full inline-flex ml-auto overflow-hidden"
               type="color"
-              onChange={updateNodeColor}
+              onChange={(event) => updateNodeColor(id, event.target.value)}
             />
           </CardTitle>
         </CardHeader>
-        <CardContent className="overflow-y-auto h-[calc(100%-64px)]">
+        <CardContent className="overflow-y-auto h-[calc(100%-64px)] nowheel">
           <div>
             <p className="text-sm font-medium leading-none mb-2">Classes</p>
             <div className="flex flex-wrap gap-2">

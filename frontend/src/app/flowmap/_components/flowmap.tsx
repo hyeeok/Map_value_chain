@@ -2,6 +2,7 @@
 
 import { useAtom } from 'jotai';
 import React, { useEffect, useState } from 'react';
+import { Edge, Node } from 'reactflow';
 
 import Flow from '@/components/feature/reactflow/flow';
 import { Switch } from '@/components/ui/switch';
@@ -9,14 +10,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { showThemeAtom } from '@/lib/atoms/base';
 
 interface FlowmapProps {
-  nodes: object[];
-  edges: object[];
+  nodes: Node[];
+  edges: Edge[];
 }
 
 const Flowmap = ({ nodes, edges }: FlowmapProps) => {
-  console.log(nodes, edges);
-  const [nodeData, setNodeData] = useState<object[]>(nodes);
-  const [edgeData, setEdgeData] = useState<object[]>(edges);
+  const [nodeData, setNodeData] = useState<Node[]>(nodes);
+  const [edgeData, setEdgeData] = useState<Edge[]>(edges);
   const [showTheme, setShowTheme] = useAtom(showThemeAtom);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const Flowmap = ({ nodes, edges }: FlowmapProps) => {
             Show themes
           </div>
         </div>
-        <TabsContent value="map" className="h-full">
+        <TabsContent value="map" className="h-[90%] border borer-md">
           <Flow initialNodes={nodeData} initialEdges={edgeData} />
         </TabsContent>
         <TabsContent value="list"></TabsContent>
