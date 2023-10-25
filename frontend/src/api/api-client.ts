@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiEndpointLocal = 'http://localhost:8000';
+const apiEndpointLocal = 'http://127.0.0.1:8000';
 const apiEndpoint = process.env.NEXT_PUBLIC_BASE_API;
 export const baseUrl = apiEndpoint;
 

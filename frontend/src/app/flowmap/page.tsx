@@ -1,7 +1,19 @@
+import { cookies } from 'next/headers';
 import React from 'react';
 
-import { getFlowmap } from '@/api/flowmap/api';
+import { baseUrl } from '@/api/api-client';
 import Flowmap from '@/app/flowmap/_components/flowmap';
+
+const getFlowmap = async () => {
+  const cookieStore = cookies();
+  try {
+    const response = await fetch(`${baseUrl}/flowmap`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 const FlowmapPage = async () => {
   const data = await getFlowmap();
@@ -13,7 +25,11 @@ const FlowmapPage = async () => {
       </section>
 
       <section className="flex-1 w-full">
-        <Flowmap nodes={data.node} edges={data.edge} />
+        {data ? (
+          <Flowmap nodes={data.node} edges={data.edge} />
+        ) : (
+          <div>No data found.</div>
+        )}
       </section>
     </div>
   );
