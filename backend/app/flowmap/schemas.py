@@ -1,11 +1,15 @@
-from pydantic import BaseModel
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import stringcase
-from typing import Union, List
+from pydantic import BaseModel, Json
+
 
 class IndustryClassBase(BaseModel):
     code: str
     name: str
     type: str
+    domain_id: int
+    domain_name: str
     domain_code: str
 
 
@@ -13,13 +17,26 @@ class IndustryClass(IndustryClassBase):
     id: int
 
     class Config:
-        orm_mode = True
-        alias_generator = stringcase.camelcase
+        from_attributes = True
+
 
 class IndustryClassList(BaseModel):
     length: int
-    data: List[Union[IndustryClass, None]]
+    data: List[IndustryClass]
 
     class Config:
-        orm_mode = True
-        alias_generator = stringcase.camelcase
+        from_attributes = True
+
+
+class FlowmapBase(BaseModel):
+    node: List[Dict[str, Any]]
+    edge: List[Dict[str, Any]]
+
+    class Config:
+        from_attributes = True
+
+
+class Flowmap(FlowmapBase):
+    class Config:
+        form_attributes = True
+        stringcase.camelcase = True
