@@ -2,7 +2,7 @@
 
 import { useAtomValue } from 'jotai';
 import Link from 'next/link';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Handle, NodeResizer, Position } from 'reactflow';
 
 import { Button } from '@/components/ui/button';
@@ -23,17 +23,24 @@ interface CustomNodeProps {
     classes: IndustryClass[];
     themes: IndustryClass[];
     contents: object[];
+    color?: string;
   };
   selected: boolean;
 }
 // 개별 industryClass 내용은 우선 contents에 저장 예정?
 
+const nodeColors = {
+  red: 'bg-red-500',
+  blue: 'bg-blue-500',
+  green: 'bg-green-500',
+};
+
 const CustomNode = ({ data, selected }: CustomNodeProps) => {
-  const [nodeColor, setNodeColor] = useState('#fff');
   const showTheme = useAtomValue(showThemeAtom);
-  const onChangeNodeColor = useCallback((event) => {
+  const [nodeColor, setNodeColor] = useState();
+  const updateNodeColor = (event) => {
     setNodeColor(event.target.value);
-  }, []);
+  };
 
   return (
     <div className="h-full">
@@ -42,14 +49,18 @@ const CustomNode = ({ data, selected }: CustomNodeProps) => {
       <Handle type="target" position={Position.Right} id="right" />
       <Handle type="target" position={Position.Left} id="left" />
       <Handle type="target" position={Position.Bottom} id="bottom" />
-      <Card className={`h-full box-border bg-[${nodeColor}]`}>
+      <Card
+        className={`h-full box-border`}
+        style={{ backgroundColor: nodeColor ? nodeColor : '#fff' }}
+        // style={{ backgroundColor: data.color ? data.color : '#fff' }}
+      >
         <CardHeader className="w-full h-[64px]">
-          <CardTitle>
+          <CardTitle className="inline-block flex justify-between">
             <span>{data.domainName}</span>
             <input
-              className="nodrag h-full inline-flex ml-auto"
+              className="nodrag h-full inline-flex ml-auto overflow-hidden"
               type="color"
-              onChange={onChangeNodeColor}
+              onChange={updateNodeColor}
             />
           </CardTitle>
         </CardHeader>
