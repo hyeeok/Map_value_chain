@@ -1,15 +1,14 @@
 module.exports = {
   extends: [
+    'stylelint-config-standard',
+    'stylelint-config-css-modules',
     'stylelint-config-recess-order',
-    'stylelint-config-recommended-scss',
   ],
+  plugins: ['stylelint-order'],
   rules: {
-    // ::before, ::after 콜론 2개로 고정
     'selector-pseudo-element-colon-notation': 'double',
-    // 클래스 명에서 & 사용 금지（&:hover 등은 허용）
-    'scss/selector-no-union-class-name': true,
-    // 작은 따옴표로 통일
     'string-quotes': 'single',
+    'order/order': ['custom-properties', 'declarations'],
   },
   ignoreFiles: ['**/node_modules/**'],
 };

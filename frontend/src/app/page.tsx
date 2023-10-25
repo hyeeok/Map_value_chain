@@ -1,11 +1,9 @@
-import React from 'react';
+import Link from 'next/link';
 
-const Home = () => {
+export default function Home() {
   return (
-    <div>
-      contents
+    <div className="container h-full">
+      <Link href={'/flowmap'}>go to flowmap~</Link>
     </div>
   );
-};
-
-export default Home;
+}

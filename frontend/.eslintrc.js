@@ -1,23 +1,14 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2022: true,
   },
-  extends: ['standard-with-typescript', 'plugin:react/recommended'],
-  overrides: [
-    {
-      env: {
-        node: true
-      },
-      files: ['.eslintrc.{js,cjs}'],
-      parserOptions: {
-        sourceType: 'script'
-      }
-    }
-  ],
+  extends: ['next/core-web-vitals', 'prettier'],
+  overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
   },
   plugins: ['react', 'simple-import-sort', 'import', 'unused-imports'],
   rules: {
@@ -33,7 +24,12 @@ module.exports = {
     // import문 아래 빈 줄 확인
     'import/no-duplicates': 'error',
     // 같은 파일의 import문 머지
-    'unused-imports/no-unused-imports': 'error'
-    // 미사용 import문 삭제
-  }
-}
+    'unused-imports/no-unused-imports': 'error', // 미사용 import문 삭제
+  },
+
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
+};
