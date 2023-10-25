@@ -70,6 +70,7 @@ def load_csv_to_db(filepath, db: Session):
                 "id": domain_code,
                 "position": {"x": randint(0, 500), "y": randint(0, 500)},
                 "data": {
+                    "color": "#ffffff",
                     "domainId": domain.id,
                     "domainCode": domain_code,
                     "domainName": domain_name,
