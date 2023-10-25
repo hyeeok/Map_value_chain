@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -9,8 +10,6 @@ from . import crud
 from .models import *
 from .schemas import *
 
-import json
-
 router = APIRouter(prefix="/flowmap")
 
 
@@ -21,7 +20,7 @@ def read_industry_class_list(db: Session = Depends(get_db)):
     return response
 
 
-@router.get("", response_model=FlowmapBase)
+@router.get("", response_model=Flowmap)
 def read_flowmap(db: Session = Depends(get_db)):
     result = crud.get_flowmap(db)
     return result
