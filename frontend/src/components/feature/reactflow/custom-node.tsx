@@ -4,7 +4,7 @@ import { useAtomValue } from 'jotai';
 import React from 'react';
 import { Handle, NodeResizer, Position } from 'reactflow';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { showThemeAtom } from '@/lib/atoms/base';
 
 interface IndustryClass {
@@ -39,9 +39,10 @@ const CustomNode = ({ data, selected }: CustomNodeProps) => {
       <Handle type="target" position={Position.Bottom} id="bottom" />
       <Card className="h-full">
         <CardHeader>
-          <CardTitle>{data.domainName}</CardTitle>
+          {/* <CardTitle>{data.domainName}</CardTitle> */}
+          <CardTitle>Here it is</CardTitle>
         </CardHeader>
-        <CardContent>
+        {/* <CardContent>
           <div className="flex flex-wrap">
             {data.classes.map((industryClass, i) => (
               <a key={i} href="#">
@@ -56,7 +57,7 @@ const CustomNode = ({ data, selected }: CustomNodeProps) => {
               ))}
             </div>
           )}
-        </CardContent>
+        </CardContent> */}
       </Card>
       <Handle type="source" position={Position.Top} id="top" />
       <Handle type="source" position={Position.Right} id="right" />

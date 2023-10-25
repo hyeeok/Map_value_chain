@@ -1,22 +1,10 @@
-'use client';
+import React from 'react';
 
-import { useAtom } from 'jotai';
-import React, { useState } from 'react';
+import { getFlowmap } from '@/api/flowmap/api';
+import Flowmap from '@/app/flowmap/_components/flowmap';
 
-import { initialEdges, initialNodes } from '@/app/flowmap/test';
-import Flow from '@/components/feature/reactflow/flow';
-import { Switch } from '@/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { showThemeAtom } from '@/lib/atoms/base';
-
-const testFlowmapData = { node: initialNodes, edge: initialEdges };
-
-const FlowmapPage = () => {
-  const [flowmapData, setFlowmapData] = useState(testFlowmapData);
-  const [showTheme, setShowTheme] = useAtom(showThemeAtom);
-  const toggleShowSidebar = () => {
-    setShowTheme(!showTheme);
-  };
+const FlowmapPage = async () => {
+  const data = await getFlowmap();
 
   return (
     <div className="container h-full flex flex-col">
@@ -25,24 +13,7 @@ const FlowmapPage = () => {
       </section>
 
       <section className="flex-1">
-        <Tabs defaultValue="map" className="h-full">
-          <TabsList>
-            <TabsTrigger value="map">Map</TabsTrigger>
-            <TabsTrigger value="list">List</TabsTrigger>
-          </TabsList>
-          <Switch checked={showTheme} onCheckedChange={toggleShowSidebar} />
-          <TabsContent value="map" className="h-full">
-            {flowmapData ? (
-              <Flow
-                initialNodes={flowmapData.node}
-                initialEdges={flowmapData.edge}
-              />
-            ) : (
-              <span>No data.</span>
-            )}
-          </TabsContent>
-          <TabsContent value="list"></TabsContent>
-        </Tabs>
+        <Flowmap nodes={data.node} edges={data.edge} />
       </section>
     </div>
   );
