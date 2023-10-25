@@ -89,7 +89,7 @@ const Flow = ({ initialNodes, initialEdges }: FlowProps) => {
       >
         <Panel position="top-right">
           <Button onClick={onSave} size="sm">
-            save
+            Save
           </Button>
         </Panel>
       </ReactFlow>
