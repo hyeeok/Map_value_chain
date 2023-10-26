@@ -1,7 +1,6 @@
 import csv
 from random import randint
 
-from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.flowmap.models import Domain, Flowmap, IndustryClass

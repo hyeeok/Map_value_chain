@@ -1,9 +1,7 @@
-import json
-from typing import List
-
-from app.database import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
+from app.database import get_db
 
 from . import crud
 from .models import *
@@ -12,38 +10,86 @@ from .schemas import *
 router = APIRouter(prefix="/flowmap")
 
 
-@router.get("/industry-classes", response_model=IndustryClassList)
-def read_industry_class_list(db: Session = Depends(get_db)):
-    result = crud.get_industry_class_list(db=db)
-    response = {"length": len(result), "data": result}
-    return response
-
-
 @router.get("", response_model=Flowmap)
-def read_flowmap(db: Session = Depends(get_db)):
-    result = crud.get_flowmap(db)
-    return result
+def read_main_flowmap(db: Session = Depends(get_db)):
+    try:
+        result = crud.get_main_flowmap(db=db)
+        if result == None:
+            response = {"node": [], "edge": []}
+            return response
+        return result
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.put("", response_model=Flowmap)
-def update_flowmap(new_data: FlowmapBase, db: Session = Depends(get_db)):
-    result = crud.set_flowmap(db, new_data)
-    return result
+@router.put("")
+def update_main_flowmap(
+    new_data: FlowmapCreate,
+    db: Session = Depends(get_db),
+):
+    try:
+        result = crud.put_main_flowmap(new_data=new_data, db=db)
+        message = "updated successfully" if result else "nothing updated"
+        response = {"message": message, "flowmap_id": result}
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get(
+    "/industry-classes",
+    response_model=IndustryClassList,
+    response_model_by_alias=False,
+)
+def read_industry_class_list(db: Session = Depends(get_db)):
+    try:
+        result = crud.get_industry_class_list(db=db)
+        response = {"length": len(result), "data": result}
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/{industry_class_id}", response_model=Flowmap)
+def read_flowmap(industry_class_id: int, db: Session = Depends(get_db)):
+    try:
+        result = crud.get_flowmap(industry_class_id=industry_class_id, db=db)
+        if result == None:
+            response = {"node": [], "edge": []}
+            return response
+        return result
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.put("/{industry_class_id}")
+def update_flowmap(
+    industry_class_id: int,
+    new_data: FlowmapCreate,
+    db: Session = Depends(get_db),
+):
+    try:
+        result = crud.put_flowmap(
+            industry_class_id=industry_class_id, new_data=new_data, db=db
+        )
+        message = "updated successfully" if result else "nothing updated"
+        response = {"message": message, "flowmap_id": result}
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/{industryClassCode}", response_model=Flowmap)
 def read_industry_class_flowmap(industry_class: int, db: Session = Depends(get_db)):
     result = crud.get_industry_class_flowmap(db, industry_class)
     return result
-
-
-@router.get(
-    "/domains",
-    response_model=DomainList,
-    response_model_by_alias=False,
-    summary="get domain list",
-)
-def read_domain_list(db: Session = Depends(get_db)):
-    result = crud.get_domain_list(db=db)
-    response = {"length": len(result), "data": result}
-    return response
