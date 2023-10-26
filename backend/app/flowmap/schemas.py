@@ -1,56 +1,23 @@
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from app.utils import to_camel
 from pydantic import BaseModel, Field, Json
 
 
-class CamelModel(BaseModel):
-    class config:
-        alias_generator = to_camel
-        allow_population_by_field_name = True
-
-
 class IndustryClassBase(BaseModel):
-    code: str
-    name: str
-    type: str
-    domain_id: int
-    domain_name: str
-    domain_code: str
-
-
-class IndustryClass(IndustryClassBase):
-    id: int
+    industryClassCode: str = Field(..., alias="code")
+    industryClassName: str = Field(..., alias="name")
 
     class Config:
         from_attributes = True
+
+
+class IndustryClass(IndustryClassBase):
+    industryClassId: int = Field(..., alias="id")
 
 
 class IndustryClassList(BaseModel):
     length: int
     data: List[IndustryClass]
-
-    class Config:
-        from_attributes = True
-
-
-class FlowmapBase(BaseModel):
-    node: List[Dict[str, Any]]
-    edge: List[Dict[str, Any]]
-
-    class Config:
-        from_attributes = True
-
-
-class Flowmap(FlowmapBase):
-    class Config:
-        form_attributes = True
-
-
-class DomainIndustryClass(BaseModel):
-    industryClassId: int = Field(..., alias="id")
-    industryClassCode: str = Field(..., alias="code")
-    industryClassName: str = Field(..., alias="name")
 
     class Config:
         from_attributes = True
@@ -66,16 +33,29 @@ class DomainBase(BaseModel):
 
 
 class Domain(DomainBase):
-    classes: Optional[List[DomainIndustryClass]] = []
-    themes: Optional[List[DomainIndustryClass]] = []
-
-    class Config:
-        from_attributes = True
+    classes: Optional[List[IndustryClass]] = []
+    themes: Optional[List[IndustryClass]] = []
 
 
-class DomainList(CamelModel):
+class DomainList(BaseModel):
     length: int
     data: List[Union[Domain, None]]
 
     class Config:
         from_attributes = True
+
+
+class FlowmapBase(BaseModel):
+    node: List[Dict[str, Any]]
+    edge: List[Dict[str, Any]]
+
+    class Config:
+        from_attributes = True
+
+
+class Flowmap(FlowmapBase):
+    pass
+
+
+class FlowmapCreate(FlowmapBase):
+    pass
