@@ -15,20 +15,38 @@ const getFlowmap = async () => {
   }
 };
 
+const getIndustryClassList = async () => {
+  const cookieStore = cookies();
+  try {
+    const response = await fetch(`${baseUrl}/flowmap/industry-classes`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const FlowmapPage = async () => {
-  const data = await getFlowmap();
+  const flowmapData = await getFlowmap();
+  const industryClassListData = await getIndustryClassList();
 
   return (
-    <div className="container h-full flex flex-col">
-      <section className="flex max-w-[980px] flex-col items-start gap-2 pt-8 md:pt-12 page-header pb-8">
-        <h2 className="text-3xl font-bold tracking-tight">Value Chain Map</h2>
+    <div className="h-[calc(100vh-45px)] flex flex-col">
+      <section className="container">
+        <div className=" flex max-w-[980px] flex-col items-start gap-2 pt-8 md:pt-12 page-header pb-8">
+          <h2 className="text-3xl font-bold tracking-tight">Value Chain Map</h2>
+        </div>
       </section>
 
-      <section className="flex-1 w-full">
-        {data ? (
-          <Flowmap nodes={data.node} edges={data.edge} />
+      <section className="flex-1">
+        {flowmapData && industryClassListData ? (
+          <Flowmap
+            nodes={flowmapData.node}
+            edges={flowmapData.edge}
+            industryClassListData={industryClassListData}
+          />
         ) : (
-          <div>No data found.</div>
+          <div className="container">No data found.</div>
         )}
       </section>
     </div>
