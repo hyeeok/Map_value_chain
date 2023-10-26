@@ -1,15 +1,15 @@
 import json
-from sqlalchemy.orm import Session
-from sqlalchemy.sql import text
 
 from app.flowmap.schemas import FlowmapBase
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import text
 
 
 def get_industry_class_list(db: Session):
     query = text(
         """
-        SELECT industry_class.*, domain.name AS domain_name, domain.code AS domain_code 
-        FROM industry_class LEFT JOIN domain 
+        SELECT industry_class.*, domain.name AS domain_name, domain.code AS domain_code
+        FROM industry_class LEFT JOIN domain
         ON industry_class.domain_id = domain.id;
         """
     )
@@ -63,4 +63,31 @@ def get_industry_class_flowmap(db: Session, industryClassCode: int):
         """
     )
     result = db.execute(query, {"industryClassCode": industryClassCode}).first()
+
+
+# def get_industry_class_flowmap(db: Session, industryClassCode: int):
+#     query = text(
+#         "SELECT node, edge FROM flowmap WHERE industry_class_id = :industryClassCode"
+#     )
+#     result = db.execute(query, {"industryClassCode": industryClassCode}).first()
+#     return result
+
+
+def get_domain_list(db: Session):
+    query = text(
+        """
+        SELECT
+            d.id, d.code, d.name,
+            JSON_AGG(jsonb_build_object('id', c.id, 'code', c.code, 'name', c.name)) AS classes,
+            JSON_AGG(jsonb_build_object('id', t.id, 'code', t.code, 'name', t.name)) AS themes
+        FROM domain d
+        INNER JOIN
+            industry_class c ON d.id=c.domain_id AND c.type='C'
+        INNER JOIN
+            industry_class t ON d.id=t.domain_id AND t.type='T'
+        GROUP BY
+            d.id, d.code, d.name;
+        """
+    )
+    result = db.execute(query).all()
     return result
