@@ -26,13 +26,13 @@ def read_flowmap(db: Session = Depends(get_db)):
     return result
 
 
-@router.put("", response_model=FlowmapBase)
+@router.put("", response_model=Flowmap)
 def update_flowmap(new_data: FlowmapBase, db: Session = Depends(get_db)):
     result = crud.set_flowmap(db, new_data)
     return result
 
 
-@router.get("/{industryClassCode}", response_model=FlowmapBase)
+@router.get("/{industryClassCode}", response_model=Flowmap)
 def read_industry_class_flowmap(industry_class: int, db: Session = Depends(get_db)):
     result = crud.get_industry_class_flowmap(db, industry_class)
     return result
