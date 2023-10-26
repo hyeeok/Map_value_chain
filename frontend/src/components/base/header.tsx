@@ -16,31 +16,33 @@ import {
 
 const Header = () => {
   return (
-    <header className="container py-1 border-b flex gap-4 items-center">
-      <div>
-        <Link href="/">
-          <span className="font-bold">MVC</span>
-        </Link>
+    <header className="py-1 border-b sticky top-0">
+      <div className="container flex gap-4 items-center">
+        <div>
+          <Link href="/">
+            <span className="font-bold">MVC</span>
+          </Link>
+        </div>
+        <NavigationMenu>
+          <NavigationMenuList className="gap-2">
+            <NavigationMenuItem>
+              <Link href="/flowmap" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Value Chain Map
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px] ">
+                  <ListItem>description</ListItem>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
-      <NavigationMenu>
-        <NavigationMenuList className="gap-2">
-          <NavigationMenuItem>
-            <Link href="/flowmap" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Value Chain Map
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px] ">
-                <ListItem>description</ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
     </header>
   );
 };
