@@ -93,34 +93,3 @@ def put_flowmap(industry_class_id: int, new_data: FlowmapCreate, db: Session):
 
     except Exception as e:
         raise Exception(f"failed to update flowmap: {str(e)}")
-
-
-def get_industry_class_flowmap(db: Session, industryClassCode: int):
-    query = text(
-        """
-        WITH Code AS (
-            SELECT code
-            FROM domain
-            WHERE id = :industryClassCode
-        )
-
-        SELECT
-            (
-                SELECT jsonb_agg(node_data.node) AS node
-                FROM (
-                    SELECT jsonb_array_elements(node) AS node
-                    FROM flowmap
-                ) AS node_data
-                WHERE node_data.node->>'id' = (SELECT code FROM Code)
-        ) AS node,
-        (
-            SELECT jsonb_agg(edge_data.edge) AS edge
-            FROM (
-                SELECT jsonb_array_elements(edge) AS edge
-                FROM flowmap
-            ) AS edge_data
-            WHERE edge_data.edge->>'id' = (SELECT code FROM Code)
-        ) AS edge;
-        """
-    )
-    result = db.execute(query, {"industryClassCode": industryClassCode}).first()

@@ -87,9 +87,3 @@ def update_flowmap(
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/{industryClassCode}", response_model=Flowmap)
-def read_industry_class_flowmap(industry_class: int, db: Session = Depends(get_db)):
-    result = crud.get_industry_class_flowmap(db, industry_class)
-    return result
