@@ -28,9 +28,6 @@ class DomainBase(BaseModel):
     domainCode: str = Field(..., alias="code")
     domainName: str = Field(..., alias="name")
 
-    class Config:
-        from_attributes = True
-
 
 class Domain(DomainBase):
     classes: Optional[List[IndustryClass]] = []
@@ -39,7 +36,7 @@ class Domain(DomainBase):
 
 class DomainList(BaseModel):
     length: int
-    data: List[Union[Domain, None]]
+    data: List[DomainBase]
 
     class Config:
         from_attributes = True

@@ -93,3 +93,9 @@ def put_flowmap(industry_class_id: int, new_data: FlowmapCreate, db: Session):
 
     except Exception as e:
         raise Exception(f"failed to update flowmap: {str(e)}")
+
+
+def get_domain_list(db: Session):
+    query = text("select * from domain")
+    result = db.execute(query).all()
+    return result
