@@ -14,13 +14,12 @@ import {
 import { showThemeAtom } from '@/lib/atoms/base';
 
 export interface IndustryClass {
-  id: number;
-  code: string;
-  name: string;
-  type: string;
-  domain_id: number;
-  domain_name: string;
-  domain_code: string;
+  industryClassId: number;
+  industryClassCode: string;
+  industryClassName: string;
+  domainId: number;
+  domainName: string;
+  domainCode: string;
 }
 export interface IndustryClassList {
   industryClassListData: {
@@ -46,15 +45,16 @@ const IndustryClassList = ({ industryClassListData }: IndustryClassList) => {
         <TableBody>
           {industryClassListData.data
             .filter(
-              (IndustryClassItem) => showTheme || IndustryClassItem.type !== 'T'
+              (IndustryClassItem) =>
+                showTheme || IndustryClassItem.industryClassCode[2] !== 'T'
             )
             .map((industryClassItem, i) => (
               <TableRow key={i}>
                 <TableCell className="font-medium">
-                  {industryClassItem.domain_name}
+                  {industryClassItem.domainName}
                 </TableCell>
-                <TableCell>{industryClassItem.code}</TableCell>
-                <TableCell>{industryClassItem.name}</TableCell>
+                <TableCell>{industryClassItem.industryClassCode}</TableCell>
+                <TableCell>{industryClassItem.industryClassName}</TableCell>
                 <TableCell></TableCell>
               </TableRow>
             ))}

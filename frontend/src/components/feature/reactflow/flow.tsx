@@ -17,6 +17,7 @@ import ReactFlow, {
   useNodesState,
 } from 'reactflow';
 
+import { putFlowmap } from '@/api/flowmap/api';
 import CustomNode from '@/components/feature/reactflow/custom-node';
 import { Button } from '@/components/ui/button';
 
@@ -41,11 +42,19 @@ const Flow = ({ initialNodes, initialEdges }: FlowProps) => {
   );
 
   const onSave = useCallback(() => {
-    console.log('click');
     if (rfInstance) {
       const flow = rfInstance.toObject();
-      console.log(JSON.stringify(flow));
-      localStorage.setItem(flowKey, JSON.stringify(flow));
+      const newData = {
+        node: flow.nodes,
+        edge: flow.edges,
+      };
+      putFlowmap(newData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [rfInstance]);
 

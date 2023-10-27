@@ -1,3 +1,7 @@
+import { Edge, Node } from 'reactflow';
+
+import { apiClient } from '@/api/api-client';
+
 // export const getFlowmap = async () => {
 //   try {
 //     const response = await apiClient().get(`/flowmap`);
@@ -17,3 +21,16 @@
 //     throw error;
 //   }
 // };
+
+interface newData {
+  node: Node[];
+  edge: Edge[];
+}
+export const putFlowmap = async (newData: newData) => {
+  try {
+    const response = await apiClient().put(`/flowmap`, newData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
