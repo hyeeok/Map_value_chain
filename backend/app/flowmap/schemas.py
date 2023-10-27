@@ -13,9 +13,6 @@ class IndustryClassBase(BaseModel):
 
 class IndustryClass(IndustryClassBase):
     industryClassId: int = Field(..., alias="id")
-    domainId: Optional[int] = Field(..., alias="domain_id")
-    domainCode: Optional[str] = Field(..., alias="domain_code")
-    domainName: Optional[str] = Field(..., alias="domain_name")
 
 
 class IndustryClassList(BaseModel):
