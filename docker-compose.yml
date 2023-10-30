@@ -1,34 +1,36 @@
 version: "3"
-
 services:
-  nginx:
+  frontend:
     build:
-      context: ./nginx
+      context: ./frontend
       dockerfile: Dockerfile
-    container_name: nginx
     ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.config:/etc/nginx/nginx.conf
-      - ./docker_data/log/nginx:/var/log/nginx
+      - 3000:3000
     depends_on:
-      - dash
-    networks:
-      - app
+      - backend
+    mem_limit: 1g
 
-  dash:
+  backend:
     build:
-      context: ./dash
+      context: ./backend
       dockerfile: Dockerfile
-    container_name: dash
-    volumes:
-      - ./dash:/app
-      - ./docker_data/log/dash:/var/log
-    networks:
-      - app
-    expose:
-      - 8050
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    mem_limit: 1g
 
-networks:
-  app:
-    driver: bridge
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: mvc_db
+    volumes:
+      - ./backend/data/postgres/:/var/lib/postgresql/data
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    mem_limit: 1g

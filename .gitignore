@@ -1,5 +1,5 @@
-.venv/
-venv/
+backend/*/_pycahe_/
+backend/data/
+backend/venv/
 
-.docker_data/
-docker_data/
+frontend/node_modules
