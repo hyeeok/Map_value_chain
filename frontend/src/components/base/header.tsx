@@ -16,8 +16,8 @@ import {
 
 const Header = () => {
   return (
-    <header className="py-1 border-b sticky top-0">
-      <div className="container flex gap-4 items-center">
+    <header className="border-b sticky top-0">
+      <div className="container flex gap-4 items-center h-14">
         <div>
           <Link href="/">
             <span className="font-bold">MVC</span>
@@ -29,6 +29,13 @@ const Header = () => {
               <Link href="/flowmap" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Value Chain Map
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/search" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Industry Info
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

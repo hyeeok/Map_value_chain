@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Header />
-        <main className="min-h-[calc(100vh-45px)] flex flex-col justify-between">
+        <main className="min-h-[calc(100vh-3.5rem)] flex flex-col justify-between">
           {children}
           <Footer />
         </main>
