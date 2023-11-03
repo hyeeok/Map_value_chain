@@ -40,20 +40,19 @@ def update_main_flowmap(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get(
-    "/domains",
-    response_model=DomainList,
-    response_model_by_alias=False,
-)
-def read_domain_list(db: Session = Depends(get_db)):
-    try:
-        result = crud.get_domain_list(db=db)
-        response = {"length": len(result), "data": result}
-        return response
+@router.get("/search", response_model=List[IndustryClassName])
+def read_industry_class_name(
+    industry_class_name: str,
+    db: Session = Depends(get_db),
+):
+    result = crud.get_industry_class_name(
+        industry_class_name=industry_class_name, db=db
+    )
 
-    except Exception as e:
-        print(repr(e))
-        raise HTTPException(status_code=500, detail=str(e))
+    if not result:
+        return []
+
+    return [{"name": name} for name in result]
 
 
 @router.get(
