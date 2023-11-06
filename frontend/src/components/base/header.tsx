@@ -13,10 +13,17 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+import { cn } from '@/lib/utils';
 
 const Header = () => {
   return (
-    <header className="border-b sticky top-0">
+    <header
+      className="
+      border-b sticky top-0 z-50
+      bg-background/95 backdrop-blur
+      supports-[backdrop-filter]:bg-background/60
+      "
+    >
       <div className="container flex gap-4 items-center h-14">
         <div>
           <Link href="/">
@@ -27,20 +34,32 @@ const Header = () => {
           <NavigationMenuList className="gap-2">
             <NavigationMenuItem>
               <Link href="/flowmap" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <NavigationMenuLink
+                  className={
+                    (cn(navigationMenuTriggerStyle()), 'bg-transparent')
+                  }
+                >
                   Value Chain Map
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/search" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <NavigationMenuLink
+                  className={
+                    (cn(navigationMenuTriggerStyle()), 'bg-transparent')
+                  }
+                >
                   Industry Info
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+              <NavigationMenuTrigger
+                className={(cn(navigationMenuTriggerStyle()), 'bg-transparent')}
+              >
+                Item One
+              </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid grid-cols-2 gap-3 p-4 md:w-[400px] lg:w-[500px] ">
                   <ListItem>description</ListItem>

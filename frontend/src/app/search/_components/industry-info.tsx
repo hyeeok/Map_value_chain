@@ -2,6 +2,7 @@ import { ChevronRightIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -96,8 +97,65 @@ const IndustryInfo = () => {
               <TableCell> ↑ ?% or ↓ ?%</TableCell>
               <TableCell> ↑ ?% or ↓ ?%</TableCell>
             </TableRow>
+            <TableRow>
+              <TableHead>주가(보통주)</TableHead>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead>발행주식수(우선주)</TableHead>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead>주가(우선주)</TableHead>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead rowSpan={6}>가치정보</TableHead>
+              <TableHead>시가총액</TableHead>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead>매출액</TableHead>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableHead>영업이익</TableHead>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+              <TableCell> ↑ ?% or ↓ ?%</TableCell>
+            </TableRow>
           </TableBody>
         </Table>
+      </section>
+      <section>
+        <h3 className="scroll-m-20 text-xl font-bold tracking-tight">
+          주요 거래처
+        </h3>
+        <div className="mt-2">
+          <Skeleton className="w-full h-[200px] rounded-md" />
+        </div>
       </section>
     </div>
   );

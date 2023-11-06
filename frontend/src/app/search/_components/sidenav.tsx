@@ -1,3 +1,4 @@
+import { PlusSquare } from 'lucide-react';
 import React from 'react';
 
 import {
@@ -7,44 +8,71 @@ import {
 } from '@/components/ui/collapsible';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const SideNav = () => {
+interface Domain {
+  domainName: string;
+  industryList: { industryName: string }[];
+}
+interface Industry {
+  mainCategoryName: string;
+  middleCategoryList: {
+    middleCategoryName: string;
+    smallCategoryList: { smallCategoryName: string }[];
+  }[];
+}
+interface SidenavProps {
+  domainTab: Domain[];
+  industryTab: Industry[];
+}
+
+const Sidenav = ({ sidenav }: { sidenav: SidenavProps }) => {
   return (
-    <aside className="w-[240px]">
+    <aside className="sticky block top-14 z-30 h-[calc(100vh-3.5rem)] w-[240px]">
       <Tabs
         defaultValue="typeOne"
-        className="w-full h-[calc(100vh-3.5rem)] py-4 box-border"
+        className="flex flex-col w-full h-full py-6 box-border"
       >
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="typeOne">전체산업</TabsTrigger>
           <TabsTrigger value="typeTwo">산업별</TabsTrigger>
         </TabsList>
-        <div className="p-4 bg-muted h-[calc(100vh-8rem)] overflow-hidden mt-4 rounded-md">
+        <div className="flex-1 p-4 bg-muted overflow-hidden mt-4 rounded-md">
           <TabsContent value="typeOne">
-            <Collapsible>
-              <CollapsibleTrigger>
-                <div>
-                  <span>도메인</span>
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <ul>
-                  <li className="pl-4">
-                    <Collapsible>
-                      <CollapsibleTrigger>
-                        <div>
-                          <span>산업</span>
-                        </div>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <ul>
-                          <li className="pl-4">산업</li>
-                        </ul>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </li>
-                </ul>
-              </CollapsibleContent>
-            </Collapsible>
+            {sidenav.domainTab.map((domain, i) => (
+              <Collapsible key={i}>
+                <CollapsibleTrigger className="w-full text-left">
+                  <div className="flex items-center">
+                    <PlusSquare className="h-3 w-3 text-muted-foreground mr-1" />
+                    <span>{domain.domainName}</span>
+                  </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <ul className="pl-4">
+                    {domain.industryList.map((industry, j) => (
+                      <li key={j}>
+                        <Collapsible>
+                          <CollapsibleTrigger className="w-full text-left">
+                            <div className="flex items-center">
+                              <PlusSquare className="h-3 w-3 text-muted-foreground mr-1" />
+                              <span>{industry.industryName}</span>
+                            </div>
+                          </CollapsibleTrigger>
+                          <CollapsibleContent>
+                            <ul className="pl-4">
+                              <li>
+                                <div className="flex items-center">
+                                  <PlusSquare className="h-3 w-3 text-muted-foreground mr-1" />
+                                  <span>대분류..</span>
+                                </div>
+                              </li>
+                            </ul>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </li>
+                    ))}
+                  </ul>
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
           </TabsContent>
           <TabsContent value="typeTwo" className="p-4"></TabsContent>
         </div>
@@ -53,4 +81,4 @@ const SideNav = () => {
   );
 };
 
-export default SideNav;
+export default Sidenav;
