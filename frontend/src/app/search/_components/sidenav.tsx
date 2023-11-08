@@ -1,4 +1,4 @@
-import { PlusSquare } from 'lucide-react';
+import { ChevronsUpDown } from 'lucide-react';
 import React from 'react';
 
 import {
@@ -40,9 +40,9 @@ const Sidenav = ({ sidenav }: { sidenav: SidenavProps }) => {
             {sidenav.domainTab.map((domain, i) => (
               <Collapsible key={i}>
                 <CollapsibleTrigger className="w-full text-left">
-                  <div className="flex items-center">
-                    <PlusSquare className="h-3 w-3 text-muted-foreground mr-1" />
-                    <span>{domain.domainName}</span>
+                  <div className="flex justify-between items-center h-9 rounded-md px-2 py-1">
+                    <span className="text-sm">{domain.domainName}</span>
+                    <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
                   </div>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
@@ -51,17 +51,19 @@ const Sidenav = ({ sidenav }: { sidenav: SidenavProps }) => {
                       <li key={j}>
                         <Collapsible>
                           <CollapsibleTrigger className="w-full text-left">
-                            <div className="flex items-center">
-                              <PlusSquare className="h-3 w-3 text-muted-foreground mr-1" />
-                              <span>{industry.industryName}</span>
+                            <div className="flex justify-between items-center h-9 rounded-md px-2 py-1">
+                              <span className="text-sm">
+                                {industry.industryName}
+                              </span>
+                              <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
                             </div>
                           </CollapsibleTrigger>
                           <CollapsibleContent>
                             <ul className="pl-4">
                               <li>
-                                <div className="flex items-center">
-                                  <PlusSquare className="h-3 w-3 text-muted-foreground mr-1" />
-                                  <span>대분류..</span>
+                                <div className="flex justify-between items-center h-9 rounded-md px-2 py-1">
+                                  <span className="text-sm">대분류..</span>
+                                  <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
                                 </div>
                               </li>
                             </ul>

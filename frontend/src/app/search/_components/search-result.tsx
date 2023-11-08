@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 import {
@@ -11,7 +12,7 @@ import {
 
 const SearchResult = () => {
   return (
-    <div>
+    <div className="rounded-md">
       <Table>
         <TableHeader>
           <TableRow>
@@ -28,7 +29,9 @@ const SearchResult = () => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>기업마스터.공시회사명</TableCell>
+            <TableCell>
+              <Link href={`search/example`}>기업마스터.공시회사명</Link>
+            </TableCell>
             <TableCell>기업마스터.사업자등록번호</TableCell>
             <TableCell>기업마스터.법인구분 명칭</TableCell>
             <TableCell>기업마스터.종목코드</TableCell>
