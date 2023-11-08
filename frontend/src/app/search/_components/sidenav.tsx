@@ -40,7 +40,7 @@ const Sidenav = ({ sidenav }: { sidenav: SidenavProps }) => {
             {sidenav.domainTab.map((domain, i) => (
               <Collapsible key={i}>
                 <CollapsibleTrigger className="w-full text-left">
-                  <div className="flex justify-between items-center h-9 rounded-md px-2 py-1">
+                  <div className="flex justify-between items-center h-9 rounded-md px-3 py-2">
                     <span className="text-sm">{domain.domainName}</span>
                     <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
                   </div>
@@ -51,7 +51,7 @@ const Sidenav = ({ sidenav }: { sidenav: SidenavProps }) => {
                       <li key={j}>
                         <Collapsible>
                           <CollapsibleTrigger className="w-full text-left">
-                            <div className="flex justify-between items-center h-9 rounded-md px-2 py-1">
+                            <div className="flex justify-between items-center h-9 rounded-md px-3 py-2">
                               <span className="text-sm">
                                 {industry.industryName}
                               </span>
@@ -61,7 +61,7 @@ const Sidenav = ({ sidenav }: { sidenav: SidenavProps }) => {
                           <CollapsibleContent>
                             <ul className="pl-4">
                               <li>
-                                <div className="flex justify-between items-center h-9 rounded-md px-2 py-1">
+                                <div className="flex justify-between items-center h-9 rounded-md px-3 py-2">
                                   <span className="text-sm">대분류..</span>
                                   <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
                                 </div>
