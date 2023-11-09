@@ -1,6 +1,6 @@
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field, Json
+from pydantic import BaseModel, Field
 
 
 class IndustryClassBase(BaseModel):
@@ -17,6 +17,10 @@ class IndustryClass(IndustryClassBase):
 
 class IndustryClassName(BaseModel):
     industryClassName: str = Field(..., alias="name")
+
+
+class IndustryClassCode(BaseModel):
+    industryClassCode: str = Field(..., alias="code")
 
 
 class IndustryClassList(BaseModel):

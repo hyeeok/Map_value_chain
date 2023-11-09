@@ -42,18 +42,6 @@ def put_main_flowmap(new_data: FlowmapCreate, db: Session):
         raise Exception(f"failed to update flowmap: {str(e)}")
 
 
-def get_industry_class_name(industry_class_name: str, db: Session):
-    query = text(
-        "SELECT name FROM industry_class WHERE name ILIKE :industry_class_name"
-    )
-    params = {"industry_class_name": f"%{industry_class_name}%"}
-    result = db.execute(query, params).fetchall()
-
-    industry_class = [row[0] for row in result]
-
-    return industry_class
-
-
 def get_industry_class_list(db: Session):
     query = text(
         """
@@ -105,3 +93,14 @@ def put_flowmap(industry_class_id: int, new_data: FlowmapCreate, db: Session):
 
     except Exception as e:
         raise Exception(f"failed to update flowmap: {str(e)}")
+
+
+def get_list(category: str, search: str, db: Session):
+    query = text(
+        f"""
+        SELECT {category} FROM industry_class WHERE {category} ILIKE :search;
+        """
+    )
+    params = {"search": f"{search}%"}
+    result = db.execute(query, params).all()
+    return result

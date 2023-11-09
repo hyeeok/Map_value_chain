@@ -40,21 +40,6 @@ def update_main_flowmap(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/search", response_model=List[IndustryClassName])
-def read_industry_class_name(
-    industry_class_name: str,
-    db: Session = Depends(get_db),
-):
-    result = crud.get_industry_class_name(
-        industry_class_name=industry_class_name, db=db
-    )
-
-    if not result:
-        return []
-
-    return [{"name": name} for name in result]
-
-
 @router.get(
     "/industry-classes",
     response_model=IndustryClassList,
@@ -69,6 +54,26 @@ def read_industry_class_list(db: Session = Depends(get_db)):
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/list")
+def read_list(
+    category: str,
+    search: str,
+    db: Session = Depends(get_db),
+):
+    result = crud.get_list(category=category, search=search, db=db)
+
+    if category == "name":
+        if result:
+            return [IndustryClassName(name=row[0]) for row in result]
+        else:
+            return []
+    elif category == "code":
+        if result:
+            return [IndustryClassCode(code=row[0]) for row in result]
+        else:
+            return []
 
 
 @router.get("/{industry_class_id}", response_model=Flowmap)
