@@ -19,14 +19,7 @@ interface Industry {
     smallCategoryList: { smallCategoryName: string }[];
   }[];
 }
-interface SidenavProps {
-  data: {
-    domainCode: string;
-    className: string;
-    classCode: string;
-    classLevel: number;
-  }[];
-}
+interface SidenavProps {}
 interface CollapsibleListProps {
   parentName: string;
   children?: React.ReactNode;
