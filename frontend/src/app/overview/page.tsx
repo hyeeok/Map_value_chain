@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SearchResult from '@/app/search/_components/search-result';
+import SearchResult from '@/app/overview/_components/search-result';
 
-const SearchPage = ({
+const OverviewPage = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -14,4 +14,4 @@ const SearchPage = ({
   );
 };
 
-export default SearchPage;
+export default OverviewPage;

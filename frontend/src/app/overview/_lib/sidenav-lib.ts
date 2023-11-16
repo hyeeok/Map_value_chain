@@ -113,3 +113,10 @@ export const buildHierarchy = (datas: OverviewIndex[]) => {
 
   return result;
 };
+
+export const isIndustryClassInfo = (item: any): item is IndustryClassInfo => {
+  return (item as IndustryClassInfo).industryClassCode !== undefined;
+};
+export const isSubClassInfo = (item: any): item is SubClassInfo => {
+  return (item as SubClassInfo).subClassCode !== undefined;
+};

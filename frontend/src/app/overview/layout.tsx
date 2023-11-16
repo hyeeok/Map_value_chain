@@ -1,11 +1,11 @@
 import React from 'react';
 
-import SearchBox from '@/app/search/_components/search-box';
-import Sidenav from '@/app/search/_components/sidenav';
-import { SIDENAV_DATA } from '@/app/search/_const/test';
-import { buildHierarchy } from '@/app/search/_lib/sidenav-lib';
+import SearchBox from '@/app/overview/_components/search-box';
+import Sidenav from '@/app/overview/_components/sidenav';
+import { buildHierarchy } from '@/app/overview/_lib/sidenav-lib';
+import { SIDENAV_DATA } from '@/app/overview/_test/sidenav';
 
-const SearchLayout = ({ children }: { children: React.ReactNode }) => {
+const OverviewLayout = ({ children }: { children: React.ReactNode }) => {
   const sidenavData = buildHierarchy(SIDENAV_DATA.data);
 
   return (
@@ -23,4 +23,4 @@ const SearchLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default SearchLayout;
+export default OverviewLayout;
