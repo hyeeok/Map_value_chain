@@ -1,89 +1,114 @@
-interface SidenavDataProps {
-  domainCode: string;
+interface OverviewIndex {
+  domainId: number;
   domainName: string;
-  industryCode: string;
-  industryName: string;
-  className: string;
-  classCode: string;
-  classLevel: number;
+  domainCode: string;
+  industryClassId: number;
+  industryClassName: string;
+  industryClassCode: string;
+  subClassId: number;
+  subClassName: string;
+  subClassCode: string;
+  subClassLevel: number;
 }
 
-// type ClassInfo = {
-//   className: string;
-//   classCode: string;
-//   childClass: Map<string, ClassInfo>;
-// };
+interface SubClassInfo {
+  subClassId: number;
+  subClassName: string;
+  subClassCode: string;
+  childClass?: {
+    [key: string]: SubClassInfo;
+  };
+}
 
-// type IndustryInfo = {
-//   industryCode: string;
-//   industryName: string;
-//   childClass: Map<string, ClassInfo>;
-// };
+interface IndustryClassInfo {
+  industryClassId: number;
+  industryClassName: string;
+  industryClassCode: string;
+  childClass: {
+    [key: string]: SubClassInfo;
+  };
+}
 
-// type DomainInfo = {
-//   domainCode: string;
-//   domainName: string;
-//   childIndustry: Map<string, IndustryInfo>;
-// };
+interface DomainInfo {
+  domainId: number;
+  domainName: string;
+  domainCode: string;
+  childIndustry: {
+    [key: string]: IndustryClassInfo;
+  };
+}
 
-// export type ResultType = Map<string, DomainInfo>;
+export interface ResultType {
+  [key: string]: DomainInfo;
+}
 
-// export const buildHierarchy = (datas: SidenavDataProps[]) => {
-//   const result = new Map();
-//   datas = datas.sort((a, b) => a.classLevel - b.classLevel);
-//   datas.forEach((item) => {
-//     const {
-//       domainCode,
-//       domainName,
-//       industryCode,
-//       industryName,
-//       className,
-//       classCode,
-//       classLevel,
-//     } = item;
+export const buildHierarchy = (datas: OverviewIndex[]) => {
+  const result = <ResultType>{};
+  datas = datas.sort((a, b) => a.subClassLevel - b.subClassLevel);
+  datas.forEach((item) => {
+    const {
+      domainId,
+      domainName,
+      domainCode,
+      industryClassId,
+      industryClassName,
+      industryClassCode,
+      subClassId,
+      subClassName,
+      subClassCode,
+      subClassLevel,
+    } = item;
 
-//     if (!result.has(domainCode)) {
-//       result.set(domainCode, {
-//         domainCode,
-//         domainName,
-//         childIndustry: new Map(),
-//       });
-//     }
+    if (!result[domainCode]) {
+      result[domainCode] = {
+        domainId,
+        domainName,
+        domainCode,
+        childIndustry: {},
+      };
+    }
 
-//     const domain = result.get(domainCode);
-//     if (!domain.childIndustry.has(industryCode)) {
-//       domain.childIndustry.set(industryCode, {
-//         industryCode,
-//         industryName,
-//         childClass: new Map(),
-//       });
-//     }
+    const domain = result[domainCode];
+    if (!domain.childIndustry[industryClassCode]) {
+      domain.childIndustry[industryClassCode] = {
+        industryClassId,
+        industryClassName,
+        industryClassCode,
+        childClass: {},
+      };
+    }
 
-//     const industry = domain.childIndustry.get(industryCode);
-//     if (classLevel === 1) {
-//       industry.childClass.set(classCode, {
-//         className,
-//         classCode,
-//         childClass: new Map(),
-//       });
-//     } else if (classLevel === 2) {
-//       const levelOneClassCode = classCode.substring(0, 1);
-//       const levelOneClass = industry.childClass.get(levelOneClassCode);
-//       levelOneClass.childClass.set(classCode, {
-//         className,
-//         classCode,
-//         childClass: new Map(),
-//       });
-//     } else if (classLevel === 3) {
-//       const levelTwoClassCode = classCode.substring(0, 1);
-//       const levelTwoClass = industry.childClass.get(levelTwoClassCode);
-//       levelTwoClass.childClass.set(classCode, {
-//         className,
-//         classCode,
-//         childClass: new Map(),
-//       });
-//     }
-//   });
-
-//   return result;
-// };
+    const industry = domain.childIndustry[industryClassCode];
+    if (subClassLevel === 1) {
+      industry.childClass[subClassCode] = {
+        subClassId,
+        subClassName,
+        subClassCode,
+        childClass: {},
+      };
+    } else if (subClassLevel === 2) {
+      const levelOneClassCode = subClassCode.substring(0, 1);
+      const levelOneClass = industry.childClass[levelOneClassCode];
+      levelOneClass.childClass = levelOneClass.childClass || {};
+      levelOneClass.childClass[subClassCode] = {
+        subClassId,
+        subClassName,
+        subClassCode,
+        childClass: {},
+      };
+    } else if (subClassLevel === 3) {
+      const levelOneClassCode = subClassCode.substring(0, 1);
+      const levelOneClass = industry.childClass[levelOneClassCode];
+      levelOneClass.childClass = levelOneClass.childClass || {};
+      const levelTwoClassCode = subClassCode.substring(0, 3);
+      const levelTwoClass = levelOneClass.childClass[levelTwoClassCode];
+      levelTwoClass.childClass = levelTwoClass.childClass || {};
+      levelTwoClass.childClass[subClassCode] = {
+        subClassId,
+        subClassName,
+        subClassCode,
+      };
+    }
+  });
+  return result;
+};
