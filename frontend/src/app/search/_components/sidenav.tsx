@@ -3,7 +3,11 @@
 import { ChevronsUpDown } from 'lucide-react';
 import React from 'react';
 
-import { ResultType, SubClassInfo } from '@/app/search/_lib/sidenav-lib';
+import {
+  IndustryClassInfo,
+  ResultType,
+  SubClassInfo,
+} from '@/app/search/_lib/sidenav-lib';
 import { Button } from '@/components/ui/button';
 import {
   Collapsible,
@@ -13,15 +17,30 @@ import {
 
 interface CollapsibleListProps {
   parentName: string;
-  childItems?: SubClassInfo[];
+  childItems?: (IndustryClassInfo | SubClassInfo)[];
 }
 
+const isIndustryClassInfo = (item: any): item is IndustryClassInfo => {
+  return (item as IndustryClassInfo).industryClassCode !== undefined;
+};
+const isSubClassInfo = (item: any): item is SubClassInfo => {
+  return (item as SubClassInfo).subClassCode !== undefined;
+};
+
 const CollapsibleList = ({ parentName, childItems }: CollapsibleListProps) => {
+  if (!childItems) return null;
+
   return (
     <Collapsible>
       <div className="flex items-center">
         <CollapsibleTrigger asChild>
-          <Button variant="ghost" size="sm" className="w-9  min-w-[36px] p-0">
+          <Button
+            variant="ghost"
+            size="sm"
+            className={`w-9  min-w-[36px] p-0 ${
+              !childItems?.length && 'invisible'
+            }`}
+          >
             <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
           </Button>
         </CollapsibleTrigger>
@@ -29,12 +48,20 @@ const CollapsibleList = ({ parentName, childItems }: CollapsibleListProps) => {
       </div>
       <CollapsibleContent>
         <ul className="pl-4">
-          {childItems?.map((item) => (
-            <li key={item.subClassId}>
-              <CollapsibleList
-                parentName={item.subClassName}
-                childItems={Object.values(item.childClass || {})}
-              />
+          {childItems?.map((item, i) => (
+            <li key={i}>
+              {isIndustryClassInfo(item) && (
+                <CollapsibleList
+                  parentName={item.industryClassName}
+                  childItems={Object.values(item.childClass || {})}
+                />
+              )}
+              {isSubClassInfo(item) && (
+                <CollapsibleList
+                  parentName={item.subClassName}
+                  childItems={Object.values(item.childClass || {})}
+                />
+              )}
             </li>
           ))}
         </ul>
@@ -52,36 +79,12 @@ const Sidenav = ({ sidenav }: { sidenav: ResultType }) => {
           <div className="h-full overflow-auto">
             {Object.values(sidenav).map((domainInfo) => (
               <Collapsible key={domainInfo.domainId}>
-                <div className="flex items-center">
-                  <CollapsibleTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="w-9 min-w-[36px] p-0"
-                    >
-                      <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
-                    </Button>
-                  </CollapsibleTrigger>
-                  <span className="text-xs whitespace-nowrap">
-                    {domainInfo.domainName}
-                  </span>
-                </div>
-                <CollapsibleContent>
-                  <ul className="pl-4">
-                    {Object.values(domainInfo.childIndustryClass)?.map(
-                      (industryClassItem) => (
-                        <li key={industryClassItem.industryClassId}>
-                          <CollapsibleList
-                            parentName={industryClassItem.industryClassName}
-                            childItems={Object.values(
-                              industryClassItem.childClass || {}
-                            )}
-                          />
-                        </li>
-                      )
-                    )}
-                  </ul>
-                </CollapsibleContent>
+                <CollapsibleList
+                  parentName={domainInfo.domainName}
+                  childItems={Object.values(
+                    domainInfo.childIndustryClass || {}
+                  )}
+                />
               </Collapsible>
             ))}
           </div>
