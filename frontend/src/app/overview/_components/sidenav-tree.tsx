@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronsUpDown } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import React from 'react';
 
 import {
@@ -27,7 +27,7 @@ const SidenavTree = ({ parentName, childItems }: TreeViewProps) => {
   return (
     <Collapsible>
       <div className="flex items-center">
-        <CollapsibleTrigger asChild>
+        <CollapsibleTrigger asChild className="group">
           <Button
             variant="ghost"
             size="sm"
@@ -35,7 +35,8 @@ const SidenavTree = ({ parentName, childItems }: TreeViewProps) => {
               !childItems?.length && 'invisible'
             }`}
           >
-            <ChevronsUpDown className="h-3 w-3 text-muted-foreground" />
+            <ChevronRight className="h-3 w-3 text-muted-foreground group-data-[state=open]:hidden" />
+            <ChevronDown className="h-3 w-3 text-muted-foreground group-data-[state=closed]:hidden" />
           </Button>
         </CollapsibleTrigger>
         <span className="text-xs whitespace-nowrap">{parentName}</span>
