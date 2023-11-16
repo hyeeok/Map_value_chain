@@ -1,4 +1,4 @@
-interface OverviewIndex {
+export interface OverviewIndex {
   domainId: number;
   domainName: string;
   domainCode: string;
@@ -11,7 +11,7 @@ interface OverviewIndex {
   subClassLevel: number;
 }
 
-interface SubClassInfo {
+export interface SubClassInfo {
   subClassId: number;
   subClassName: string;
   subClassCode: string;
@@ -20,7 +20,7 @@ interface SubClassInfo {
   };
 }
 
-interface IndustryClassInfo {
+export interface IndustryClassInfo {
   industryClassId: number;
   industryClassName: string;
   industryClassCode: string;
@@ -29,11 +29,11 @@ interface IndustryClassInfo {
   };
 }
 
-interface DomainInfo {
+export interface DomainInfo {
   domainId: number;
   domainName: string;
   domainCode: string;
-  childIndustry: {
+  childIndustryClass: {
     [key: string]: IndustryClassInfo;
   };
 }
@@ -64,13 +64,13 @@ export const buildHierarchy = (datas: OverviewIndex[]) => {
         domainId,
         domainName,
         domainCode,
-        childIndustry: {},
+        childIndustryClass: {},
       };
     }
 
     const domain = result[domainCode];
-    if (!domain.childIndustry[industryClassCode]) {
-      domain.childIndustry[industryClassCode] = {
+    if (!domain.childIndustryClass[industryClassCode]) {
+      domain.childIndustryClass[industryClassCode] = {
         industryClassId,
         industryClassName,
         industryClassCode,
@@ -78,7 +78,7 @@ export const buildHierarchy = (datas: OverviewIndex[]) => {
       };
     }
 
-    const industry = domain.childIndustry[industryClassCode];
+    const industry = domain.childIndustryClass[industryClassCode];
     if (subClassLevel === 1) {
       industry.childClass[subClassCode] = {
         subClassId,
@@ -110,5 +110,6 @@ export const buildHierarchy = (datas: OverviewIndex[]) => {
       };
     }
   });
+
   return result;
 };
