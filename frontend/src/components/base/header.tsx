@@ -44,13 +44,13 @@ const Header = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/search" legacyBehavior passHref>
+              <Link href="/overview" legacyBehavior passHref>
                 <NavigationMenuLink
                   className={
                     (cn(navigationMenuTriggerStyle()), 'bg-transparent')
                   }
                 >
-                  Industry Info
+                  기업개황
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

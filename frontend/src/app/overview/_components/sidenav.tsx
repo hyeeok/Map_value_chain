@@ -7,7 +7,6 @@ import { ResultType } from '@/app/overview/_lib/sidenav-lib';
 import { Collapsible } from '@/components/ui/collapsible';
 
 const Sidenav = ({ sidenav }: { sidenav: ResultType }) => {
-  console.log(sidenav);
   return (
     <aside className="sticky block top-14 z-30 h-[calc(100vh-3.5rem)] w-[240px]">
       <div className="flex flex-col w-full h-full py-6 box-border">

@@ -39,6 +39,7 @@ const SidenavTree = ({ parentName, childItems }: TreeViewProps) => {
             <ChevronDown className="h-3 w-3 text-muted-foreground group-data-[state=closed]:hidden" />
           </Button>
         </CollapsibleTrigger>
+
         <span className="text-xs whitespace-nowrap">{parentName}</span>
       </div>
       <CollapsibleContent>

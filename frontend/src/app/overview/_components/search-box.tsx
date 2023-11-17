@@ -41,7 +41,7 @@ const SearchBox = () => {
       </Select>
       <Input value={searchKeyword} onChange={handleSearchKeyword} />
       <Button
-        onClick={() => router.push(`/search?query=${searchKeyword || ''}`)}
+        onClick={() => router.push(`/overview?query=${searchKeyword || ''}`)}
         className="w-[200px]"
       >
         검색
