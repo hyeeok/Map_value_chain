@@ -5,9 +5,13 @@ import { OVERVIEW_LIST } from '@/app/overview/search/_test/overview-list';
 
 const datas = OVERVIEW_LIST;
 
-const SearchPage = () => {
-  // const searchParams = useSearchParams();
-  // console.log(searchParams);
+const SearchPage = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  console.log(searchParams);
+
   return (
     <div className="flex flex-col">
       <OverviewList datas={datas} />
