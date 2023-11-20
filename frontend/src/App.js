@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchOption, setSearchOption] = useState('name');
+  const [searchCategory, setSearchCategory] = useState('name');
   const [searchResults, setSearchResults] = useState([]);
   const [data, setData] = useState(null);
 
@@ -15,7 +15,7 @@ function App() {
       }
 
       try {
-        const response = await fetch(`http://localhost:8000/overview/search?term=${searchTerm}&option=${searchOption}`);
+        const response = await fetch(`http://localhost:8000/overview/search?term=${searchTerm}&category=${searchCategory}`);
         const data = await response.json();
         setSearchResults(data.length > 0 ? data : []);
       } catch (error) {
@@ -24,18 +24,18 @@ function App() {
     };
 
     fetchData();
-  }, [searchTerm, searchOption]);
+  }, [searchTerm, searchCategory]);
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const handleSelectChange = (e) => {
-    setSearchOption(e.target.value);
+    setSearchCategory(e.target.value);
   };
 
   const handleResultClick = (result) => {
-    setSearchTerm(searchOption === 'name' ? result.name : result[searchOption]);
+    setSearchTerm(searchCategory === 'name' ? result.name : result[searchCategory]);
     setSearchResults([]);
   };
 
@@ -46,7 +46,7 @@ function App() {
         return;
       }
 
-      const response = await fetch(`http://localhost:8000/overview?term=${searchTerm}&option=${searchOption}`);
+      const response = await fetch(`http://localhost:8000/overview?term=${searchTerm}&category=${searchCategory}`);
       const resultData = await response.json();
 
       if (resultData.length > 0) {
@@ -63,10 +63,15 @@ function App() {
     }
   };
 
+    const handleSubmit = (e) => {
+      e.preventDefault(); // 기본 폼 제출 동작 방지
+      handleConfirmClick();
+    };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="search-container">
-        <select onChange={handleSelectChange} value={searchOption}>
+        <select onChange={handleSelectChange} value={searchCategory}>
           <option value="name">회사명</option>
           <option value="registration_number">사업자등록번호</option>
           <option value="corporate_type">법인등록번호</option>
@@ -78,7 +83,7 @@ function App() {
             <ul>
               {searchResults.map((result) => (
                 <li key={result.id} onClick={() => handleResultClick(result)}>
-                  {searchOption === 'name' ? result.name : `${result[searchOption]} - ${result.name}`}
+                  {searchCategory === 'name' ? result.name : `${result[searchCategory]} - ${result.name}`}
                 </li>
               ))}
             </ul>

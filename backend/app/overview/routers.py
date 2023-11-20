@@ -12,20 +12,20 @@ router = APIRouter(prefix="/overview")
 @router.get("", response_model=CompanyList)
 async def read_company_basic(
     term: str = Query(..., description="Search term"),
-    option: str = Query(..., description="Search option: 'name' or 'other'"),
+    category: str = Query(..., description="Search category: 'name' or 'other'"),
     db: Session = Depends(get_db),
 ):
-    result = crud.get_company_basic(term=term, option=option, db=db)
+    result = crud.get_company_basic(term=term, category=category, db=db)
     return {"length": len(result), "data": result}
 
 
 @router.get("/search", response_model=List[Dict[str, Union[int, str]]])
-async def read_company_items_by_option(
+async def read_company_items_by_category(
     term: str = Query(..., description="Search term"),
-    option: str = Query(..., description="Search option: 'name' or 'other'"),
+    category: str = Query(..., description="Search category: 'name' or 'other'"),
     db: Session = Depends(get_db),
 ):
-    items = crud.get_company_items_by_option(term=term, option=option, db=db)
+    items = crud.get_company_items_by_category(term=term, category=category, db=db)
     return items
 
 
