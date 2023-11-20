@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import SessionLocal
 from app.flowmap.routers import router as flowmap_router
+from app.overview.routers import router as overview_router
 from app.flowmap.utils.init_db import load_csv_to_db
 
 
@@ -53,3 +54,4 @@ app.add_middleware(
 )
 
 app.include_router(flowmap_router)
+app.include_router(overview_router)
