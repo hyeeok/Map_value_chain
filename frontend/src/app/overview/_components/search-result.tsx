@@ -30,7 +30,7 @@ const SearchResult = () => {
         <TableBody>
           <TableRow>
             <TableCell>
-              <Link href={`search/example`}>기업마스터.공시회사명</Link>
+              <Link href={`overview/example`}>기업마스터.공시회사명</Link>
             </TableCell>
             <TableCell>기업마스터.사업자등록번호</TableCell>
             <TableCell>기업마스터.법인구분 명칭</TableCell>

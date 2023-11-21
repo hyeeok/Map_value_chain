@@ -11,7 +11,7 @@ export const OVERVIEW_LIST = [
     establishDate: '2023-02-20',
     adress1: '서울',
     adress2: '강남구',
-    homepage: null,
+    homepageUrl: null,
   },
   {
     id: 1,
@@ -25,7 +25,7 @@ export const OVERVIEW_LIST = [
     establishDate: '2023-02-03',
     adress1: '서울',
     adress2: '강북구',
-    homepage: null,
+    homepageUrl: null,
   },
   {
     id: 2,
@@ -39,7 +39,7 @@ export const OVERVIEW_LIST = [
     establishDate: '1998-09-09',
     adress1: '대전',
     adress2: '유성구',
-    homepage: 'https://google.com/',
+    homepageUrl: 'https://google.com/',
   },
   {
     id: 3,
@@ -53,6 +53,6 @@ export const OVERVIEW_LIST = [
     establishDate: '1990-09-03',
     adress1: '서울',
     adress2: '강남구',
-    homepage: null,
+    homepageUrl: null,
   },
 ];

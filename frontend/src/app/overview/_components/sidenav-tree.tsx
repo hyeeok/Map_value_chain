@@ -30,16 +30,13 @@ const SidenavTree = ({ parentName, childItems }: TreeViewProps) => {
         <CollapsibleTrigger asChild className="group">
           <Button
             variant="ghost"
-            size="sm"
-            className={`w-9  min-w-[36px] p-0 ${
-              !childItems?.length && 'invisible'
-            }`}
+            size="xs"
+            className={`w-6  min-w-6 p-0 ${!childItems?.length && 'invisible'}`}
           >
             <ChevronRight className="h-3 w-3 text-muted-foreground group-data-[state=open]:hidden" />
             <ChevronDown className="h-3 w-3 text-muted-foreground group-data-[state=closed]:hidden" />
           </Button>
         </CollapsibleTrigger>
-
         <span className="text-xs whitespace-nowrap">{parentName}</span>
       </div>
       <CollapsibleContent>

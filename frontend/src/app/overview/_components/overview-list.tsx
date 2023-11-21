@@ -50,7 +50,10 @@ const OverviewList = ({ datas }: { datas: OverviewListType[] }) => {
           {datas.map((data, i) => (
             <TableRow key={i}>
               <TableCell>
-                <Link href={`search/example`} className="hover:underline">
+                <Link
+                  href={`/overview/${data.corpCode}`}
+                  className="hover:underline"
+                >
                   {data.firmName}
                 </Link>
               </TableCell>
