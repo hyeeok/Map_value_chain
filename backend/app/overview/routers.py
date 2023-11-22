@@ -1,23 +1,31 @@
+from typing import Dict, List, Union
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from typing import List, Dict, Union
 
-from app.database import get_db
+from app.database import get_dev_db, get_mvc_db
+
 from . import crud
-from .schemas import mvc_fake_data_list, CompanyOverview
+from .schemas import *
 
 router = APIRouter(prefix="/overview")
 
 
-@router.get("", response_model=mvc_fake_data_list)
-async def read_company_overview(
-    term: str = Query(..., description="Search term"),
-    category: str = Query(
-        ..., description="Search category: 'firm' or 'bizr_no' or 'jurir_no'"
-    ),
-    db: Session = Depends(get_db),
+@router.get(
+    "",
+    response_model=OverviewList,
+    response_model_by_alias=False,
+)
+async def read_overview_list(
+    category: str | None = None,
+    keyword: str | None = None,
+    limit: int | None = 50,
+    page: int | None = 1,
+    db: Session = Depends(get_dev_db),
 ):
-    result = crud.get_company_overview(term=term, category=category, db=db)
+    result = crud.get_overview_list(
+        category=category, keyword=keyword, limit=limit, page=page, db=db
+    )
     return {"length": len(result), "data": result}
 
 
@@ -27,7 +35,7 @@ async def read_company_items_by_category(
     category: str = Query(
         ..., description="Search category: 'firm' or 'bizr_no' or 'jurir_no"
     ),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_dev_db),
 ):
     items = crud.get_company_items_by_category(term=term, category=category, db=db)
     return items
@@ -40,7 +48,7 @@ async def read_company_items_by_category(
 
 
 @router.get("/{corp_code}", response_model=CompanyOverview)
-async def read_company_overview_info(corp_code: str, db: Session = Depends(get_db)):
+async def read_company_overview_info(corp_code: str, db: Session = Depends(get_mvc_db)):
     dart_corp_info_data = crud.get_dart_corp_info(corp_code=corp_code, db=db)
 
     crno = dart_corp_info_data.jurir_no

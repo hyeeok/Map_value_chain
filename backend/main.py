@@ -3,7 +3,7 @@ import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database import SessionLocal
+# from app.database import SessionLocal
 from app.flowmap.routers import router as flowmap_router
 from app.overview.routers import router as overview_router
 
@@ -55,5 +55,5 @@ app.add_middleware(
     allow_headers=["*"],  # 허용할 HTTP 헤더
 )
 
-app.include_router(flowmap_router)
+# app.include_router(flowmap_router)
 app.include_router(overview_router)
