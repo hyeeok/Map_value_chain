@@ -120,24 +120,24 @@ class dart_corp_info(BaseModel):
 
 
 class openapi_corp_outline(BaseModel):
-    enpkosdaqlstgdt: Union[str, None] = Field(..., alias="enpkosdaqlstgdt")
-    enpxchglstgdt: Union[str, None] = Field(..., alias="enpxchglstgdt")
-    enpkosdaqlstgaboldt: Union[str, None] = Field(..., alias="enpkosdaqlstgaboldt")
-    enpkrxlstgdt: Union[str, None] = Field(..., alias="enpkrxlstgdt")
-    enpkrxlstgaboldt: Union[str, None] = Field(..., alias="enpkrxlstgaboldt")
-    enpempecnt: Union[str, None] = Field(..., alias="enpempecnt")
-    empeavgcnwktermctt: Union[str, None] = Field(..., alias="empeavgcnwktermctt")
-    enppn1avgslryamt: Union[str, None] = Field(..., alias="enppn1avgslryamt")
-    actnaudpnnm: Union[str, None] = Field(..., alias="actnaudpnnm")
-    audtrptopnnctt: Union[str, None] = Field(..., alias="audtrptopnnctt")
-    enpmainbiznm: Union[str, None] = Field(..., alias="enpmainbiznm")
+    enpkosdaqlstgdt: str = Field(..., alias="enpkosdaqlstgdt")
+    enpxchglstgdt: str = Field(..., alias="enpxchglstgdt")
+    enpkosdaqlstgaboldt: str = Field(..., alias="enpkosdaqlstgaboldt")
+    enpkrxlstgdt: str = Field(..., alias="enpkrxlstgdt")
+    enpkrxlstgaboldt: str = Field(..., alias="enpkrxlstgaboldt")
+    enpempecnt: str = Field(..., alias="enpempecnt")
+    empeavgcnwktermctt: str = Field(..., alias="empeavgcnwktermctt")
+    enppn1avgslryamt: str = Field(..., alias="enppn1avgslryamt")
+    actnaudpnnm: str = Field(..., alias="actnaudpnnm")
+    audtrptopnnctt: str = Field(..., alias="audtrptopnnctt")
+    enpmainbiznm: str = Field(..., alias="enpmainbiznm")
 
     class Config:
         from_attributes = True
 
 
 class openapi_corp_affiliate(BaseModel):
-    afilcmpynm: Union[str, None] = Field(..., alias="afilcmpynm")
+    afilcmpynm: Optional[str] = Field(None, alias="afilcmpynm")
 
     class Config:
         from_attributes = True
@@ -145,8 +145,8 @@ class openapi_corp_affiliate(BaseModel):
 
 class CompanyDetailResponse(BaseModel):
     dart_corp_info_data: dart_corp_info
-    openapi_outline_data: Optional[List[openapi_corp_outline]]
-    openapi_affiliate_data: Optional[List[openapi_corp_affiliate]]
+    openapi_outline_data: openapi_corp_outline
+    openapi_affiliate_data: List[openapi_corp_affiliate]
 
     class Config:
         from_attributes = True

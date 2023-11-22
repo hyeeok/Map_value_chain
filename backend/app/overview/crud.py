@@ -105,12 +105,15 @@ def get_openapi_outline_data(crno: str, db: Session):
         FROM
             source.openapi_corp_outline
         WHERE
-            crno = :crno;
+            crno = :crno
+        ORDER BY
+            lastopegdt DESC
+        LIMIT 1;
         """
     )
 
     param = {"crno": f"{crno}"}
-    result = db.execute(query, param).all()
+    result = db.execute(query, param).fetchone()
     return result
 
 

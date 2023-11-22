@@ -43,7 +43,6 @@ async def read_company_items_by_category(
 async def read_company_overview_info(corp_code: str, db: Session = Depends(get_db)):
     dart_corp_info_data = crud.get_dart_corp_info(corp_code=corp_code, db=db)
     crno = dart_corp_info_data.jurir_no
-    print(crno)
     openapi_outline_data = crud.get_openapi_outline_data(crno=crno, db=db)
     openapi_affiliate_data = crud.get_openapi_affiliate_data(crno=crno, db=db)
 
