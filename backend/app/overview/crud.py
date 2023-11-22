@@ -66,16 +66,15 @@ def get_dart_corp_info(corp_code: str, db: Session):
     query = text(
         """
         SELECT
-            stock_name,
+            corp_name,
             bizr_no,
             jurir_no,
-            stock_code,
-            corp_cls,
-            corp_name,
             corp_name_eng,
             ceo_nm,
             est_dt,
-            acc_mt   
+            phn_no,
+            adres,
+            hm_url
         FROM
             source.dart_corp_info
         WHERE
@@ -91,17 +90,9 @@ def get_openapi_outline_data(crno: str, db: Session):
     query = text(
         """
         SELECT
-            enpkosdaqlstgdt,
-            enpxchglstgdt,
-            enpkosdaqlstgaboldt,
-            enpkrxlstgdt,
-            enpkrxlstgaboldt,
-            enpempecnt,
-            empeavgcnwktermctt,
             enppn1avgslryamt,
             actnaudpnnm,
-            audtrptopnnctt,
-            enpmainbiznm
+            audtrptopnnctt
         FROM
             source.openapi_corp_outline
         WHERE

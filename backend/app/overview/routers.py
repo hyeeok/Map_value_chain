@@ -4,7 +4,7 @@ from typing import List, Dict, Union
 
 from app.database import get_db
 from . import crud
-from .schemas import mvc_fake_data_list, CompanyDetailResponse
+from .schemas import mvc_fake_data_list, CompanyOverview
 
 router = APIRouter(prefix="/overview")
 
@@ -39,17 +39,30 @@ async def read_company_items_by_category(
 #     return {"length": len(result), "data": result}
 
 
-@router.get("/{corp_code}")
+@router.get("/{corp_code}", response_model=CompanyOverview)
 async def read_company_overview_info(corp_code: str, db: Session = Depends(get_db)):
     dart_corp_info_data = crud.get_dart_corp_info(corp_code=corp_code, db=db)
+
     crno = dart_corp_info_data.jurir_no
     openapi_outline_data = crud.get_openapi_outline_data(crno=crno, db=db)
     openapi_affiliate_data = crud.get_openapi_affiliate_data(crno=crno, db=db)
 
-    result = CompanyDetailResponse(
-        dart_corp_info_data=dart_corp_info_data,
-        openapi_outline_data=openapi_outline_data,
-        openapi_affiliate_data=openapi_affiliate_data,
+    company_overview = CompanyOverview(
+        corp_name=dart_corp_info_data.corp_name,
+        bizr_no=dart_corp_info_data.bizr_no,
+        jurir_no=dart_corp_info_data.jurir_no,
+        corp_name_eng=dart_corp_info_data.corp_name_eng,
+        ceo_nm=dart_corp_info_data.ceo_nm,
+        est_dt=dart_corp_info_data.est_dt,
+        phn_no=dart_corp_info_data.phn_no,
+        adres=dart_corp_info_data.adres,
+        hm_url=dart_corp_info_data.hm_url,
+        enppn1avgslryamt=openapi_outline_data.enppn1avgslryamt,
+        actnaudpnnm=openapi_outline_data.actnaudpnnm,
+        audtrptopnnctt=openapi_outline_data.audtrptopnnctt,
+        affiliate_name_list=[
+            openapi_affiliate.afilcmpynm for openapi_affiliate in openapi_affiliate_data
+        ],
     )
 
-    return result
+    return company_overview
