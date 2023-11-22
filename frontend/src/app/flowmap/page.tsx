@@ -11,7 +11,7 @@ const getFlowmap = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 
@@ -22,7 +22,7 @@ const getIndustryClassList = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    throw error;
+    console.log(error);
   }
 };
 

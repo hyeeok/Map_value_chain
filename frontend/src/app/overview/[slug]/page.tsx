@@ -1,4 +1,4 @@
-import IndustryInfo from '@/app/search/[slug]/_components/industry-info';
+import IndustryInfo from '@/app/overview/[slug]/_components/industry-info';
 
 const IndustryInfoPage = ({ params }: { params: { slug: string } }) => {
   return (
