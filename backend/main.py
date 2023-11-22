@@ -6,36 +6,38 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import SessionLocal
 from app.flowmap.routers import router as flowmap_router
 from app.overview.routers import router as overview_router
-from app.flowmap.utils.init_db import load_csv_to_db
+
+# from app.flowmap.utils.init_db import load_csv_to_db
 
 
-async def initialize_db():
-    filepath = "./source/mvc_map.csv"
-    db = SessionLocal()
-    load_csv_to_db(filepath, db)
-    db.commit()
-    db.close()
+# async def initialize_db():
+#     filepath = "./source/mvc_map.csv"
+#     db = SessionLocal()
+#     load_csv_to_db(filepath, db)
+#     db.commit()
+#     db.close()
 
 
-async def wait_for_postgres():
-    while True:
-        try:
-            await initialize_db()
-            print("Connected to PostgreSQL")
-            return
+# async def wait_for_postgres():
+#     while True:
+#         try:
+#             await initialize_db()
+#             print("Connected to PostgreSQL")
+#             return
 
-        except Exception as e:
-            print(f"Waiting for PostgreSQL: {e}")
-            await asyncio.sleep(1)
-
-
-async def lifespan(app: FastAPI):
-    # asyncio.create_task(wait_for_postgres())
-    await initialize_db()
-    yield
+#         except Exception as e:
+#             print(f"Waiting for PostgreSQL: {e}")
+#             await asyncio.sleep(1)
 
 
-app = FastAPI(lifespan=lifespan)
+# async def lifespan(app: FastAPI):
+#     asyncio.create_task(wait_for_postgres())
+#     await initialize_db()
+#     yield
+
+
+# app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 # 허용할 오리진(출처) 목록
 origins = [

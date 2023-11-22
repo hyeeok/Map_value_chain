@@ -94,14 +94,3 @@ def put_flowmap(industry_class_id: int, new_data: FlowmapCreate, db: Session):
 
     except Exception as e:
         raise Exception(f"failed to update flowmap: {str(e)}")
-
-
-def get_list(category: str, search: str, db: Session):
-    query = text(
-        f"""
-        SELECT {category} FROM industry_class WHERE {category} ILIKE :search;
-        """
-    )
-    params = {"search": f"{search}%"}
-    result = db.execute(query, params).all()
-    return result

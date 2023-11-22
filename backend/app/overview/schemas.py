@@ -78,24 +78,75 @@ class DepsList(BaseModel):
         from_attributes = True
 
 
-class Company(BaseModel):
-    companyName: Optional[str] = Field(..., alias="name")
-    registrationNumber: Optional[str] = Field(..., alias="registration_number")
-    corporateType: Optional[str] = Field(..., alias="corporate_type")
+class mvc_fake_data(BaseModel):
+    corpCode: Optional[str] = Field(..., alias="corp_code")
+    firmName: Optional[str] = Field(..., alias="firm")
+    bizrNo: Optional[str] = Field(..., alias="bizr_no")
+    jurirNo: Optional[str] = Field(..., alias="corp_cls")
     stockCode: Optional[str] = Field(..., alias="stock_code")
-    subsidiaryMock: Optional[bool] = Field(..., alias="subsidiary_mock")
-    ceoName: Optional[str] = Field(..., alias="ceo_name")
-    establishmentDate: Optional[str] = Field(..., alias="establishment_date")
-    region: Optional[str] = Field(..., alias="region")
-    website: Optional[str] = Field(..., alias="website")
+    # conglomerateName: Optional[str] = Field(..., alias="stock_name")
+    # ceoName: Optional[str] = Field(..., alias="ceo_nm")
+    establishDate: Optional[str] = Field(..., alias="bsns_year")
+    adress1: Optional[str] = Field(..., alias="adres_1")
+    adress2: Optional[str] = Field(..., alias="adres_2")
+    # hompageUrl: Optional[str] = Field(..., alias="hm_url")
 
     class Config:
         from_attributes = True
 
 
-class CompanyList(BaseModel):
+class mvc_fake_data_list(BaseModel):
     length: int
-    data: List[Company]
+    data: List[mvc_fake_data]
+
+    class Config:
+        from_attributes = True
+
+
+class dart_corp_info(BaseModel):
+    firm: str = Field(..., alias="stock_name")
+    bizr_no: str = Field(..., alias="bizr_no")
+    jurir_no: str = Field(..., alias="jurir_no")
+    stock_code: Optional[str] = Field(None, alias="stock_code")
+    corp_cls: str = Field(..., alias="corp_cls")
+    corp_name: str = Field(..., alias="corp_name")
+    corp_name_eng: str = Field(..., alias="corp_name_eng")
+    ceo_nm: str = Field(..., alias="ceo_nm")
+    est_dt: str = Field(..., alias="est_dt")
+    acc_mt: str = Field(..., alias="acc_mt")
+
+    class Config:
+        from_attributes = True
+
+
+class openapi_corp_outline(BaseModel):
+    enpkosdaqlstgdt: Union[str, None] = Field(..., alias="enpkosdaqlstgdt")
+    enpxchglstgdt: Union[str, None] = Field(..., alias="enpxchglstgdt")
+    enpkosdaqlstgaboldt: Union[str, None] = Field(..., alias="enpkosdaqlstgaboldt")
+    enpkrxlstgdt: Union[str, None] = Field(..., alias="enpkrxlstgdt")
+    enpkrxlstgaboldt: Union[str, None] = Field(..., alias="enpkrxlstgaboldt")
+    enpempecnt: Union[str, None] = Field(..., alias="enpempecnt")
+    empeavgcnwktermctt: Union[str, None] = Field(..., alias="empeavgcnwktermctt")
+    enppn1avgslryamt: Union[str, None] = Field(..., alias="enppn1avgslryamt")
+    actnaudpnnm: Union[str, None] = Field(..., alias="actnaudpnnm")
+    audtrptopnnctt: Union[str, None] = Field(..., alias="audtrptopnnctt")
+    enpmainbiznm: Union[str, None] = Field(..., alias="enpmainbiznm")
+
+    class Config:
+        from_attributes = True
+
+
+class openapi_corp_affiliate(BaseModel):
+    afilcmpynm: Union[str, None] = Field(..., alias="afilcmpynm")
+
+    class Config:
+        from_attributes = True
+
+
+class CompanyDetailResponse(BaseModel):
+    dart_corp_info_data: dart_corp_info
+    openapi_outline_data: Optional[List[openapi_corp_outline]]
+    openapi_affiliate_data: Optional[List[openapi_corp_affiliate]]
 
     class Config:
         from_attributes = True
