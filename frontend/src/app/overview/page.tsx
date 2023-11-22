@@ -3,6 +3,7 @@ import React from 'react';
 
 import { baseUrl } from '@/api/api-client';
 import OverviewList from '@/app/overview/_components/overview-list';
+import { OVERVIEW_RESPONSE } from '@/app/overview/_test/overview';
 
 const getOverviewList = async () => {
   const cookieStore = cookies();
@@ -16,10 +17,11 @@ const getOverviewList = async () => {
 };
 
 const OverviewPage = async () => {
-  const overviewListData = await getOverviewList();
+  // const overviewListData = await getOverviewList();
+  const overviewListData = OVERVIEW_RESPONSE;
 
   return (
-    <div>
+    <div className="flex-1">
       <OverviewList data={overviewListData} />
     </div>
   );

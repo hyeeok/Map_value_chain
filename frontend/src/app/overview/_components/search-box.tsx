@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,24 +12,24 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-const SearchBox = () => {
-  const [searchCategory, setSearchCategory] = useState('corpName');
-  const [searchKeyword, setSearchKeyword] = useState('');
+interface SearchBoxProps {
+  onSearchCategoryChange: (value: string) => void;
+  onSearchKeywordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  searchCategory: string;
+  searchKeyword: string;
+  handleSearch: (category: string, keyword: string) => void;
+}
 
-  const handleSearchCategory = (value: string) => {
-    setSearchCategory(value);
-  };
-  const handleSearchKeyword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
-  };
-
-  useEffect(() => {
-    console.log(searchCategory, searchKeyword);
-  }, [searchCategory, searchKeyword]);
-
+const SearchBox = ({
+  onSearchCategoryChange,
+  onSearchKeywordChange,
+  searchCategory,
+  searchKeyword,
+  handleSearch,
+}: SearchBoxProps) => {
   return (
     <div className="flex gap-2">
-      <Select onValueChange={handleSearchCategory} value={searchCategory}>
+      <Select onValueChange={onSearchCategoryChange} value={searchCategory}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="회사명" defaultValue="corpName" />
         </SelectTrigger>
@@ -42,23 +41,15 @@ const SearchBox = () => {
         </SelectContent>
       </Select>
       <Input
-        value={searchKeyword}
         placeholder="검색어를 입력해주세요."
-        onChange={handleSearchKeyword}
+        value={searchKeyword}
+        onChange={(event) => onSearchKeywordChange(event)}
       />
-      <Button asChild>
-        <Link
-          href={{
-            pathname: '/overview/search',
-            query: {
-              category: searchCategory,
-              query: searchKeyword,
-            },
-          }}
-          className="w-[200px]"
-        >
-          검색
-        </Link>
+      <Button
+        onClick={() => handleSearch(searchCategory, searchKeyword)}
+        className="w-[200px]"
+      >
+        검색
       </Button>
     </div>
   );

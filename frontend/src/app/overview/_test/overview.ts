@@ -56,3 +56,8 @@ export const OVERVIEW_LIST = [
     homepageUrl: null,
   },
 ];
+
+export const OVERVIEW_RESPONSE = {
+  length: 300,
+  data: OVERVIEW_LIST,
+};

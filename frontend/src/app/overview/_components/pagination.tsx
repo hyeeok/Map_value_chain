@@ -1,19 +1,13 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import React from 'react';
 
-import OverviewList from '@/app/overview/_components/overview-list';
-import { OVERVIEW_LIST } from '@/app/overview/_test/overview-list';
 import { Button } from '@/components/ui/button';
 
-const datas = OVERVIEW_LIST;
-const length = 120;
-const page = 1;
-const limit = 20;
-
 const Pagination = ({
+  handlePageClick,
   currentPage,
   pageNum,
 }: {
+  handlePageClick: (targetPage: number) => void;
   currentPage: number;
   pageNum: number;
 }) => {
@@ -28,6 +22,7 @@ const Pagination = ({
           variant="link"
           size="sm"
           key={i}
+          onClick={() => handlePageClick(i)}
           className={`${
             currentPage === i ? 'bg-primary text-primary-foreground' : ''
           }`}
@@ -42,21 +37,4 @@ const Pagination = ({
   );
 };
 
-const SearchPage = ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  console.log(searchParams);
-
-  return (
-    <div className="flex flex-col h-full justify-between">
-      <OverviewList datas={datas} />
-      <div className="flex justify-center pt-6">
-        <Pagination currentPage={page} pageNum={Math.ceil(length / limit)} />
-      </div>
-    </div>
-  );
-};
-
-export default SearchPage;
+export default Pagination;
