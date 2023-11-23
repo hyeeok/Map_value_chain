@@ -30,11 +30,11 @@ const SearchBox = ({
   return (
     <div className="flex gap-2">
       <Select onValueChange={onSearchCategoryChange} value={searchCategory}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="회사명" defaultValue="corpName" />
+        <SelectTrigger className="w-[200px]">
+          <SelectValue placeholder="회사명" defaultValue="firmName" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="corpName">회사명</SelectItem>
+          <SelectItem value="firmName">회사명</SelectItem>
           <SelectItem value="corpCode">사업자등록번호</SelectItem>
           <SelectItem value="regCode">법인등록번호</SelectItem>
           <SelectItem value="stockCode">증권종목코드</SelectItem>

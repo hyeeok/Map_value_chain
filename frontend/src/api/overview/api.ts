@@ -1,16 +1,21 @@
 import { apiClient } from '@/api/api-client';
 
-export const getOverviewhList = async (
-  option: string = 'corpName',
-  keyword: string = '',
-  limit: number = 20,
-  page: number = 1
-) => {
+export const getOverviewhList = async ({
+  category,
+  keyword,
+  limit,
+  page,
+}: {
+  category?: string | null;
+  keyword?: string | null;
+  limit?: number;
+  page?: number;
+}) => {
   try {
     const response = await apiClient().get(`/overview`, {
       params: {
         // ...(option && { option: option }),
-        option,
+        category,
         keyword,
         limit,
         page,

@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
+import { getOverviewhList } from '@/api/overview/api';
 import Pagination from '@/app/overview/_components/pagination';
 import SearchBox from '@/app/overview/_components/search-box';
 import {
@@ -34,17 +35,43 @@ interface OverviewListData {
   data: OverviewData[];
 }
 
-const OverviewList = ({ data }: { data: OverviewListData }) => {
-  const router = useRouter();
+const OverviewList = () => {
   const limit = 20;
-  const [searchCategory, setSearchCategory] = useState('corpName');
+  const searchParams = useSearchParams();
+  const params = {
+    category: searchParams.get('category') || null,
+    keyword: searchParams.get('keyword') || null,
+  };
+
+  const [searchCategory, setSearchCategory] = useState('firmName');
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [overviewData, setOverviewData] = useState(data);
+  const [overviewData, setOverviewData] = useState<OverviewListData>();
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageNum, setPageNum] = useState(0);
+
+  useEffect(() => {
+    getOverviewhList({ limit: limit })
+      .then((response) => {
+        setOverviewData(response);
+        setPageNum(Math.ceil(response.length / limit));
+      })
+      .catch();
+  }, []);
 
   const handleSearch = (category: string, keyword: string) => {
-    console.log(category, keyword);
+    getOverviewhList({
+      category: category,
+      keyword: keyword,
+      limit: limit,
+    })
+      .then((response) => {
+        setOverviewData(response);
+        setPageNum(Math.ceil(response.length / limit));
+        setCurrentPage(1);
+      })
+      .catch();
   };
+
   const onSearchCategoryChange = (value: string) => {
     setSearchCategory(value);
   };
@@ -53,22 +80,19 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
   ) => {
     setSearchKeyword(event.target.value);
   };
-
   const handlePageClick = (targetPage: number) => {
-    console.log('clicked', targetPage);
-    setCurrentPage(targetPage);
+    getOverviewhList({
+      category: params.category,
+      keyword: params.keyword,
+      limit: limit,
+      page: targetPage,
+    })
+      .then((response) => {
+        setOverviewData(response);
+        setCurrentPage(targetPage);
+      })
+      .catch();
   };
-
-  useEffect(() => {
-    console.log(currentPage);
-    // const newOverviewData = getOverviewhList()
-    // .then()
-    // .catch();
-    // setOverviewData(newOverviewData);
-  }, [currentPage]);
-  useEffect(() => {
-    console.log(searchKeyword);
-  }, [searchKeyword]);
 
   return (
     <>
@@ -99,36 +123,40 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {overviewData.data.map((data, i) => (
-                  <TableRow key={i}>
-                    <TableCell>
-                      <Link
-                        href={`/overview/${data.corpCode}`}
-                        className="hover:underline"
-                      >
-                        {data.firmName}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{data.bizrNo}</TableCell>
-                    <TableCell>{data.jurirNo}</TableCell>
-                    <TableCell>{data.stockCode}</TableCell>
-                    <TableCell>{data.conglomerateName || '-'}</TableCell>
-                    <TableCell>{data.ceoName}</TableCell>
-                    <TableCell>{data.establishDate}</TableCell>
-                    <TableCell>
-                      {data.adress1} {data.adress2}
-                    </TableCell>
-                    <TableCell>
-                      {data.homepage ? (
-                        <Link href={data.homepage} className="hover:underline">
-                          바로가기
+                {overviewData &&
+                  overviewData.data.map((data, i) => (
+                    <TableRow key={i}>
+                      <TableCell>
+                        <Link
+                          href={`/overview/${data.corpCode}`}
+                          className="hover:underline"
+                        >
+                          {data.firmName}
                         </Link>
-                      ) : (
-                        <>-</>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell>{data.bizrNo}</TableCell>
+                      <TableCell>{data.jurirNo}</TableCell>
+                      <TableCell>{data.stockCode || '-'}</TableCell>
+                      <TableCell>{data.conglomerateName || '-'}</TableCell>
+                      <TableCell>{data.ceoName || '-'}</TableCell>
+                      <TableCell>{data.establishDate}</TableCell>
+                      <TableCell>
+                        {data.adress1} {data.adress2}
+                      </TableCell>
+                      <TableCell>
+                        {data.homepage ? (
+                          <Link
+                            href={data.homepage}
+                            className="hover:underline"
+                          >
+                            바로가기
+                          </Link>
+                        ) : (
+                          <>-</>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>
@@ -136,7 +164,7 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
             <Pagination
               handlePageClick={handlePageClick}
               currentPage={currentPage}
-              pageNum={Math.ceil(overviewData.length / limit)}
+              pageNum={pageNum}
             />
           </div>
         </div>
