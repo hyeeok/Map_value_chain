@@ -157,6 +157,7 @@ def get_corp_cls(corp_code: str, db: Session):
 
 
 def get_listing_date(crno: str, corp_cls: str, db: Session):
+    listing_date = ""
     if corp_cls[0] == "Y":
         listing_date = "enpxchglstgdt"
     elif corp_cls[0] == "K":
@@ -169,5 +170,6 @@ def get_listing_date(crno: str, corp_cls: str, db: Session):
     )
     param = {"crno": f"{crno}"}
     result = db.execute(query, param).fetchone()
+    print(result)
     response = str(result[0])
     return response

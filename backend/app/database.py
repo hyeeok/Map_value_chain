@@ -6,8 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
 
 load_dotenv()
-SQLALCHEMY_DATABASE_URL = os.getenv("DB_URL")
-SQLALCHEMY_DEV_DATABASE_URL = os.getenv("DEV_DB_URL")
+SQLALCHEMY_DATABASE_URL = os.getenv("DB_URL") or ""
+SQLALCHEMY_DEV_DATABASE_URL = os.getenv("DEV_DB_URL") or ""
 
 # engine = create_engine(SQLALCHEMY_DATABASE_URL)
 # SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -32,9 +32,9 @@ def get_db(database_url: str):
         db.close()
 
 
-def get_mvc_db() -> Session:
+def get_mvc_db():
     yield from get_db(SQLALCHEMY_DATABASE_URL)
 
 
-def get_dev_db() -> Session:
+def get_dev_db():
     yield from get_db(SQLALCHEMY_DEV_DATABASE_URL)
