@@ -4,13 +4,10 @@ import Link from 'next/link';
 import React from 'react';
 
 import {
-  ListItem,
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
@@ -39,7 +36,7 @@ const Header = () => {
                     (cn(navigationMenuTriggerStyle()), 'bg-transparent')
                   }
                 >
-                  Value Chain Map
+                  VC지도
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
@@ -54,7 +51,7 @@ const Header = () => {
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
-            <NavigationMenuItem>
+            {/* <NavigationMenuItem>
               <NavigationMenuTrigger
                 className={(cn(navigationMenuTriggerStyle()), 'bg-transparent')}
               >
@@ -65,7 +62,7 @@ const Header = () => {
                   <ListItem>description</ListItem>
                 </ul>
               </NavigationMenuContent>
-            </NavigationMenuItem>
+            </NavigationMenuItem> */}
           </NavigationMenuList>
         </NavigationMenu>
       </div>
