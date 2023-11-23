@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database import get_dev_db as get_db
 
 from . import crud
 from .models import *
@@ -54,26 +54,6 @@ def read_industry_class_list(db: Session = Depends(get_db)):
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/list")
-def read_list(
-    category: str,
-    search: str,
-    db: Session = Depends(get_db),
-):
-    result = crud.get_list(category=category, search=search, db=db)
-
-    if category == "name":
-        if result:
-            return [IndustryClassName(name=row[0]) for row in result]
-        else:
-            return []
-    elif category == "code":
-        if result:
-            return [IndustryClassCode(code=row[0]) for row in result]
-        else:
-            return []
 
 
 @router.get("/{industry_class_id}", response_model=Flowmap)
