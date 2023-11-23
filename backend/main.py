@@ -37,7 +37,7 @@ from app.overview.routers import router as overview_router
 
 
 # app = FastAPI(lifespan=lifespan)
-app = FastAPI()
+app = FastAPI( redoc_url=None)
 
 # 허용할 오리진(출처) 목록
 origins = [

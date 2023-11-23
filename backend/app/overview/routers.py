@@ -1,6 +1,6 @@
 from typing import Dict, List, Union
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 
 from app.database import get_dev_db, get_mvc_db
@@ -19,14 +19,28 @@ router = APIRouter(prefix="/overview")
 async def read_overview_list(
     category: str | None = None,
     keyword: str | None = None,
-    limit: int | None = 50,
-    page: int | None = 1,
+    limit: int = 50,
+    page: int = 1,
     db: Session = Depends(get_dev_db),
 ):
-    result = crud.get_overview_list(
-        category=category, keyword=keyword, limit=limit, page=page, db=db
-    )
-    return {"length": len(result), "data": result}
+    try:
+        search_category = ""
+        if category == "firmName":
+            search_category = "firm"
+        elif category == "bizrNo":
+            search_category = "bizr_no"
+        elif category == "jurirNo":
+            search_category = "corp_cls"
+        elif category == "stockCode":
+            search_category = "stock_code"
+
+        result, total_count = crud.get_overview_list(
+            category=search_category, keyword=keyword, limit=limit, page=page, db=db
+        )
+        return {"length": total_count, "data": result}
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/search", response_model=List[Dict[str, Union[int, str]]])

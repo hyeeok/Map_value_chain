@@ -7,22 +7,35 @@ from sqlalchemy.sql import text
 def get_overview_list(
     category: str | None, keyword: str | None, limit: int, page: int, db: Session
 ):
+    query_condition = ""
+    params = {}
+
+    if category or keyword:
+        query_condition = f"WHERE {category} ILIKE :keyword"
+        params["keyword"] = f"%{keyword}%"
+
     query = text(
-        """
+        f"""
         SELECT corp_code, firm, bizr_no, corp_cls, stock_code,
             bsns_year, adres_1, adres_2
         FROM mvc_fake_data
-        WHERE (:category IS NULL OR :category='')
-        OR (
-            :category IS NOT NULL AND :category != ''
-            AND :category ILIKE '%' || :keyword || '%'
-        )
+        {query_condition}
         LIMIT :limit OFFSET (:page - 1) * :limit
         """
     )
-    param = {"category": category, "keyword": keyword, "limit": limit, "page": page}
-    result = db.execute(query, param).all()
-    return result
+    params.update({"limit": limit, "page": page})
+    result = db.execute(query, params).all()
+
+    count_query = text(
+        f"""
+        SELECT COUNT(*) AS total_count
+        FROM mvc_fake_data
+        {query_condition}
+        """
+    )
+    total_count = db.execute(count_query, params).scalar()
+
+    return result, total_count
 
 
 def get_company_items_by_category(
