@@ -1,20 +1,41 @@
-from sqlalchemy.orm import Session
-from sqlalchemy.sql import text
 from typing import Dict, List, Union
 
+from sqlalchemy.orm import Session
+from sqlalchemy.sql import text
 
-def get_company_overview(term: str, category: str, db: Session):
+
+def get_overview_list(
+    category: str | None, keyword: str | None, limit: int, page: int, db: Session
+):
+    query_condition = ""
+    params = {}
+
+    if category or keyword:
+        query_condition = f"WHERE {category} ILIKE :keyword"
+        params["keyword"] = f"%{keyword}%"
+
     query = text(
         f"""
-        SELECT corp_code, firm, bizr_no, corp_cls, stock_code, 
+        SELECT corp_code, firm, bizr_no, corp_cls, stock_code,
             bsns_year, adres_1, adres_2
         FROM mvc_fake_data
-        WHERE {category} ILIKE :term;
+        {query_condition}
+        LIMIT :limit OFFSET (:page - 1) * :limit
         """
     )
-    param = {"term": f"%{term}%"}
-    result = db.execute(query, param).all()
-    return result
+    params.update({"limit": limit, "page": page})
+    result = db.execute(query, params).all()
+
+    count_query = text(
+        f"""
+        SELECT COUNT(*) AS total_count
+        FROM mvc_fake_data
+        {query_condition}
+        """
+    )
+    total_count = db.execute(count_query, params).scalar()
+
+    return result, total_count
 
 
 def get_company_items_by_category(
@@ -112,7 +133,7 @@ def get_openapi_affiliate_data(crno: str, db: Session):
     query = text(
         """
         SELECT
-            afilcmpynm 
+            afilcmpynm
         FROM
             source.openapi_corp_affiliate
         WHERE

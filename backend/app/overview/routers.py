@@ -1,24 +1,46 @@
-from fastapi import APIRouter, Depends, Query
-from sqlalchemy.orm import Session
-from typing import List, Dict, Union
+from typing import Dict, List, Union
 
-from app.database import get_db
+from fastapi import APIRouter, Depends, Query, HTTPException
+from sqlalchemy.orm import Session
+
+from app.database import get_dev_db, get_mvc_db
+
 from . import crud
-from .schemas import mvc_fake_data_list, CompanyOverview, openapi_corp_affiliate
+from .schemas import *
 
 router = APIRouter(prefix="/overview")
 
 
-@router.get("", response_model=mvc_fake_data_list)
-async def read_company_overview(
-    term: str = Query(..., description="Search term"),
-    category: str = Query(
-        ..., description="Search category: 'firm' or 'bizr_no' or 'jurir_no'"
-    ),
-    db: Session = Depends(get_db),
+@router.get(
+    "",
+    response_model=OverviewList,
+    response_model_by_alias=False,
+)
+async def read_overview_list(
+    category: str | None = None,
+    keyword: str | None = None,
+    limit: int = 50,
+    page: int = 1,
+    db: Session = Depends(get_dev_db),
 ):
-    result = crud.get_company_overview(term=term, category=category, db=db)
-    return {"length": len(result), "data": result}
+    try:
+        search_category = ""
+        if category == "firmName":
+            search_category = "firm"
+        elif category == "bizrNo":
+            search_category = "bizr_no"
+        elif category == "jurirNo":
+            search_category = "corp_cls"
+        elif category == "stockCode":
+            search_category = "stock_code"
+
+        result, total_count = crud.get_overview_list(
+            category=search_category, keyword=keyword, limit=limit, page=page, db=db
+        )
+        return {"length": total_count, "data": result}
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/search", response_model=List[Dict[str, Union[int, str]]])
@@ -27,7 +49,7 @@ async def read_company_items_by_category(
     category: str = Query(
         ..., description="Search category: 'firm' or 'bizr_no' or 'jurir_no"
     ),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_dev_db),
 ):
     items = crud.get_company_items_by_category(term=term, category=category, db=db)
     return items
@@ -40,7 +62,7 @@ async def read_company_items_by_category(
 
 
 @router.get("/{corp_code}", response_model=CompanyOverview)
-async def read_company_overview_info(corp_code: str, db: Session = Depends(get_db)):
+async def read_company_overview_info(corp_code: str, db: Session = Depends(get_mvc_db)):
     dart_corp_info_data = crud.get_dart_corp_info(corp_code=corp_code, db=db)
     corp_cls = crud.get_corp_cls(corp_code=corp_code, db=db)
 
