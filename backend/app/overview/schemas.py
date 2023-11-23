@@ -146,6 +146,5 @@ class openapi_corp_affilate_list(BaseModel):
 
 
 class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, dart_corp_info):
-    # 지역 : 국가,지역대,지역소 필요
     # 중소기업, 벤처기업, 종속회사수, 주주수, 기업종업원수 여부 아직 없음
     pass
