@@ -123,3 +123,30 @@ def get_openapi_affiliate_data(crno: str, db: Session):
     param = {"crno": f"{crno}"}
     result = db.execute(query, param).all()
     return result
+
+
+def get_corp_cls(corp_code: str, db: Session):
+    query = text(
+        "select corp_cls from source.dart_corp_info where corp_code = :corp_code"
+    )
+
+    param = {"corp_code": f"{corp_code}"}
+    result = db.execute(query, param).fetchone()
+    return result
+
+
+def get_listing_date(crno: str, corp_cls: str, db: Session):
+    if corp_cls[0] == "Y":
+        listing_date = "enpxchglstgdt"
+    elif corp_cls[0] == "K":
+        listing_date = "enpkosdaqlstgdt"
+    elif corp_cls[0] == "N":
+        listing_date = "enpkrxlstgdt"
+
+    query = text(
+        f"select {listing_date} from source.openapi_corp_outline where crno = :crno ORDER BY lastopegdt DESC LIMIT 1;"
+    )
+    param = {"crno": f"{crno}"}
+    result = db.execute(query, param).fetchone()
+    response = str(result[0])
+    return response

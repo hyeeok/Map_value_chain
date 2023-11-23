@@ -113,6 +113,7 @@ class dart_corp_info(BaseModel):
     corp_name_eng: str = Field(..., alias="corp_name_eng")
     ceo_nm: str = Field(..., alias="ceo_nm")
     est_dt: str = Field(..., alias="est_dt")
+    listing_date: str
     phn_no: str = Field(..., alias="phn_no")
     adres: str = Field(..., alias="adres")
     hm_url: Optional[str] = Field(None, alias="hm_url")
@@ -131,22 +132,20 @@ class openapi_corp_outline(BaseModel):
 
 
 class openapi_corp_affiliate(BaseModel):
-    afilcmpynm: Optional[str] = Field(None, alias="afilcmpynm")
+    afilcmpynm: str = Field(None, alias="afilcmpynm")
 
     class Config:
         from_attributes = True
 
 
-class openapi_corp_affilate_list(openapi_corp_affiliate):
-    affiliate_name_list: List[openapi_corp_affiliate]
+class openapi_corp_affilate_list(BaseModel):
+    affiliate_name_list: List[str]
 
     class Config:
         from_attributes = True
 
 
 class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, dart_corp_info):
-    # 상장일 : 법인 구분에 따라 상장일자 맞춰서 표시 -> enpxchglstgdt(KOSPI), enpkosdaqlstgdt(KOSDAQ), enpkrxlstgdt(KONEX)
     # 지역 : 국가,지역대,지역소 필요
-    # 관련계열사명 : 리스트로 가져와야함 -> openapi_corp_affilate_list
     # 중소기업, 벤처기업, 종속회사수, 주주수, 기업종업원수 여부 아직 없음
     pass
