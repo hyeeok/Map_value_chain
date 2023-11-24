@@ -86,90 +86,83 @@ def get_company_items_by_category(
 def get_dart_corp_info(corp_code: str, db: Session):
     query = text(
         """
-        SELECT
-            corp_name,
-            bizr_no,
-            jurir_no,
-            corp_name_eng,
-            ceo_nm,
-            est_dt,
-            phn_no,
-            adres,
-            hm_url
-        FROM
-            source.dart_corp_info
-        WHERE
-            corp_code = :corp_code;
+        SELECT stock_name, stock_code, bizr_no, jurir_no,
+            corp_name, corp_name_eng, corp_cls,
+            est_dt, hm_url, phn_no, adres, ceo_nm, acc_mt
+        FROM source.dart_corp_info
+        WHERE corp_code = :corp_code
         """
     )
-    param = {"corp_code": f"{corp_code}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"corp_code": corp_code}).fetchone()
     return result
 
 
-def get_openapi_outline_data(crno: str, db: Session):
+def get_openapi_outline(crno: str, db: Session):
     query = text(
         """
-        SELECT
-            enppn1avgslryamt,
-            actnaudpnnm,
-            audtrptopnnctt
-        FROM
-            source.openapi_corp_outline
-        WHERE
-            crno = :crno
-        ORDER BY
-            lastopegdt DESC
+        SELECT enpxchglstgdt, enpxchglstgaboldt,
+            enpkosdaqlstgdt, enpkosdaqlstgaboldt,
+            enpkrxlstgdt, enpkrxlstgaboldt,
+            smenpyn, enpempecnt, enppn1avgslryamt,
+            actnaudpnnm, enpmainbiznm, audtrptopnnctt
+        FROM source.openapi_corp_outline
+        WHERE crno = :crno
+        ORDER BY lastopegdt DESC
         LIMIT 1;
         """
     )
-
-    param = {"crno": f"{crno}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"crno": crno}).fetchone()
     return result
 
 
-def get_openapi_affiliate_data(crno: str, db: Session):
+def get_openapi_affiliate_list(crno: str, db: Session):
     query = text(
         """
-        SELECT
-            afilcmpynm
-        FROM
-            source.openapi_corp_affiliate
-        WHERE
-            crno = :crno;
+        SELECT afilcmpynm, afilcmpycrno
+        FROM source.openapi_corp_affiliate
+        WHERE crno = :crno
         """
     )
-
-    param = {"crno": f"{crno}"}
-    result = db.execute(query, param).all()
+    result = db.execute(query, {"crno": crno}).all()
     return result
 
 
-def get_corp_cls(corp_code: str, db: Session):
+def get_openapi_sub_company_list(crno: str, db: Session):
     query = text(
-        "select corp_cls from source.dart_corp_info where corp_code = :corp_code"
+        """
+        SELECT sbrdenpnm
+        FROM source.openapi_subs_comp
+        WHERE crno=:crno
+        """
     )
-
-    param = {"corp_code": f"{corp_code}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"crno": crno}).all()
     return result
 
 
-def get_listing_date(crno: str, corp_cls: str, db: Session):
-    listing_date = ""
-    if corp_cls[0] == "Y":
-        listing_date = "enpxchglstgdt"
-    elif corp_cls[0] == "K":
-        listing_date = "enpkosdaqlstgdt"
-    elif corp_cls[0] == "N":
-        listing_date = "enpkrxlstgdt"
+# def get_corp_cls(corp_code: str, db: Session):
+#     query = text(
+#         "select corp_cls from source.dart_corp_info where corp_code = :corp_code"
+#     )
 
-    query = text(
-        f"select {listing_date} from source.openapi_corp_outline where crno = :crno ORDER BY lastopegdt DESC LIMIT 1;"
-    )
-    param = {"crno": f"{crno}"}
-    result = db.execute(query, param).fetchone()
-    print(result)
-    response = str(result[0])
-    return response
+#     param = {"corp_code": f"{corp_code}"}
+#     result = db.execute(query, param).fetchone()
+#     return result
+
+
+# def get_listing_date(crno: str, corp_cls: str, db: Session):
+#     listing_date = ""
+#     if corp_cls[0] == "Y":
+#         listing_date = "enpxchglstgdt"
+#     elif corp_cls[0] == "K":
+#         listing_date = "enpkosdaqlstgdt"
+#     elif corp_cls[0] == "N":
+#         listing_date = "enpkrxlstgdt"
+
+#     query = text(
+#         f"select {listing_date} from source.openapi_corp_outline where crno = :crno ORDER BY lastopegdt DESC LIMIT 1;"
+#     )
+#     param = {"crno": f"{crno}"}
+#     result = db.execute(query, param).fetchone()
+#     print(result)
+#     response = str(result[0])
+#     return response
