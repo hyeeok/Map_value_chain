@@ -105,33 +105,5 @@ class OverviewDetailBase(BaseModel):
         from_attributes = True
 
 
-class openapi_corp_outline(BaseModel):
-    enppn1avgslryamt: str = Field(None, alias="enppn1avgslryamt")
-    actnaudpnnm: str = Field(None, alias="actnaudpnnm")
-    audtrptopnnctt: str = Field(None, alias="audtrptopnnctt")
-
-    class Config:
-        from_attributes = True
-
-
-class openapi_corp_affiliate(BaseModel):
-    afilcmpynm: str = Field(None, alias="afilcmpynm")
-
-    class Config:
-        from_attributes = True
-
-
-class openapi_corp_affilate_list(BaseModel):
-    affiliate_name_list: List[str]
-
-    class Config:
-        from_attributes = True
-
-
-class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, OverviewBase):
-    # 중소기업, 벤처기업, 종속회사수, 주주수, 기업종업원수 여부 아직 없음
-    pass
-
-
 class OverviewDetail(OverviewDetailBase):
     pass
