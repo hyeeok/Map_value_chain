@@ -1,11 +1,8 @@
-import asyncio
-
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
 # from app.database import SessionLocal
 from app.flowmap.routers import router as flowmap_router
 from app.overview.routers import router as overview_router
+from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # from app.flowmap.utils.init_db import load_csv_to_db
 
@@ -37,7 +34,7 @@ from app.overview.routers import router as overview_router
 
 
 # app = FastAPI(lifespan=lifespan)
-app = FastAPI( redoc_url=None)
+app = FastAPI(redoc_url=None)
 
 # 허용할 오리진(출처) 목록
 origins = [

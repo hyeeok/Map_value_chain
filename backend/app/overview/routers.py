@@ -1,9 +1,8 @@
 from typing import Dict, List, Union
 
-from fastapi import APIRouter, Depends, Query, HTTPException
-from sqlalchemy.orm import Session
-
 from app.database import get_dev_db, get_mvc_db
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy.orm import Session
 
 from . import crud
 from .schemas import *
@@ -17,7 +16,8 @@ router = APIRouter(prefix="/overview")
     response_model_by_alias=False,
 )
 async def read_overview_list(
-    category: str | None = None,
+    category: str
+    | None = Query(None, description="firmName, bizrNo, jurirNo, stockCode"),
     keyword: str | None = None,
     limit: int = 50,
     page: int = 1,
@@ -37,7 +37,8 @@ async def read_overview_list(
         result, total_count = crud.get_overview_list(
             category=search_category, keyword=keyword, limit=limit, page=page, db=db
         )
-        return {"length": total_count, "data": result}
+        response = {"length": total_count, "data": result}
+        return response
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
@@ -61,35 +62,91 @@ async def read_company_items_by_category(
 #     return {"length": len(result), "data": result}
 
 
-@router.get("/{corp_code}", response_model=CompanyOverview)
-async def read_company_overview_info(corp_code: str, db: Session = Depends(get_mvc_db)):
-    dart_corp_info_data = crud.get_dart_corp_info(corp_code=corp_code, db=db)
-    corp_cls = crud.get_corp_cls(corp_code=corp_code, db=db)
+@router.get(
+    "/{corp_code}/description",
+    response_model=OverviewDetail,
+    response_model_by_alias=False,
+)
+async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)):
+    try:
+        dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
+        if dart_corp_info == None:
+            return HTTPException(status_code=404, detail="dart data not found")
 
-    crno = dart_corp_info_data.jurir_no
-    openapi_outline_data = crud.get_openapi_outline_data(crno=crno, db=db)
-    openapi_affiliate_data = crud.get_openapi_affiliate_data(crno=crno, db=db)
-    affiliate_name_list = [
-        openapi_affiliate.afilcmpynm for openapi_affiliate in openapi_affiliate_data
-    ]
+        corp_class = None
+        if dart_corp_info.corp_cls:
+            if dart_corp_info.corp_cls.lower() == "y":
+                corp_class = "유가"
+            elif dart_corp_info.corp_cls.lower() == "k":
+                corp_class = "KODAQ"
+            elif dart_corp_info.corp_cls.lower() == "n":
+                corp_class = "KONEX"
+            elif dart_corp_info.corp_cls.lower() == "e":
+                corp_class = "etc"
 
-    listing_date_data = crud.get_listing_date(crno=crno, corp_cls=corp_cls, db=db)
+        crno = dart_corp_info.jurir_no  # 법인등록번호
+        openapi_outline = crud.get_openapi_outline(crno=crno, db=db)
+        if openapi_outline == None:
+            return HTTPException(
+                status_code=404, detail="openapi outline data not found"
+            )
 
-    company_overview = CompanyOverview(
-        corp_name=dart_corp_info_data.corp_name,
-        bizr_no=dart_corp_info_data.bizr_no,
-        jurir_no=dart_corp_info_data.jurir_no,
-        corp_name_eng=dart_corp_info_data.corp_name_eng,
-        ceo_nm=dart_corp_info_data.ceo_nm,
-        est_dt=dart_corp_info_data.est_dt,
-        listing_date=listing_date_data,
-        phn_no=dart_corp_info_data.phn_no,
-        adres=dart_corp_info_data.adres,
-        hm_url=dart_corp_info_data.hm_url,
-        enppn1avgslryamt=openapi_outline_data.enppn1avgslryamt,
-        actnaudpnnm=openapi_outline_data.actnaudpnnm,
-        audtrptopnnctt=openapi_outline_data.audtrptopnnctt,
-        affiliate_name_list=affiliate_name_list,
-    )
+        is_sm_corp = None
+        if openapi_outline.smenpyn:
+            if openapi_outline.smenpyn.lower() == "y":
+                is_sm_corp = True
+            elif openapi_outline.smenpyn.lower() == "n":
+                is_sm_corp = False
 
-    return company_overview
+        affiliate_result = crud.get_openapi_affiliate_list(crno=crno, db=db)
+        affiliate_list = [
+            Affiliate(corpName=affiliate[1]) for affiliate in affiliate_result
+        ]
+
+        sub_corp_result = crud.get_openapi_sub_company_list(crno=crno, db=db)
+        sub_corp_list = [SubCorp(corpName=sub_corp[0]) for sub_corp in sub_corp_result]
+
+        response = OverviewDetail(
+            stock_name=dart_corp_info.stock_name,
+            stock_code=dart_corp_info.stock_code,
+            bizr_no=dart_corp_info.bizr_no,
+            jurir_no=dart_corp_info.jurir_no,
+            corp_name=dart_corp_info.corp_name,
+            corp_name_eng=dart_corp_info.corp_name_eng,
+            corp_name_history=None,
+            corp_cls=corp_class,
+            est_dt=dart_corp_info.est_dt,
+            kospi={
+                "listDate": openapi_outline.enpxchglstgdt,
+                "delistDate": openapi_outline.enpxchglstgaboldt,
+            },
+            kosdaq={
+                "listDate": openapi_outline.enpkosdaqlstgdt,
+                "delistDate": openapi_outline.enpkosdaqlstgaboldt,
+            },
+            konex={
+                "listDate": openapi_outline.enpkrxlstgdt,
+                "delistDate": openapi_outline.enpkrxlstgaboldt,
+            },
+            hm_url=dart_corp_info.hm_url,
+            phn_no=dart_corp_info.phn_no,
+            adres=dart_corp_info.adres,
+            ceo_nm=dart_corp_info.ceo_nm,
+            affiliate_list=affiliate_list,
+            smenpyn=is_sm_corp,
+            isVenture=None,
+            sub_corp_list=sub_corp_list,
+            shareholder_num=None,
+            enpempecnt=openapi_outline.enpempecnt,
+            enppn1avgslryamt=openapi_outline.enppn1avgslryamt,
+            audtrptopnnctt=openapi_outline.audtrptopnnctt,
+            acc_mt=dart_corp_info.acc_mt,
+            issuerRate=None,
+            enpmainbiznm=openapi_outline.enpmainbiznm,
+            classList=[],
+        )
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))

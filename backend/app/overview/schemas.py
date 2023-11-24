@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import List, Optional, TypedDict
 
-from pydantic import BaseModel, Field, Json
+from pydantic import BaseModel, Field
+from typing_extensions import TypedDict
 
 
 class DepsBase(BaseModel):
@@ -37,7 +38,7 @@ class OverviewBase(BaseModel):
     corpCode: str = Field(..., alias="corp_code")
     firmName: str = Field(..., alias="firm")
     bizrNo: str = Field(..., alias="bizr_no")
-    jurirNo: str = Field(..., alias="corp_cls")
+    corpClass: str = Field(..., alias="corp_cls")
     stockCode: str = Field(..., alias="stock_code")
     conglomerateName: str | None = Field(None, alias="stock_name")
     ceoName: str | None = Field(None, alias="ceo_nm")
@@ -55,17 +56,50 @@ class OverviewList(BaseModel):
     data: List[OverviewBase]
 
 
-class dart_corp_info(BaseModel):
-    corp_name: str = Field(..., alias="corp_name")
-    bizr_no: str = Field(..., alias="bizr_no")
-    jurir_no: str = Field(..., alias="jurir_no")
-    corp_name_eng: str = Field(..., alias="corp_name_eng")
-    ceo_nm: str = Field(..., alias="ceo_nm")
-    est_dt: str = Field(..., alias="est_dt")
-    listing_date: str
-    phn_no: str = Field(..., alias="phn_no")
-    adres: str = Field(..., alias="adres")
-    hm_url: Optional[str] = Field(None, alias="hm_url")
+class StockMarketDate(TypedDict):
+    listDate: str
+    delistDate: str
+
+
+class Affiliate(TypedDict):
+    # corpCode: Optional[str]
+    corpName: str
+
+
+class SubCorp(TypedDict):
+    # corpCode: Optional[str]
+    corpName: str
+
+
+class OverviewDetailBase(BaseModel):
+    stockName: str = Field(..., alias="stock_name")
+    stockCode: str = Field(..., alias="stock_code")
+    bizrNo: str = Field(..., alias="bizr_no")
+    jurirNo: str = Field(..., alias="jurir_no")
+    corpName: str = Field(..., alias="corp_name")
+    corpNameEng: str = Field(..., alias="corp_name_eng")
+    corpNameHistory: Optional[List[dict]] = Field(None, alias="corp_name_history")
+    establishDate: str = Field(..., alias="est_dt")
+    corpClass: Optional[str] = Field(None, alias="corp_cls")
+    kospi: StockMarketDate
+    kosdaq: StockMarketDate
+    konex: StockMarketDate
+    homepageUrl: Optional[str] = Field(None, alias="hm_url")
+    phoneNum: str = Field(..., alias="phn_no")
+    adress: str = Field(..., alias="adres")
+    ceoName: str = Field(..., alias="ceo_nm")
+    affiliateList: List[Affiliate] = Field(..., alias="affiliate_list")
+    isSMCorp: Optional[bool] = Field(None, alias="smenpyn")
+    isVenture: Optional[bool]
+    subCorpList: Optional[List[SubCorp]] = Field(None, alias="sub_corp_list")
+    shareholderNum: Optional[int] = Field(None, alias="shareholder_num")
+    enployeeNum: int = Field(..., alias="enpempecnt")
+    avgSalary: str = Field(..., alias="enppn1avgslryamt")
+    auditorReportOpinion: Optional[str] = Field(None, alias="audtrptopnnctt")
+    settleMonth: int = Field(..., alias="acc_mt")
+    issuerRate: Optional[str]
+    mainBiz: str = Field(..., alias="enpmainbiznm")
+    classList: List[dict]
 
     class Config:
         from_attributes = True
@@ -94,6 +128,8 @@ class openapi_corp_affilate_list(BaseModel):
         from_attributes = True
 
 
-class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, dart_corp_info):
+class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, OverviewBase):
     # 중소기업, 벤처기업, 종속회사수, 주주수, 기업종업원수 여부 아직 없음
+
+class OverviewDetail(OverviewDetailBase):
     pass
