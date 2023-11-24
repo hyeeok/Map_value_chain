@@ -38,7 +38,7 @@ class OverviewBase(BaseModel):
     corpCode: str = Field(..., alias="corp_code")
     firmName: str = Field(..., alias="firm")
     bizrNo: str = Field(..., alias="bizr_no")
-    jurirNo: str = Field(..., alias="corp_cls")
+    corpClass: str = Field(..., alias="corp_cls")
     stockCode: str = Field(..., alias="stock_code")
     conglomerateName: str | None = Field(None, alias="stock_name")
     ceoName: str | None = Field(None, alias="ceo_nm")
@@ -107,18 +107,25 @@ class StockMarketDate(TypedDict):
 
 
 class Affiliate(TypedDict):
-    corpCode: Optional[str]
+    # corpCode: Optional[str]
+    corpName: str
+
+
+class SubCorp(TypedDict):
+    # corpCode: Optional[str]
     corpName: str
 
 
 class OverviewDetailBase(BaseModel):
     stockName: str = Field(..., alias="stock_name")
+    stockCode: str = Field(..., alias="stock_code")
     bizrNo: str = Field(..., alias="bizr_no")
     jurirNo: str = Field(..., alias="jurir_no")
     corpName: str = Field(..., alias="corp_name")
     corpNameEng: str = Field(..., alias="corp_name_eng")
     corpNameHistory: Optional[List[dict]] = Field(None, alias="corp_name_history")
     establishDate: str = Field(..., alias="est_dt")
+    corpClass: Optional[str] = Field(None, alias="corp_cls")
     kospi: StockMarketDate
     kosdaq: StockMarketDate
     konex: StockMarketDate
@@ -129,7 +136,7 @@ class OverviewDetailBase(BaseModel):
     affiliateList: List[Affiliate] = Field(..., alias="affiliate_list")
     isSMCorp: Optional[bool] = Field(None, alias="smenpyn")
     isVenture: Optional[bool]
-    subCorpNum: Optional[int] = Field(None, alias="sub_corp_num")
+    subCorpList: Optional[List[SubCorp]] = Field(None, alias="sub_corp_list")
     shareholderNum: Optional[int] = Field(None, alias="shareholder_num")
     enployeeNum: int = Field(..., alias="enpempecnt")
     avgSalary: str = Field(..., alias="enppn1avgslryamt")
