@@ -86,63 +86,43 @@ def get_company_items_by_category(
 def get_dart_corp_info(corp_code: str, db: Session):
     query = text(
         """
-        SELECT
-            corp_name,
-            bizr_no,
-            jurir_no,
-            corp_name_eng,
-            ceo_nm,
-            est_dt,
-            phn_no,
-            adres,
-            hm_url
-        FROM
-            source.dart_corp_info
-        WHERE
-            corp_code = :corp_code;
+        SELECT stock_name, bizr_no, jurir_no, corp_name, corp_name_eng,
+            est_dt, hm_url, phn_no, adres, ceo_nm, acc_mt
+        FROM source.dart_corp_info
+        WHERE corp_code = :corp_code
         """
     )
-    param = {"corp_code": f"{corp_code}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"corp_code": corp_code}).fetchone()
     return result
 
 
-def get_openapi_outline_data(crno: str, db: Session):
+def get_openapi_outline(crno: str, db: Session):
     query = text(
         """
-        SELECT
-            enppn1avgslryamt,
-            actnaudpnnm,
-            audtrptopnnctt
-        FROM
-            source.openapi_corp_outline
-        WHERE
-            crno = :crno
-        ORDER BY
-            lastopegdt DESC
+        SELECT enpxchglstgdt, enpxchglstgaboldt,
+            enpkosdaqlstgdt, enpkosdaqlstgaboldt,
+            enpkrxlstgdt, enpkrxlstgaboldt,
+            smenpyn, enpempecnt, enppn1avgslryamt,
+            actnaudpnnm, enpmainbiznm, audtrptopnnctt
+        FROM source.openapi_corp_outline
+        WHERE crno = :crno
+        ORDER BY lastopegdt DESC
         LIMIT 1;
         """
     )
-
-    param = {"crno": f"{crno}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"crno": crno}).fetchone()
     return result
 
 
-def get_openapi_affiliate_data(crno: str, db: Session):
+def get_openapi_affiliate(crno: str, db: Session):
     query = text(
         """
-        SELECT
-            afilcmpynm
-        FROM
-            source.openapi_corp_affiliate
-        WHERE
-            crno = :crno;
+        SELECT afilcmpynm, afilcmpycrno
+        FROM source.openapi_corp_affiliate
+        WHERE crno = :crno
         """
     )
-
-    param = {"crno": f"{crno}"}
-    result = db.execute(query, param).all()
+    result = db.execute(query, {"crno": crno}).all()
     return result
 
 
