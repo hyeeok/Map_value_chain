@@ -150,37 +150,3 @@ async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
-
-
-# @router.get("/{corp_code}", response_model=CompanyOverview)
-# async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)):
-#     dart_corp_info_data = crud.get_dart_corp_info(corp_code=corp_code, db=db)
-#     corp_cls = crud.get_corp_cls(corp_code=corp_code, db=db)
-
-#     crno = dart_corp_info_data.jurir_no
-#     openapi_outline_data = crud.get_openapi_outline_data(crno=crno, db=db)
-#     openapi_affiliate_data = crud.get_openapi_affiliate_data(crno=crno, db=db)
-#     affiliate_name_list = [
-#         openapi_affiliate.afilcmpynm for openapi_affiliate in openapi_affiliate_data
-#     ]
-
-#     listing_date_data = crud.get_listing_date(crno=crno, corp_cls=corp_cls, db=db)
-
-#     company_overview = CompanyOverview(
-#         corp_name=dart_corp_info_data.corp_name,
-#         bizr_no=dart_corp_info_data.bizr_no,
-#         jurir_no=dart_corp_info_data.jurir_no,
-#         corp_name_eng=dart_corp_info_data.corp_name_eng,
-#         ceo_nm=dart_corp_info_data.ceo_nm,
-#         est_dt=dart_corp_info_data.est_dt,
-#         listing_date=listing_date_data,
-#         phn_no=dart_corp_info_data.phn_no,
-#         adres=dart_corp_info_data.adres,
-#         hm_url=dart_corp_info_data.hm_url,
-#         enppn1avgslryamt=openapi_outline_data.enppn1avgslryamt,
-#         actnaudpnnm=openapi_outline_data.actnaudpnnm,
-#         audtrptopnnctt=openapi_outline_data.audtrptopnnctt,
-#         affiliate_name_list=affiliate_name_list,
-#     )
-
-#     return company_overview

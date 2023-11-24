@@ -56,51 +56,6 @@ class OverviewList(BaseModel):
     data: List[OverviewBase]
 
 
-# class dart_corp_info(BaseModel):
-#     corp_name: str = Field(..., alias="corp_name")
-#     bizr_no: str = Field(..., alias="bizr_no")
-#     jurir_no: str = Field(..., alias="jurir_no")
-#     corp_name_eng: str = Field(..., alias="corp_name_eng")
-#     ceo_nm: str = Field(..., alias="ceo_nm")
-#     est_dt: str = Field(..., alias="est_dt")
-#     listing_date: str
-#     phn_no: str = Field(..., alias="phn_no")
-#     adres: str = Field(..., alias="adres")
-#     hm_url: Optional[str] = Field(None, alias="hm_url")
-
-#     class Config:
-#         from_attributes = True
-
-
-# class openapi_corp_outline(BaseModel):
-#     enppn1avgslryamt: str = Field(None, alias="enppn1avgslryamt")
-#     actnaudpnnm: str = Field(None, alias="actnaudpnnm")
-#     audtrptopnnctt: str = Field(None, alias="audtrptopnnctt")
-
-#     class Config:
-#         from_attributes = True
-
-
-# class openapi_corp_affiliate(BaseModel):
-#     afilcmpynm: str = Field(None, alias="afilcmpynm")
-
-#     class Config:
-#         from_attributes = True
-
-
-# class openapi_corp_affilate_list(BaseModel):
-#     affiliate_name_list: List[str]
-
-#     class Config:
-#         from_attributes = True
-
-
-# class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, dart_corp_info):
-#     # 지역 : 국가,지역대,지역소 필요
-#     # 중소기업, 벤처기업, 종속회사수, 주주수, 기업종업원수 여부 아직 없음
-#     pass
-
-
 class StockMarketDate(TypedDict):
     listDate: str
     delistDate: str
