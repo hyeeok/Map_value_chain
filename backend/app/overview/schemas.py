@@ -130,6 +130,8 @@ class openapi_corp_affilate_list(BaseModel):
 
 class CompanyOverview(openapi_corp_affilate_list, openapi_corp_outline, OverviewBase):
     # 중소기업, 벤처기업, 종속회사수, 주주수, 기업종업원수 여부 아직 없음
+    pass
+
 
 class OverviewDetail(OverviewDetailBase):
     pass
