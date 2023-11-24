@@ -64,13 +64,14 @@ def load_csv_to_db(filepath, db: Session):
             )
 
         for domain_code, domain_name in domain_code_name_list:
+            domain = db.query(Domain).filter_by(code=domain_code).first()
             node_data = domain_code_data_dict[domain_code]
             node = {
                 "id": domain_code,
                 "position": {"x": randint(0, 500), "y": randint(0, 500)},
                 "data": {
                     "color": "#ffffff",
-                    "domainId": domain.id,
+                    "domainId": domain.id if domain else "",
                     "domainCode": domain_code,
                     "domainName": domain_name,
                     **node_data,

@@ -1,6 +1,6 @@
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field, Json
+from pydantic import BaseModel, Field
 
 
 class IndustryClassBase(BaseModel):
@@ -13,9 +13,14 @@ class IndustryClassBase(BaseModel):
 
 class IndustryClass(IndustryClassBase):
     industryClassId: int = Field(..., alias="id")
-    domainId: Optional[int] = Field(..., alias="domain_id")
-    domainCode: Optional[str] = Field(..., alias="domain_code")
-    domainName: Optional[str] = Field(..., alias="domain_name")
+
+
+class IndustryClassName(BaseModel):
+    industryClassName: str = Field(..., alias="name")
+
+
+class IndustryClassCode(BaseModel):
+    industryClassCode: str = Field(..., alias="code")
 
 
 class IndustryClassList(BaseModel):
@@ -31,21 +36,10 @@ class DomainBase(BaseModel):
     domainCode: str = Field(..., alias="code")
     domainName: str = Field(..., alias="name")
 
-    class Config:
-        from_attributes = True
-
 
 class Domain(DomainBase):
     classes: Optional[List[IndustryClass]] = []
     themes: Optional[List[IndustryClass]] = []
-
-
-class DomainList(BaseModel):
-    length: int
-    data: List[Union[Domain, None]]
-
-    class Config:
-        from_attributes = True
 
 
 class FlowmapBase(BaseModel):
