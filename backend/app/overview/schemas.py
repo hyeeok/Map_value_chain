@@ -56,11 +56,6 @@ class OverviewList(BaseModel):
     data: List[OverviewBase]
 
 
-class StockMarketDate(TypedDict):
-    listDate: str
-    delistDate: str
-
-
 class Affiliate(TypedDict):
     # corpCode: Optional[str]
     corpName: str
@@ -81,19 +76,18 @@ class OverviewDetailBase(BaseModel):
     corpNameHistory: Optional[List[dict]] = Field(None, alias="corp_name_history")
     establishDate: str = Field(..., alias="est_dt")
     corpClass: Optional[str] = Field(None, alias="corp_cls")
-    kospi: StockMarketDate
-    kosdaq: StockMarketDate
-    konex: StockMarketDate
+    listDate: Optional[str] = Field(None, alias="list_date")
+    delistDate: Optional[str] = Field(None, alias="delist_date")
     homepageUrl: Optional[str] = Field(None, alias="hm_url")
     phoneNum: str = Field(..., alias="phn_no")
     adress: str = Field(..., alias="adres")
     ceoName: str = Field(..., alias="ceo_nm")
     affiliateList: List[Affiliate] = Field(..., alias="affiliate_list")
-    isSMCorp: Optional[bool] = Field(None, alias="smenpyn")
-    isVenture: Optional[bool]
+    isSMCorp: Optional[str] = Field(None, alias="smenpyn")
+    isVenture: Optional[str]
     subCorpList: Optional[List[SubCorp]] = Field(None, alias="sub_corp_list")
     shareholderNum: Optional[int] = Field(None, alias="shareholder_num")
-    enployeeNum: int = Field(..., alias="enpempecnt")
+    employeeNum: int = Field(..., alias="enpempecnt")
     avgSalary: str = Field(..., alias="enppn1avgslryamt")
     auditorReportOpinion: Optional[str] = Field(None, alias="audtrptopnnctt")
     settleMonth: int = Field(..., alias="acc_mt")

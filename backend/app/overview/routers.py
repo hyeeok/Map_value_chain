@@ -1,8 +1,9 @@
 from typing import Dict, List, Union
 
-from app.database import get_dev_db, get_mvc_db
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
+
+from app.database import get_dev_db, get_mvc_db
 
 from . import crud
 from .schemas import *
@@ -73,17 +74,6 @@ async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)
         if dart_corp_info == None:
             return HTTPException(status_code=404, detail="dart data not found")
 
-        corp_class = None
-        if dart_corp_info.corp_cls:
-            if dart_corp_info.corp_cls.lower() == "y":
-                corp_class = "유가"
-            elif dart_corp_info.corp_cls.lower() == "k":
-                corp_class = "KODAQ"
-            elif dart_corp_info.corp_cls.lower() == "n":
-                corp_class = "KONEX"
-            elif dart_corp_info.corp_cls.lower() == "e":
-                corp_class = "etc"
-
         crno = dart_corp_info.jurir_no  # 법인등록번호
         openapi_outline = crud.get_openapi_outline(crno=crno, db=db)
         if openapi_outline == None:
@@ -91,12 +81,22 @@ async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)
                 status_code=404, detail="openapi outline data not found"
             )
 
-        is_sm_corp = None
-        if openapi_outline.smenpyn:
-            if openapi_outline.smenpyn.lower() == "y":
-                is_sm_corp = True
-            elif openapi_outline.smenpyn.lower() == "n":
-                is_sm_corp = False
+        corp_class, list_date, delist_date = None, None, None
+        if dart_corp_info.corp_cls:
+            if dart_corp_info.corp_cls.lower() == "y":
+                corp_class = "KOSPI"  # kospi
+                list_date = openapi_outline.enpxchglstgdt
+                delist_date = openapi_outline.enpxchglstgaboldt
+            elif dart_corp_info.corp_cls.lower() == "k":
+                corp_class = "KODAQ"
+                list_date = openapi_outline.enpkosdaqlstgdt
+                delist_date = openapi_outline.enpkosdaqlstgaboldt
+            elif dart_corp_info.corp_cls.lower() == "n":
+                corp_class = "KONEX"
+                list_date = openapi_outline.enpkrxlstgdt
+                delist_date = openapi_outline.enpkrxlstgaboldt
+            elif dart_corp_info.corp_cls.lower() == "e":
+                corp_class = "etc"
 
         affiliate_result = crud.get_openapi_affiliate_list(crno=crno, db=db)
         affiliate_list = [
@@ -116,24 +116,14 @@ async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)
             corp_name_history=None,
             corp_cls=corp_class,
             est_dt=dart_corp_info.est_dt,
-            kospi={
-                "listDate": openapi_outline.enpxchglstgdt,
-                "delistDate": openapi_outline.enpxchglstgaboldt,
-            },
-            kosdaq={
-                "listDate": openapi_outline.enpkosdaqlstgdt,
-                "delistDate": openapi_outline.enpkosdaqlstgaboldt,
-            },
-            konex={
-                "listDate": openapi_outline.enpkrxlstgdt,
-                "delistDate": openapi_outline.enpkrxlstgaboldt,
-            },
+            list_date=list_date,
+            delist_date=delist_date,
             hm_url=dart_corp_info.hm_url,
             phn_no=dart_corp_info.phn_no,
             adres=dart_corp_info.adres,
             ceo_nm=dart_corp_info.ceo_nm,
             affiliate_list=affiliate_list,
-            smenpyn=is_sm_corp,
+            smenpyn=openapi_outline.smenpyn,
             isVenture=None,
             sub_corp_list=sub_corp_list,
             shareholder_num=None,
