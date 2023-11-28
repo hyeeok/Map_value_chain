@@ -12,6 +12,7 @@ const Pagination = ({
   pageNum: number;
 }) => {
   const numArray = Array.from({ length: pageNum }).map((v, i) => i + 1);
+
   return (
     <>
       <Button

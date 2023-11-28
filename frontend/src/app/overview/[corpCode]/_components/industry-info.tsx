@@ -1,7 +1,5 @@
-import { ChevronRightIcon } from '@radix-ui/react-icons';
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
@@ -15,50 +13,6 @@ import {
 const IndustryInfo = () => {
   return (
     <div className="flex flex-col gap-6">
-      <section>
-        <div className="flex justify-between">
-          <h2 className="scroll-m-20 text-3xl font-bold tracking-tight">
-            회사명
-          </h2>
-          <Button variant={'outline'}>목록</Button>
-        </div>
-
-        <div className="mt-2 flex items-center space-x-1 text-sm text-muted-foreground">
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-            KOSPI
-          </div>
-          <ChevronRightIcon className="h-4 w-4" />
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-            종목코드
-          </div>
-        </div>
-      </section>
-
-      <section className="border rounded-md">
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableHead>사업자등록번호</TableHead>
-              <TableCell>0000000</TableCell>
-              <TableHead>법인등록번호</TableHead>
-              <TableCell>0000000</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead>사업자등록번호</TableHead>
-              <TableCell>0000000</TableCell>
-              <TableHead>법인등록번호</TableHead>
-              <TableCell>0000000</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableHead>사업자등록번호</TableHead>
-              <TableCell>0000000</TableCell>
-              <TableHead>법인등록번호</TableHead>
-              <TableCell>0000000</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </section>
-
       <section className="border rounded-md">
         <Table>
           <TableHeader>

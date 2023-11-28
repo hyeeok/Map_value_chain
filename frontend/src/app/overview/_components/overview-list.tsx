@@ -1,12 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
 
-import { getOverviewhList } from '@/api/overview/api';
 import Pagination from '@/app/overview/_components/pagination';
-import SearchBox from '@/app/overview/_components/search-box';
 import {
   Table,
   TableBody,
@@ -35,76 +33,25 @@ interface OverviewListData {
   data: OverviewData[];
 }
 
-const OverviewList = () => {
+const OverviewList = ({ data }: { data: OverviewListData }) => {
+  const router = useRouter();
   const limit = 20;
+  const pageNum = Math.ceil(data?.length / limit);
   const searchParams = useSearchParams();
   const params = {
-    category: searchParams.get('category') || null,
-    keyword: searchParams.get('keyword') || null,
+    category: searchParams.get('category') || '',
+    keyword: searchParams.get('keyword') || '',
+    limit: searchParams.get('limit') || '',
+    page: searchParams.get('page') || '1',
   };
 
-  const [searchCategory, setSearchCategory] = useState('firmName');
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [overviewData, setOverviewData] = useState<OverviewListData>();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageNum, setPageNum] = useState(0);
-
-  useEffect(() => {
-    getOverviewhList({ limit: limit })
-      .then((response) => {
-        setOverviewData(response);
-        setPageNum(Math.ceil(response.length / limit));
-      })
-      .catch();
-  }, []);
-
-  const handleSearch = (category: string, keyword: string) => {
-    getOverviewhList({
-      category: category,
-      keyword: keyword,
-      limit: limit,
-    })
-      .then((response) => {
-        setOverviewData(response);
-        setPageNum(Math.ceil(response.length / limit));
-        setCurrentPage(1);
-      })
-      .catch();
-  };
-
-  const onSearchCategoryChange = (value: string) => {
-    setSearchCategory(value);
-  };
-  const onSearchKeywordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchKeyword(event.target.value);
-  };
   const handlePageClick = (targetPage: number) => {
-    getOverviewhList({
-      category: params.category,
-      keyword: params.keyword,
-      limit: limit,
-      page: targetPage,
-    })
-      .then((response) => {
-        setOverviewData(response);
-        setCurrentPage(targetPage);
-      })
-      .catch();
+    const url = `/overview/search?category=${params.category}&keyword=${params.keyword}&page=${targetPage}`;
+    router.push(url);
   };
 
   return (
     <>
-      <section className="pt-6 pb-4">
-        <SearchBox
-          onSearchCategoryChange={onSearchCategoryChange}
-          onSearchKeywordChange={onSearchKeywordChange}
-          searchCategory={searchCategory}
-          searchKeyword={searchKeyword}
-          handleSearch={handleSearch}
-        />
-      </section>
       <section className="flex-1 pb-6">
         <div className="flex flex-col h-full justify-between">
           <div className="rounded-md">
@@ -123,8 +70,8 @@ const OverviewList = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {overviewData &&
-                  overviewData.data.map((data, i) => (
+                {data &&
+                  data.data.map((data, i) => (
                     <TableRow key={i}>
                       <TableCell>
                         <Link
@@ -163,7 +110,7 @@ const OverviewList = () => {
           <div className="flex justify-center pt-6">
             <Pagination
               handlePageClick={handlePageClick}
-              currentPage={currentPage}
+              currentPage={parseInt(params.page)}
               pageNum={pageNum}
             />
           </div>

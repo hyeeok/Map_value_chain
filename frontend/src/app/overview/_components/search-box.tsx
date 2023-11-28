@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,25 +13,31 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-interface SearchBoxProps {
-  onSearchCategoryChange: (value: string) => void;
-  onSearchKeywordChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  searchCategory: string;
-  searchKeyword: string;
-  handleSearch: (category: string, keyword: string) => void;
-}
+const SearchBox = () => {
+  const router = useRouter();
+  const [searchCategory, setSearchCategory] = useState('firmName');
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-const SearchBox = ({
-  onSearchCategoryChange,
-  onSearchKeywordChange,
-  searchCategory,
-  searchKeyword,
-  handleSearch,
-}: SearchBoxProps) => {
+  const onSearchCategoryChange = (value: string) => {
+    setSearchCategory(value);
+  };
+  const onSearchKeywordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchKeyword(event.target.value);
+  };
+  const handleSearch = (category: string, keyword: string) => {
+    let url = `/overview`;
+    if (keyword) {
+      url = `/overview/search?category=${category}&keyword=${keyword}`;
+    }
+    router.push(url);
+  };
+
   return (
     <div className="flex gap-2">
       <Select onValueChange={onSearchCategoryChange} value={searchCategory}>
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger className="w-[220px]">
           <SelectValue placeholder="회사명" defaultValue="firmName" />
         </SelectTrigger>
         <SelectContent>

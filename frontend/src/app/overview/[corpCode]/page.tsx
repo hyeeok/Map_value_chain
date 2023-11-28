@@ -22,7 +22,7 @@ const IndustryInfoPage = async ({
 }) => {
   const overviewDescData = await getOverviewDesc(params.corpCode);
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       <DescSection data={overviewDescData} />
       <IndustryInfo />
     </div>
