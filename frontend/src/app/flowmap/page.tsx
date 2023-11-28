@@ -3,6 +3,7 @@ import React from 'react';
 
 import { baseUrl } from '@/api/api-client';
 import Flowmap from '@/app/flowmap/_components/flowmap';
+import { initialEdges, initialNodes } from '@/app/flowmap/_test/flowmap-data';
 
 const getFlowmap = async () => {
   const cookieStore = cookies();
@@ -27,7 +28,8 @@ const getIndustryClassList = async () => {
 };
 
 const FlowmapPage = async () => {
-  const flowmapData = await getFlowmap();
+  // const flowmapData = await getFlowmap()
+  const flowmapData = { node: initialNodes, edge: initialEdges };
   const industryClassListData = await getIndustryClassList();
 
   return (

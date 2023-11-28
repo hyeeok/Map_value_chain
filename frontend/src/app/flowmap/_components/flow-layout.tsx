@@ -18,7 +18,7 @@ import ReactFlow, {
 } from 'reactflow';
 
 import { putFlowmap } from '@/api/flowmap/api';
-import CustomNode from '@/components/feature/reactflow/custom-node';
+import CustomNode from '@/app/flowmap/_components/custom-node';
 import { Button } from '@/components/ui/button';
 
 interface FlowProps {
@@ -30,7 +30,7 @@ const flowKey = 'flowmap';
 
 const nodeTypes = { custom: CustomNode };
 
-const Flow = ({ initialNodes, initialEdges }: FlowProps) => {
+const FlowLayout = ({ initialNodes, initialEdges }: FlowProps) => {
   const edgeUpdateSuccessful = useRef(true);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -106,4 +106,4 @@ const Flow = ({ initialNodes, initialEdges }: FlowProps) => {
   );
 };
 
-export default Flow;
+export default FlowLayout;

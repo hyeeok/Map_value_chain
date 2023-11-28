@@ -1,7 +1,6 @@
 'use client';
 
 import { useAtomValue } from 'jotai';
-import Link from 'next/link';
 import React from 'react';
 import {
   Handle,
@@ -11,7 +10,6 @@ import {
   useStoreApi,
 } from 'reactflow';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { showThemeAtom } from '@/lib/atoms/base';
 
@@ -88,7 +86,7 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="overflow-y-auto h-[calc(100%-64px)] nowheel">
-          <div>
+          {/* <div>
             <p className="text-sm font-medium leading-none mb-2">Classes</p>
             <div className="flex flex-wrap gap-2">
               {data.classes.map((classItem, i) => (
@@ -118,7 +116,7 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
                 ))}
               </div>
             </div>
-          )}
+          )} */}
         </CardContent>
       </Card>
       <Handle type="source" position={Position.Top} id="top" />

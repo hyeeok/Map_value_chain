@@ -4,10 +4,10 @@ import { useAtom } from 'jotai';
 import React, { useEffect, useState } from 'react';
 import { Edge, Node } from 'reactflow';
 
+import FlowLayout from '@/app/flowmap/_components/flow-layout';
 import DomainList, {
   IndustryClass,
 } from '@/app/flowmap/_components/industry-class-list';
-import Flow from '@/components/feature/reactflow/flow';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { showThemeAtom } from '@/lib/atoms/base';
@@ -56,7 +56,7 @@ const Flowmap = ({ nodes, edges, industryClassListData }: FlowmapProps) => {
           className="h-[90%] md:w-screen md:mx-[calc(50%-50vw)]"
         >
           <div className="h-full w-full border rounded-md md:rounded-none bg-muted">
-            <Flow initialNodes={nodeData} initialEdges={edgeData} />
+            <FlowLayout initialNodes={nodeData} initialEdges={edgeData} />
           </div>
         </TabsContent>
         <TabsContent
