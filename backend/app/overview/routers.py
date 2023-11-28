@@ -17,10 +17,11 @@ router = APIRouter(prefix="/overview")
     response_model_by_alias=False,
 )
 async def read_overview_list(
-    category: str
-    | None = Query(None, description="firmName, bizrNo, jurirNo, stockCode"),
-    keyword: str | None = None,
-    limit: int = 50,
+    category: Optional[str] = Query(
+        None, description="firmName, bizrNo, jurirNo, stockCode"
+    ),
+    keyword: Optional[str] | None = None,
+    limit: int = 20,
     page: int = 1,
     db: Session = Depends(get_dev_db),
 ):
