@@ -42,7 +42,7 @@ class Domain(DomainBase):
     themes: Optional[List[IndustryClass]] = []
 
 
-class FlowmapBase(BaseModel):
+class FlowmapList(BaseModel):
     node: List[Dict[str, Any]]
     edge: List[Dict[str, Any]]
 
@@ -50,9 +50,10 @@ class FlowmapBase(BaseModel):
         from_attributes = True
 
 
-class Flowmap(FlowmapBase):
-    pass
+class FlowmapBase(BaseModel):
+    node: Dict[str, Any]
+    edge: Dict[str, Any]
 
 
-class FlowmapCreate(FlowmapBase):
+class FlowmapCreate(FlowmapList):
     pass

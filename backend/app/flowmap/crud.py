@@ -10,7 +10,7 @@ from app.flowmap.schemas import FlowmapCreate
 def get_main_flowmap(db: Session):
     query = text(
         """
-        SELECT node, edge FROM flowmap
+        SELECT node, edge FROM app_metadata.flowmap
         WHERE industry_class_id IS NULL
         """
     )
@@ -23,7 +23,7 @@ def put_main_flowmap(new_data: FlowmapCreate, db: Session):
     new_edge_json = json.dumps(new_data.edge)
     query = text(
         """
-        UPDATE flowmap
+        UPDATE app_metadata.flowmap
         SET node = :new_node, edge = :new_edge
         WHERE industry_class_id IS NULL
         RETURNING id
@@ -47,8 +47,8 @@ def get_industry_class_list(db: Session):
     query = text(
         """
         SELECT ic.*, d.name AS domain_name, d.code AS domain_code
-        FROM industry_class AS ic
-        LEFT JOIN domain AS d
+        FROM app_metadata.industry_class AS ic
+        LEFT JOIN app_metadata.domain AS d
         ON ic.domain_id = d.id
         """
     )
@@ -59,8 +59,19 @@ def get_industry_class_list(db: Session):
 def get_flowmap(industry_class_id: int, db: Session):
     query = text(
         """
-        SELECT node, edge FROM flowmap
-        WHERE industry_class_id = :industry_class_id
+        SELECT
+            (SELECT expanded_node
+             FROM app_metadata.flowmap,
+                  LATERAL jsonb_array_elements(node) AS expanded_node
+             WHERE industry_class_id IS NULL
+               AND expanded_node->>'id' = (SELECT code FROM app_metadata.domain WHERE id = (SELECT domain_id FROM app_metadata.industry_class WHERE id = :industry_class_id))
+             ) AS node,
+            (SELECT expanded_edge
+             FROM app_metadata.flowmap,
+                  LATERAL jsonb_array_elements(edge) AS expanded_edge
+             WHERE industry_class_id IS NULL
+               AND expanded_edge->>'id' = (SELECT code FROM app_metadata.domain WHERE id = (SELECT domain_id FROM app_metadata.industry_class WHERE id = :industry_class_id))
+             ) AS edge;
         """
     )
     result = db.execute(query, {"industry_class_id": industry_class_id}).fetchone()
@@ -72,7 +83,7 @@ def put_flowmap(industry_class_id: int, new_data: FlowmapCreate, db: Session):
     new_edge_json = json.dumps(new_data.edge)
     query = text(
         """
-        UPDATE flowmap
+        UPDATE app_metadata.flowmap
         SET node = :new_node, edge = :new_edge
         WHERE industry_class_id = :industry_class_id
         RETURNING id

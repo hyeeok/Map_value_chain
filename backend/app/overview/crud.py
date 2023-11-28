@@ -10,7 +10,7 @@ def get_overview_list(
     query_condition = ""
     params = {}
 
-    if category or keyword:
+    if keyword:
         query_condition = f"WHERE {category} ILIKE :keyword"
         params["keyword"] = f"%{keyword}%"
 
@@ -57,30 +57,30 @@ def get_company_items_by_category(
     return items
 
 
-# def get_deps(db: Session):
-#     query = text(
-#         """
-#         SELECT
-#             ic.id AS industryClassId,
-#             ic.name AS industryClassName,
-#             ic.code AS industryClassCode,
-#             d.id AS domainId,
-#             d.name AS domainName,
-#             d.code AS domainCode,
-#             deps.id AS subClassId,
-#             deps.code AS subClassCode,
-#             deps.name AS subClassName,
-#             deps.level AS subClassLevel
-#         FROM
-#             industry_class AS ic
-#         LEFT JOIN
-#             domain AS d ON ic.domain_id = d.id
-#         LEFT JOIN
-#             deps ON deps.industry_class_code = ic.code;
-#         """
-#     )
-#     result = db.execute(query).all()
-#     return result
+def get_deps(db: Session):
+    query = text(
+        """
+        SELECT
+            ic.id AS industryClassId,
+            ic.name AS industryClassName,
+            ic.code AS industryClassCode,
+            d.id AS domainId,
+            d.name AS domainName,
+            d.code AS domainCode,
+            deps.id AS subClassId,
+            deps.code AS subClassCode,
+            deps.name AS subClassName,
+            deps.level AS subClassLevel
+        FROM
+            app_metadata.industry_class AS ic
+        LEFT JOIN
+            app_metadata.domain AS d ON ic.domain_id = d.id
+        LEFT JOIN
+            app_metadata.deps ON deps.industry_class_code = ic.code;
+        """
+    )
+    result = db.execute(query).all()
+    return result
 
 
 def get_dart_corp_info(corp_code: str, db: Session):
@@ -147,24 +147,3 @@ def get_corp_cls(corp_code: str, db: Session):
     param = {"corp_code": f"{corp_code}"}
     result = db.execute(query, param).fetchone()
     return result
-
-
-def get_listing_date(crno: str, corp_cls: str, db: Session):
-    listing_date = ""
-    if corp_cls[0] == "Y":
-        listing_date = "enpxchglstgdt"
-    elif corp_cls[0] == "K":
-        listing_date = "enpkosdaqlstgdt"
-    elif corp_cls[0] == "N":
-        listing_date = "enpkrxlstgdt"
-    elif corp_cls[0] == "E":
-        return ""
-
-    query = text(
-        f"select {listing_date} from source.openapi_corp_outline where crno = :crno ORDER BY lastopegdt DESC LIMIT 1;"
-    )
-    param = {"crno": f"{crno}"}
-    result = db.execute(query, param).fetchone()
-    print(result)
-    response = str(result[0])
-    return response

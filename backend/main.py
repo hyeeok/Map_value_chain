@@ -17,11 +17,11 @@ from app.overview.routers import router as overview_router
 #     db.close()
 
 
-async def initialize_db(db=Depends(get_dev_db)):
-    filepath = "./source/mvc_map.csv"
-    load_csv_to_db(filepath, db)
-    db.commit()
-    db.close()
+# async def initialize_db(db=Depends(get_dev_db)):
+#     filepath = "./source/mvc_map.csv"
+#     load_csv_to_db(filepath, db)
+#     db.commit()
+#     db.close()
 
 
 # async def wait_for_postgres():
@@ -42,14 +42,14 @@ async def initialize_db(db=Depends(get_dev_db)):
 #     yield
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await initialize_db()
-    yield
+# @asynccontextmanager
+# async def lifespan(app: FastAPI):
+#     await initialize_db()
+#     yield
 
 
-app = FastAPI(lifespan=lifespan, redoc_url=None)
-# app = FastAPI(redoc_url=None)
+# app = FastAPI(lifespan=lifespan, redoc_url=None)
+app = FastAPI(redoc_url=None)
 
 # 허용할 오리진(출처) 목록
 origins = [

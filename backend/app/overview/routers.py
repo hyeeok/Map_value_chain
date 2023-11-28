@@ -17,10 +17,11 @@ router = APIRouter(prefix="/overview")
     response_model_by_alias=False,
 )
 async def read_overview_list(
-    category: str
-    | None = Query(None, description="firmName, bizrNo, jurirNo, stockCode"),
-    keyword: str | None = None,
-    limit: int = 50,
+    category: Optional[str] = Query(
+        None, description="firmName, bizrNo, jurirNo, stockCode"
+    ),
+    keyword: Optional[str] | None = None,
+    limit: int = 20,
     page: int = 1,
     db: Session = Depends(get_dev_db),
 ):
@@ -57,10 +58,10 @@ async def read_company_items_by_category(
     return items
 
 
-# @router.get("/index", response_model=DepsList, response_model_by_alias=False)
-# def read_deps(db: Session = Depends(get_db)):
-#     result = crud.get_deps(db=db)
-#     return {"length": len(result), "data": result}
+@router.get("/index", response_model=DepsList, response_model_by_alias=False)
+def read_deps(db: Session = Depends(get_mvc_db)):
+    result = crud.get_deps(db=db)
+    return {"length": len(result), "data": result}
 
 
 @router.get(

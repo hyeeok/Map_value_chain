@@ -68,7 +68,7 @@ class SubCorp(TypedDict):
 
 class OverviewDetailBase(BaseModel):
     stockName: str = Field(..., alias="stock_name")
-    stockCode: str = Field(..., alias="stock_code")
+    stockCode: Optional[str] = Field(..., alias="stock_code")
     bizrNo: str = Field(..., alias="bizr_no")
     jurirNo: str = Field(..., alias="jurir_no")
     corpName: str = Field(..., alias="corp_name")
