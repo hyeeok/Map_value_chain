@@ -44,13 +44,24 @@ def update_main_flowmap(
 
 @router.get(
     "/industry-classes",
-    response_model=IndustryClassList,
     response_model_by_alias=False,
 )
 def read_industry_class_list(db: Session = Depends(get_mvc_db)):
     try:
         result = crud.get_industry_class_list(db=db)
-        response = {"length": len(result), "data": result}
+        industry_class_list = [
+            IndustryClasses(
+                industryClassCode=item[0],
+                industryClassName=item[1],
+                industryClassId=item[2],
+                domainId=item[3],
+                domainName=item[4],
+                domainCode=item[5],
+            )
+            for item in result
+        ]
+
+        response = {"length": len(industry_class_list), "data": industry_class_list}
         return response
 
     except Exception as e:
