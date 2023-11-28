@@ -8,8 +8,8 @@ export const getOverviewhList = async ({
 }: {
   category?: string | null;
   keyword?: string | null;
-  limit?: number;
-  page?: number;
+  limit?: string | number | null;
+  page?: string | number | null;
 }) => {
   try {
     const response = await apiClient().get(`/overview`, {
