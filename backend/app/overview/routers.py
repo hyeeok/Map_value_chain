@@ -50,7 +50,8 @@ async def read_overview_list(
 async def read_company_items_by_category(
     term: str = Query(..., description="Search term"),
     category: str = Query(
-        ..., description="Search category: 'firm' or 'bizr_no' or 'jurir_no"
+        ...,
+        description="Search category: 'firm' or 'bizr_no' or 'jurir_no' or 'stock_node'",
     ),
     db: Session = Depends(get_dev_db),
 ):
