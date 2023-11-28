@@ -12,6 +12,7 @@ export const getOverviewhList = async ({
   page?: string | number | null;
 }) => {
   try {
+    console.log(typeof keyword);
     const response = await apiClient().get(`/overview`, {
       params: {
         // ...(option && { option: option }),

@@ -93,7 +93,9 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                       <TableCell>
                         {data.homepage ? (
                           <Link
-                            href={data.homepage}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`https://${data.homepage}`}
                             className="hover:underline"
                           >
                             바로가기

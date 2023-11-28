@@ -12,7 +12,7 @@ const getOverviewIndex = async () => {
   try {
     const response = await fetch(`${baseUrl}/overview/index`);
     const responseJson = await response.json();
-    const data = buildHierarchy(responseJson);
+    const data = buildHierarchy(responseJson.data);
     return data;
   } catch (error) {
     console.log(error);

@@ -8,7 +8,7 @@ import { Collapsible } from '@/components/ui/collapsible';
 
 const Sidenav = ({ sidenav }: { sidenav: ResultType }) => {
   return (
-    <aside className="sticky block top-14 z-30 h-[calc(100vh-3.5rem)] w-[240px]">
+    <aside className="sticky block top-14 z-30 h-[calc(100vh-3.5rem)] min-w-[240px] max-w-[240px]">
       <div className="flex flex-col w-full h-full py-6 box-border">
         <div className="flex-1 p-4 bg-muted overflow-hidden rounded-md">
           <div className="h-full overflow-auto">
