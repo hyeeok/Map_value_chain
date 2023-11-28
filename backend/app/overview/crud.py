@@ -10,7 +10,7 @@ def get_overview_list(
     query_condition = ""
     params = {}
 
-    if category or keyword:
+    if keyword:
         query_condition = f"WHERE {category} ILIKE :keyword"
         params["keyword"] = f"%{keyword}%"
 
