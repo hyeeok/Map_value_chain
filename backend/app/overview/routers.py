@@ -65,10 +65,10 @@ def read_deps(db: Session = Depends(get_mvc_db)):
 
 @router.get(
     "/{corp_code}/description",
-    response_model=OverviewDetail,
+    response_model=OverviewDescription,
     response_model_by_alias=False,
 )
-async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)):
+async def read_overview_description(corp_code: str, db: Session = Depends(get_mvc_db)):
     try:
         dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
         if dart_corp_info == None:
@@ -106,7 +106,7 @@ async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)
         sub_corp_result = crud.get_openapi_sub_company_list(crno=crno, db=db)
         sub_corp_list = [SubCorp(corpName=sub_corp[0]) for sub_corp in sub_corp_result]
 
-        response = OverviewDetail(
+        response = OverviewDescription(
             stock_name=dart_corp_info.stock_name,
             stock_code=dart_corp_info.stock_code,
             bizr_no=dart_corp_info.bizr_no,
@@ -140,3 +140,49 @@ async def read_overview_detail(corp_code: str, db: Session = Depends(get_mvc_db)
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get(
+    "/{corp_code}/financials",
+    response_model=OverviewFinancials,
+    response_model_by_alias=False,
+)
+async def read_overview_financials(corp_code: str, db: Session = Depends(get_mvc_db)):
+    dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
+    if dart_corp_info is None:
+        return HTTPException(
+            status_code=404, detail="DART data not found for the given corp_code"
+        )
+
+    stcd = dart_corp_info.stock_code
+
+    naver_stock_price = crud.get_naver_stock_price(stcd=stcd, db=db)
+    print(naver_stock_price)
+    if naver_stock_price is None:
+        return HTTPException(
+            status_code=404,
+            detail="Naver stock price data not found for the given corp_code",
+        )
+
+    krx_corp_info = crud.get_krx_corp_info(stcd=stcd, db=db)
+    if krx_corp_info is None:
+        return HTTPException(
+            status_code=404,
+            detail="KRX corporate info not found for the given corp_code",
+        )
+
+    # dart_balance_sheet = crud.get_dart_balance_sheet(stcd=stcd, db=db)
+    # if dart_balance_sheet is None:
+    #     return HTTPException(
+    #         status_code=404,
+    #         detail="Dart balance sheet not found for the given corp_code",
+    #     )
+
+    response = OverviewFinancials(
+        close_price=naver_stock_price.close_price,
+        list_shrs=krx_corp_info.list_shrs,
+        parval=krx_corp_info.parval,
+        # currency=dart_balance_sheet.currency,
+        # thstrm_amount=dart_balance_sheet.thstrm_amount,
+    )
+    return response

@@ -66,7 +66,7 @@ class SubCorp(TypedDict):
     corpName: str
 
 
-class OverviewDetailBase(BaseModel):
+class OverviewDescriptionBase(BaseModel):
     stockName: str = Field(..., alias="stock_name")
     stockCode: Optional[str] = Field(..., alias="stock_code")
     bizrNo: str = Field(..., alias="bizr_no")
@@ -99,5 +99,44 @@ class OverviewDetailBase(BaseModel):
         from_attributes = True
 
 
-class OverviewDetail(OverviewDetailBase):
+class OverviewDescription(OverviewDescriptionBase):
+    pass
+
+
+class OverviewFinancialsBase(BaseModel):
+    # 시가총액(전체)
+
+    # 발행주식수
+    listShrs: str = Field(..., alias="list_shrs")
+
+    # 자기주식수
+    # 액면가
+    parval: str = Field(..., alias="parval")
+
+    # 발행주식수(보통주)
+    # 주가(보통주)
+    closePrice: str = Field(..., alias="close_price")
+
+    # 발행주식수(우선주)
+    # 주가(우선주)
+
+    # 자산총계
+    # thstrmAmount: str = Field(..., alias="thstrm_amount")
+
+    # 통화단위
+    # currency: str = Field(..., alias="currency")
+
+    # 유동자산
+    # 현금및현금성자산
+    # 매출채권
+    # 단기금융상품
+    # 단기금융자산
+
+    # 등등
+
+    class Config:
+        from_attributes = True
+
+
+class OverviewFinancials(OverviewFinancialsBase):
     pass

@@ -139,11 +139,46 @@ def get_openapi_sub_company_list(crno: str, db: Session):
     return result
 
 
-def get_corp_cls(corp_code: str, db: Session):
+from sqlalchemy.sql import text
+
+
+def get_naver_stock_price(stcd: str, db: Session):
     query = text(
-        "select corp_cls from source.dart_corp_info where corp_code = :corp_code"
+        """
+        SELECT close_price
+        FROM source.naver_stock_price
+        WHERE stock_code = :stcd
+        AND base_date IN (
+            SELECT MAX(base_date)
+            FROM source.naver_stock_price
+            WHERE stock_code = :stcd
+            GROUP BY SUBSTRING(base_date, 1, 4)
+        );
+        """
     )
 
-    param = {"corp_code": f"{corp_code}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"stcd": stcd}).fetchone()
     return result
+
+
+def get_krx_corp_info(stcd: str, db: Session):
+    query = text(
+        """
+        SELECT parval, list_shrs
+        FROM source.krx_corp_info
+        WHERE isu_srt_cd = :stcd
+        """
+    )
+
+    result = db.execute(query, {"stcd": stcd}).fetchone()
+    return result
+
+
+# def get_dart_balance_sheet(stcd: str, db: Session):
+#     query = text(
+#         """
+#         select currency, thstrm_amount from source.dart_balance_sheet where stock_code = :stcd
+#         """
+#     )
+#     result = db.execute(query, {"stcd": stcd}).fetchone()
+#     return result
