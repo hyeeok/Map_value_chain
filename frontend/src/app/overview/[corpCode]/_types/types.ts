@@ -1,0 +1,29 @@
+export interface OverviewDescType {
+  stockName: string;
+  stockCode: number;
+  bizrNo: number;
+  jurirNo: number;
+  corpName: string;
+  corpNameEng: string;
+  corpNameHistory: object[];
+  establishDate: string;
+  corpClass: string;
+  listDate: string;
+  delistDate: string;
+  homepageUrl: string;
+  phoneNum: string;
+  adress: string;
+  ceoName: string;
+  affiliateList: [];
+  isSMCorp: string;
+  isVenture: string;
+  subCorpList: [];
+  shareholderNum: null;
+  employeeNum: number;
+  avgSalary: number;
+  auditorReportOpinion: string;
+  settleMonth: number;
+  issuerRate: string;
+  mainBiz: string;
+  classList: [];
+}

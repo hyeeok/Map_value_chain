@@ -21,7 +21,7 @@ const OverviewPage = async () => {
   // const overviewListData = OVERVIEW_RESPONSE;
 
   return (
-    <div className="flex-1">
+    <div>
       <OverviewList />
     </div>
   );

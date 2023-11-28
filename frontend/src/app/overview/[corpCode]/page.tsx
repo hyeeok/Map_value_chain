@@ -1,8 +1,29 @@
-import IndustryInfo from '@/app/overview/[slug]/_components/industry-info';
+import { cookies } from 'next/headers';
 
-const IndustryInfoPage = ({ params }: { params: { slug: string } }) => {
+import { baseUrl } from '@/api/api-client';
+import DescSection from '@/app/overview/[corpCode]/_components/desc-section';
+import IndustryInfo from '@/app/overview/[corpCode]/_components/industry-info';
+
+const getOverviewDesc = async (corpCode: string) => {
+  const cookieStore = cookies();
+  try {
+    const response = await fetch(`${baseUrl}/overview/${corpCode}/description`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const IndustryInfoPage = async ({
+  params,
+}: {
+  params: { corpCode: string };
+}) => {
+  const overviewDescData = await getOverviewDesc(params.corpCode);
   return (
     <div>
+      <DescSection data={overviewDescData} />
       <IndustryInfo />
     </div>
   );
