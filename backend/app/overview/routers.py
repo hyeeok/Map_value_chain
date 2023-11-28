@@ -51,7 +51,8 @@ async def read_company_items_by_category(
     term: str = Query(..., description="Search term"),
     category: str = Query(
         ...,
-        description="Search category: 'firm' or 'bizr_no' or 'jurir_no' or 'stock_node'",
+        description="Search category: 'firm' or 'bizr_no' or 'jurir_no' or 'stock_code'",
+        # 아직 mvc db에는 jurir_no가 없음
     ),
     db: Session = Depends(get_dev_db),
 ):

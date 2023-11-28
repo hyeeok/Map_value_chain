@@ -15,22 +15,6 @@ class IndustryClass(IndustryClassBase):
     industryClassId: int = Field(..., alias="id")
 
 
-class IndustryClassName(BaseModel):
-    industryClassName: str = Field(..., alias="name")
-
-
-class IndustryClassCode(BaseModel):
-    industryClassCode: str = Field(..., alias="code")
-
-
-class IndustryClassList(BaseModel):
-    length: int
-    data: List[IndustryClass]
-
-    class Config:
-        from_attributes = True
-
-
 class DomainBase(BaseModel):
     domainId: int = Field(..., alias="id")
     domainCode: str = Field(..., alias="code")
@@ -40,6 +24,18 @@ class DomainBase(BaseModel):
 class Domain(DomainBase):
     classes: Optional[List[IndustryClass]] = []
     themes: Optional[List[IndustryClass]] = []
+
+
+class IndustryClasses(IndustryClass, DomainBase):
+    pass
+
+
+class IndustryClassList(BaseModel):
+    length: int
+    data: List[IndustryClasses]
+
+    class Config:
+        from_attributes = True
 
 
 class FlowmapList(BaseModel):
