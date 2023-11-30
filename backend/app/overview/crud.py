@@ -11,13 +11,20 @@ def get_overview_list(
     params = {}
 
     if keyword:
-        query_condition = f"WHERE {category} ILIKE :keyword"
+        if category == "stock_name":
+            query_condition = f"""
+            WHERE stock_name ILIKE :keyword
+            OR corp_name ILIKE :keyword
+            OR corp_name_eng ILIKE :keyword
+            """
+        else:
+            query_condition = f"WHERE {category} ILIKE :keyword"
         params["keyword"] = f"%{keyword}%"
 
     query = text(
         f"""
-        SELECT corp_code, stock_name, bizr_no, corp_cls, stock_code,
-            ceo_nm, est_dt, adres, hm_url
+        SELECT corp_code, stock_name, stock_code,
+            bizr_no, corp_cls, ceo_nm, est_dt, adres, hm_url
         FROM source.dart_corp_info
         {query_condition}
         LIMIT :limit OFFSET (:page - 1) * :limit
@@ -139,7 +146,36 @@ def get_openapi_sub_company_list(crno: str, db: Session):
     return result
 
 
-from sqlalchemy.sql import text
+# TODO: corp_code 검색이 구현되면 삭제 예정
+def get_corp_name_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT corp_name FROM source.dart_corp_info
+        WHERE corp_code LIKE :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).fetchone()
+    return result
+
+
+# TODO: 향후 corp_code를 통해 검색하도록 하는게 바람직
+def get_vendor_corp_list(corp_name: str, vendor_class: str | None, db: Session):
+    corp_name = corp_name.replace("(주)", "")
+    query_condition = ""
+    params = {}
+    if vendor_class:
+        query_condition = f"AND vendor_class=:vendor_class"
+        params.update({"vendor_class": vendor_class})
+    query = text(
+        f"""
+        SELECT * FROM public.relation
+        WHERE corp_name ILIKE :corp_name
+        {query_condition}
+        """
+    )
+    params.update({"corp_name": f"%{corp_name}%"})
+    result = db.execute(query, params).all()
+    return result
 
 
 def get_naver_stock_price(stcd: str, db: Session):

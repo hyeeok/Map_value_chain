@@ -1,6 +1,7 @@
 from typing import Dict, List, Union
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_dev_db, get_mvc_db
@@ -10,13 +11,11 @@ from .schemas import *
 
 router = APIRouter(prefix="/overview")
 
+
 def map_corp_cls(corp_cls: str):
-    mapping = {
-        'y': 'KOSPI',
-        'k':'KOSDAQ',
-        'n':'KONEX'
-    }
-    return mapping.get(corp_cls.lower(), 'etc')
+    mapping = {"y": "KOSPI", "k": "KOSDAQ", "n": "KONEX"}
+    return mapping.get(corp_cls.lower(), "etc")
+
 
 @router.get(
     "",
@@ -36,20 +35,19 @@ async def read_overview_list(
         search_category = None
         if category:
             search_category = {
-                'stockName': 'stock_name',
-                'bizrNo': 'bizr_no',
-                'jurirNo': 'corp_cls',
-                'stockCode': 'stock_code'
+                "stockName": "stock_name",
+                "bizrNo": "bizr_no",
+                "jurirNo": "corp_cls",
+                "stockCode": "stock_code",
             }.get(category)
 
         result, total_count = crud.get_overview_list(
-            category=search_category, keyword=keyword,
-            limit=limit, page=page, db=db
+            category=search_category, keyword=keyword, limit=limit, page=page, db=db
         )
-        
+
         response = {"length": total_count, "data": result}
         return response
-    
+
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
@@ -149,6 +147,49 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
         )
         return response
 
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/{corp_code}/relations")
+async def read_overview_relations(
+    corp_code: str,
+    mvc_db: Session = Depends(get_mvc_db),
+    dev_db: Session = Depends(get_dev_db),
+):
+    try:
+        corp_name = crud.get_corp_name_by_corp_code(corp_code, db=mvc_db)
+        if corp_name == None:
+            return HTTPException(status_code=404, detail="corp_name not found")
+        result = []
+        depth_one_list = crud.get_vendor_corp_list(
+            corp_name=corp_name[0], vendor_class=None, db=dev_db
+        )
+        depth_one_list = [row._asdict() for row in depth_one_list]
+        print(depth_one_list)
+        return
+
+        # depth_one_list = sorted(depth_one_list, key=lambda x: x.vendor_class)
+        # for depth_one_item in depth_one_list:
+        #     depth_one_corp_name = depth_one_item.corp_name
+        #     if depth_one_item.vendor_class == "구매":
+        #         depth_two_list = crud.get_vendor_corp_list(
+        #             corp_name=depth_one_corp_name, vendor_class="구매", db=dev_db
+        #         )
+        #         for depth_two_item in depth_two_list:
+        #             result.append(depth_two_item)
+        #         result.append(depth_one_item)
+        #     elif depth_one_item.vendor_class == "판매":
+        #         depth_two_list = crud.get_vendor_corp_list(
+        #             corp_name=depth_one_corp_name, vendor_class="판매", db=dev_db
+        #         )
+        #         for depth_two_item in depth_two_list:
+        #             result.append(depth_two_item)
+        #         result.append(depth_one_item)
+        # print(result)
+        # response = {"data": result}
+        # return response
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
