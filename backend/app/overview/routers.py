@@ -10,6 +10,13 @@ from .schemas import *
 
 router = APIRouter(prefix="/overview")
 
+def map_corp_cls(corp_cls: str):
+    mapping = {
+        'y': 'KOSPI',
+        'k':'KOSDAQ',
+        'n':'KONEX'
+    }
+    return mapping.get(corp_cls.lower(), 'etc')
 
 @router.get(
     "",
@@ -18,29 +25,31 @@ router = APIRouter(prefix="/overview")
 )
 async def read_overview_list(
     category: Optional[str] = Query(
-        None, description="firmName, bizrNo, jurirNo, stockCode"
+        None, description="stockName, stockCode, bizrNo, jurirNo"
     ),
-    keyword: Optional[str] | None = None,
+    keyword: Optional[str] = None,
     limit: int = 20,
     page: int = 1,
-    db: Session = Depends(get_dev_db),
+    db: Session = Depends(get_mvc_db),
 ):
     try:
-        search_category = ""
-        if category == "firmName":
-            search_category = "firm"
-        elif category == "bizrNo":
-            search_category = "bizr_no"
-        elif category == "jurirNo":
-            search_category = "corp_cls"
-        elif category == "stockCode":
-            search_category = "stock_code"
+        search_category = None
+        if category:
+            search_category = {
+                'stockName': 'stock_name',
+                'bizrNo': 'bizr_no',
+                'jurirNo': 'corp_cls',
+                'stockCode': 'stock_code'
+            }.get(category)
 
         result, total_count = crud.get_overview_list(
-            category=search_category, keyword=keyword, limit=limit, page=page, db=db
+            category=search_category, keyword=keyword,
+            limit=limit, page=page, db=db
         )
+        
         response = {"length": total_count, "data": result}
         return response
+    
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
@@ -91,7 +100,7 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
                 list_date = openapi_outline.enpxchglstgdt
                 delist_date = openapi_outline.enpxchglstgaboldt
             elif dart_corp_info.corp_cls.lower() == "k":
-                corp_class = "KODAQ"
+                corp_class = "KOSDAQ"
                 list_date = openapi_outline.enpkosdaqlstgdt
                 delist_date = openapi_outline.enpkosdaqlstgaboldt
             elif dart_corp_info.corp_cls.lower() == "n":
