@@ -33,18 +33,20 @@ class DepsList(BaseModel):
     class Config:
         from_attributes = True
 
+class Affiliate(TypedDict):
+    # corpCode: Optional[str]
+    corpName: str
 
 class OverviewBase(BaseModel):
     corpCode: str = Field(..., alias="corp_code")
-    firmName: str = Field(..., alias="firm")
+    stockName: str = Field(..., alias="stock_name")
     bizrNo: str = Field(..., alias="bizr_no")
     corpClass: str = Field(..., alias="corp_cls")
-    stockCode: str = Field(..., alias="stock_code")
-    conglomerateName: str | None = Field(None, alias="stock_name")
+    stockCode: Optional[str] = Field(..., alias="stock_code")
+    affiliateList: List[Affiliate] = Field([], alias="affiliate_list")
     ceoName: str | None = Field(None, alias="ceo_nm")
-    establishDate: str = Field(..., alias="bsns_year")
-    adress1: str = Field(..., alias="adres_1")
-    adress2: str = Field(..., alias="adres_2")
+    establishDate: Optional[str] = Field(None, alias="est_dt")
+    adress: str = Field(..., alias="adres")
     hompageUrl: str | None = Field(None, alias="hm_url")
 
     class Config:
@@ -55,10 +57,6 @@ class OverviewList(BaseModel):
     length: int
     data: List[OverviewBase]
 
-
-class Affiliate(TypedDict):
-    # corpCode: Optional[str]
-    corpName: str
 
 
 class SubCorp(TypedDict):
@@ -74,7 +72,7 @@ class OverviewDescriptionBase(BaseModel):
     corpName: str = Field(..., alias="corp_name")
     corpNameEng: str = Field(..., alias="corp_name_eng")
     corpNameHistory: Optional[List[dict]] = Field(None, alias="corp_name_history")
-    establishDate: str = Field(..., alias="est_dt")
+    establishDate: Optional[str] = Field(None, alias="est_dt")
     corpClass: Optional[str] = Field(None, alias="corp_cls")
     listDate: Optional[str] = Field(None, alias="list_date")
     delistDate: Optional[str] = Field(None, alias="delist_date")

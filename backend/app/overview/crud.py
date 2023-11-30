@@ -16,9 +16,9 @@ def get_overview_list(
 
     query = text(
         f"""
-        SELECT corp_code, firm, bizr_no, corp_cls, stock_code,
-            bsns_year, adres_1, adres_2
-        FROM mvc_fake_data
+        SELECT corp_code, stock_name, bizr_no, corp_cls, stock_code,
+            ceo_nm, est_dt, adres, hm_url
+        FROM source.dart_corp_info
         {query_condition}
         LIMIT :limit OFFSET (:page - 1) * :limit
         """
@@ -29,7 +29,7 @@ def get_overview_list(
     count_query = text(
         f"""
         SELECT COUNT(*) AS total_count
-        FROM mvc_fake_data
+        FROM source.dart_corp_info
         {query_condition}
         """
     )
