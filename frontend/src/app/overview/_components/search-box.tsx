@@ -15,7 +15,7 @@ import {
 
 const SearchBox = () => {
   const router = useRouter();
-  const [searchCategory, setSearchCategory] = useState('firmName');
+  const [searchCategory, setSearchCategory] = useState('stockName');
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const onSearchCategoryChange = (value: string) => {
@@ -38,10 +38,10 @@ const SearchBox = () => {
     <div className="flex gap-2">
       <Select onValueChange={onSearchCategoryChange} value={searchCategory}>
         <SelectTrigger className="w-[220px]">
-          <SelectValue placeholder="회사명" defaultValue="firmName" />
+          <SelectValue placeholder="회사명" defaultValue="stockName" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="firmName">회사명</SelectItem>
+          <SelectItem value="stockName">회사명</SelectItem>
           <SelectItem value="corpCode">사업자등록번호</SelectItem>
           <SelectItem value="regCode">법인등록번호</SelectItem>
           <SelectItem value="stockCode">증권종목코드</SelectItem>

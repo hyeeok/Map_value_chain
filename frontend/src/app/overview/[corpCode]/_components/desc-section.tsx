@@ -14,7 +14,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const formatDate = (inputDate: string) => {
+const formatDate = (inputDate: string | null) => {
+  if (!inputDate) {
+    return inputDate;
+  }
   const year = inputDate.slice(0, 4);
   const month = parseInt(inputDate.slice(4, 6), 10);
   const day = parseInt(inputDate.slice(6), 10);
@@ -22,7 +25,10 @@ const formatDate = (inputDate: string) => {
   return formattedDate;
 };
 
-const formatListDate = (inputDate: string) => {
+const formatListDate = (inputDate: string | null) => {
+  if (!inputDate) {
+    return inputDate;
+  }
   const parts = inputDate.split('/');
   const year =
     parseInt(parts[0]) < 23

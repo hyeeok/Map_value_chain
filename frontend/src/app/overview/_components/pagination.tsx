@@ -11,7 +11,13 @@ const Pagination = ({
   currentPage: number;
   pageNum: number;
 }) => {
-  const numArray = Array.from({ length: pageNum }).map((v, i) => i + 1);
+  const startPageNum = currentPage - 1 - ((currentPage - 1) % 10) + 1;
+  const endPageNum = currentPage - 1 - ((currentPage - 1) % 10) + 10;
+
+  const numArray = Array.from(
+    { length: endPageNum - startPageNum + 1 },
+    (_, i) => startPageNum + i
+  );
 
   return (
     <>

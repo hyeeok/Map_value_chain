@@ -17,16 +17,15 @@ import {
 interface OverviewData {
   id?: number;
   corpCode: string;
-  firmName: string;
+  stockName: string;
   bizrNo: string;
-  jurirNo: string;
-  stockCode: string;
-  conglomerateName: string | null;
-  ceoName: string;
-  establishDate: string;
-  adress1: string;
-  adress2: string;
-  homepage?: string | null;
+  corpClass: string | null;
+  stockCode: string | null;
+  affiliateList: string[];
+  ceoName: string | null;
+  establishDate: string | null;
+  adress: string | null;
+  hompageUrl?: string | null;
 }
 interface OverviewListData {
   length: number;
@@ -34,6 +33,7 @@ interface OverviewListData {
 }
 
 const OverviewList = ({ data }: { data: OverviewListData }) => {
+  console.log(data);
   const router = useRouter();
   const limit = 20;
   const pageNum = Math.ceil(data?.length / limit);
@@ -62,7 +62,7 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                   <TableHead>사업자등록번호</TableHead>
                   <TableHead>법인구분</TableHead>
                   <TableHead>종목코드</TableHead>
-                  <TableHead>계열모회사</TableHead>
+                  <TableHead>계열사</TableHead>
                   <TableHead>대표자명</TableHead>
                   <TableHead>설립일</TableHead>
                   <TableHead>지역</TableHead>
@@ -78,24 +78,24 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                           href={`/overview/${data.corpCode}`}
                           className="hover:underline"
                         >
-                          {data.firmName}
+                          {data.stockName}
                         </Link>
                       </TableCell>
                       <TableCell>{data.bizrNo}</TableCell>
-                      <TableCell>{data.jurirNo}</TableCell>
+                      <TableCell>{data.corpClass}</TableCell>
                       <TableCell>{data.stockCode || '-'}</TableCell>
-                      <TableCell>{data.conglomerateName || '-'}</TableCell>
+                      <TableCell>{data.affiliateList.length || '-'}</TableCell>
                       <TableCell>{data.ceoName || '-'}</TableCell>
                       <TableCell>{data.establishDate}</TableCell>
                       <TableCell>
-                        {data.adress1} {data.adress2}
+                        {data.adress ? data.adress.split(' ')[0] : '-'}
                       </TableCell>
                       <TableCell>
-                        {data.homepage ? (
+                        {data.hompageUrl ? (
                           <Link
                             target="_blank"
                             rel="noopener noreferrer"
-                            href={`https://${data.homepage}`}
+                            href={`https://${data.hompageUrl}`}
                             className="hover:underline"
                           >
                             바로가기
