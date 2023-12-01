@@ -162,18 +162,18 @@ def get_corp_name_by_corp_code(corp_code: str, db: Session):
 def get_vendor_corp_list(corp_name: str, vendor_class: str | None, db: Session):
     corp_name = corp_name.replace("(주)", "")
     query_condition = ""
-    params = {}
+    params = {"corp_name": f"%{corp_name}%"}
     if vendor_class:
         query_condition = f"AND vendor_class=:vendor_class"
         params.update({"vendor_class": vendor_class})
     query = text(
         f"""
-        SELECT * FROM public.relation
+        SELECT *
+        FROM public.relation
         WHERE corp_name ILIKE :corp_name
         {query_condition}
         """
     )
-    params.update({"corp_name": f"%{corp_name}%"})
     result = db.execute(query, params).all()
     return result
 

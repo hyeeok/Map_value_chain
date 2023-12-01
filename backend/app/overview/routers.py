@@ -166,30 +166,32 @@ async def read_overview_relations(
         depth_one_list = crud.get_vendor_corp_list(
             corp_name=corp_name[0], vendor_class=None, db=dev_db
         )
-        depth_one_list = [row._asdict() for row in depth_one_list]
         print(depth_one_list)
-        return
+        depth_one_list = [row._asdict() for row in depth_one_list]
+        depth_one_list = sorted(depth_one_list, key=lambda x: x['vendor_class'])
+        print(depth_one_list)
 
-        # depth_one_list = sorted(depth_one_list, key=lambda x: x.vendor_class)
-        # for depth_one_item in depth_one_list:
-        #     depth_one_corp_name = depth_one_item.corp_name
-        #     if depth_one_item.vendor_class == "구매":
-        #         depth_two_list = crud.get_vendor_corp_list(
-        #             corp_name=depth_one_corp_name, vendor_class="구매", db=dev_db
-        #         )
-        #         for depth_two_item in depth_two_list:
-        #             result.append(depth_two_item)
-        #         result.append(depth_one_item)
-        #     elif depth_one_item.vendor_class == "판매":
-        #         depth_two_list = crud.get_vendor_corp_list(
-        #             corp_name=depth_one_corp_name, vendor_class="판매", db=dev_db
-        #         )
-        #         for depth_two_item in depth_two_list:
-        #             result.append(depth_two_item)
-        #         result.append(depth_one_item)
-        # print(result)
-        # response = {"data": result}
-        # return response
+        for depth_one_item in depth_one_list:
+            depth_one_corp_name = depth_one_item['vendor_corp_name']
+            print(depth_one_corp_name)
+            if depth_one_item['vendor_class'] == "구매":
+                depth_two_list = crud.get_vendor_corp_list(
+                    corp_name=depth_one_corp_name, vendor_class="구매", db=dev_db
+                )
+                depth_two_list = [row._asdict() for row in depth_two_list]
+                for depth_two_item in depth_two_list:
+                    result.append(depth_two_item)
+                result.append(depth_one_item)
+            elif depth_one_item['vendor_class'] == "판매":
+                depth_two_list = crud.get_vendor_corp_list(
+                    corp_name=depth_one_corp_name, vendor_class="판매", db=dev_db
+                )
+                depth_two_list = [row._asdict() for row in depth_two_list]
+                for depth_two_item in depth_two_list:
+                    result.append(depth_two_item)
+                result.append(depth_one_item)
+        response = {"data": result}
+        return response
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
