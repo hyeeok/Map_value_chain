@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { baseUrl } from '@/api/api-client';
 import DescSection from '@/app/overview/[corpCode]/_components/desc-section';
 import IndustryInfo from '@/app/overview/[corpCode]/_components/industry-info';
+import RelationSection from '@/app/overview/[corpCode]/_components/relation-section';
 
 const getOverviewDesc = async (corpCode: string) => {
   const cookieStore = cookies();
@@ -15,15 +16,28 @@ const getOverviewDesc = async (corpCode: string) => {
   }
 };
 
+const getOverviewRelation = async (corpCode: string) => {
+  const cookieStore = cookies();
+  try {
+    const response = await fetch(`${baseUrl}/overview/${corpCode}/relations`);
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const IndustryInfoPage = async ({
   params,
 }: {
   params: { corpCode: string };
 }) => {
   const overviewDescData = await getOverviewDesc(params.corpCode);
+  const overviewRelationData = await getOverviewRelation(params.corpCode);
   return (
     <div className="flex flex-col gap-6">
       <DescSection data={overviewDescData} />
+      <RelationSection data={overviewRelationData} />
       <IndustryInfo />
     </div>
   );
