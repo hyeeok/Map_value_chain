@@ -1,6 +1,7 @@
 from typing import Dict, List, Union
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_dev_db, get_mvc_db
@@ -10,13 +11,11 @@ from .schemas import *
 
 router = APIRouter(prefix="/overview")
 
+
 def map_corp_cls(corp_cls: str):
-    mapping = {
-        'y': 'KOSPI',
-        'k':'KOSDAQ',
-        'n':'KONEX'
-    }
-    return mapping.get(corp_cls.lower(), 'etc')
+    mapping = {"y": "KOSPI", "k": "KOSDAQ", "n": "KONEX"}
+    return mapping.get(corp_cls.lower(), "etc")
+
 
 @router.get(
     "",
@@ -36,20 +35,19 @@ async def read_overview_list(
         search_category = None
         if category:
             search_category = {
-                'stockName': 'stock_name',
-                'bizrNo': 'bizr_no',
-                'jurirNo': 'corp_cls',
-                'stockCode': 'stock_code'
+                "stockName": "stock_name",
+                "bizrNo": "bizr_no",
+                "jurirNo": "corp_cls",
+                "stockCode": "stock_code",
             }.get(category)
 
         result, total_count = crud.get_overview_list(
-            category=search_category, keyword=keyword,
-            limit=limit, page=page, db=db
+            category=search_category, keyword=keyword, limit=limit, page=page, db=db
         )
-        
+
         response = {"length": total_count, "data": result}
         return response
-    
+
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
@@ -73,6 +71,36 @@ async def read_company_items_by_category(
 def read_deps(db: Session = Depends(get_mvc_db)):
     result = crud.get_deps(db=db)
     return {"length": len(result), "data": result}
+
+
+@router.get("/relations", summary="(temp) update corp code for relation db")
+async def update_corp_code(
+    mvc_db: Session = Depends(get_mvc_db), dev_db: Session = Depends(get_dev_db)
+):
+    try:
+        results = crud.get_relations(db=dev_db)
+        results = [row._asdict() for row in results]
+        for item in results:
+            corp_code = crud.get_corp_code_by_corp_name(item["corp_name"], db=mvc_db)
+            vendor_corp_code = crud.get_corp_code_by_corp_name(
+                item["vendor_corp_name"], db=mvc_db
+            )
+            if not corp_code or not vendor_corp_code:
+                continue
+            crud.patch_corp_code_by_corp_name(
+                corp_code=corp_code[0],
+                corp_name=item["corp_name"],
+                vendor_corp_name=item["vendor_corp_name"],
+                vendor_corp_code=vendor_corp_code[0],
+                db=dev_db,
+            )
+            print(item["corp_name"])
+        response = {"msg": "completed"}
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get(
@@ -147,6 +175,47 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
             enpmainbiznm=openapi_outline.enpmainbiznm,
             classList=[],
         )
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get(
+    "/{corp_code}/relations",
+    response_model=OverviewRelationList,
+    response_model_by_alias=False,
+)
+async def read_overview_relations(
+    corp_code: str,
+    db: Session = Depends(get_dev_db),
+):
+    try:
+        result = []
+        depth_one_list = crud.get_vendor_corp_list(
+            corp_code=corp_code, vendor_class=None, db=db
+        )
+        depth_one_list = [row._asdict() for row in depth_one_list]
+
+        def process_vendor_corp(vendor_class: str):
+            for depth_one_item in depth_one_list:
+                depth_one_corp_code = depth_one_item["vendor_corp_code"]
+                depth_one_vendor_class = depth_one_item["vendor_class"]
+                if depth_one_corp_code and depth_one_vendor_class == vendor_class:
+                    depth_two_list = crud.get_vendor_corp_list(
+                        corp_code=depth_one_corp_code,
+                        vendor_class=vendor_class,
+                        db=db,
+                    )
+                    depth_two_list = [row._asdict() for row in depth_two_list]
+                    result.extend(depth_two_list)
+                    result.append(depth_one_item)
+
+        process_vendor_corp("구매")
+        process_vendor_corp("판매")
+
+        response = {"length": len(result), "data": result}
         return response
 
     except Exception as e:

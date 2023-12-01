@@ -11,13 +11,20 @@ def get_overview_list(
     params = {}
 
     if keyword:
-        query_condition = f"WHERE {category} ILIKE :keyword"
+        if category == "stock_name":
+            query_condition = f"""
+            WHERE stock_name ILIKE :keyword
+            OR corp_name ILIKE :keyword
+            OR corp_name_eng ILIKE :keyword
+            """
+        else:
+            query_condition = f"WHERE {category} ILIKE :keyword"
         params["keyword"] = f"%{keyword}%"
 
     query = text(
         f"""
-        SELECT corp_code, stock_name, bizr_no, corp_cls, stock_code,
-            ceo_nm, est_dt, adres, hm_url
+        SELECT corp_code, stock_name, stock_code,
+            bizr_no, corp_cls, ceo_nm, est_dt, adres, hm_url
         FROM source.dart_corp_info
         {query_condition}
         LIMIT :limit OFFSET (:page - 1) * :limit
@@ -139,7 +146,85 @@ def get_openapi_sub_company_list(crno: str, db: Session):
     return result
 
 
-from sqlalchemy.sql import text
+# TODO: relations corp_code 삽입용
+def get_relations(db: Session):
+    query = text("SELECT * FROM public.relation")
+    result = db.execute(query).all()
+    return result
+
+
+# TODO: relations corp_code 삽입용
+def get_corp_code_by_corp_name(corp_name: str, db: Session):
+    corp_name = corp_name.replace("㈜", "")
+    params = {"corp_name": f"%{corp_name}%"}
+    query = text(
+        """
+        SELECT corp_code FROM source.dart_corp_info
+        WHERE corp_name ILIKE :corp_name
+        """
+    )
+    result = db.execute(query, params).fetchone()
+    return result
+
+
+# TODO: relations corp_code 삽입용
+def patch_corp_code_by_corp_name(
+    corp_name: str,
+    corp_code: str,
+    vendor_corp_name: str,
+    vendor_corp_code: str,
+    db: Session,
+):
+    corp_name = corp_name.replace("(주)", "")
+    vendor_corp_name = vendor_corp_name.replace("(주)", "")
+    params = {
+        "corp_name": f"%{corp_name}%",
+        "corp_code": corp_code,
+        "vendor_corp_name": f"%{vendor_corp_name}%",
+        "vendor_corp_code": vendor_corp_code,
+    }
+    query = text(
+        """
+        UPDATE public.relation
+        SET corp_code = :corp_code, vendor_corp_code = :vendor_corp_code
+        WHERE corp_name ILIKE :corp_name
+        AND vendor_corp_name ILIKE :vendor_corp_name
+        """
+    )
+    try:
+        db.execute(query, params)
+        db.commit()
+        print("succeed:", corp_name, corp_code, vendor_corp_name, vendor_corp_code)
+
+    except Exception as e:
+        print("sql error", repr(e))
+        db.rollback()
+        raise e
+
+
+def get_vendor_corp_list(corp_code: str, vendor_class: str | None, db: Session):
+    query_condition = ""
+    params = {"corp_code": corp_code}
+    if vendor_class:
+        query_condition = f"AND vendor_class=:vendor_class"
+        params.update({"vendor_class": vendor_class})
+    query = text(
+        f"""
+        SELECT *
+        FROM (
+            SELECT *, ROW_NUMBER() OVER(
+                PARTITION BY vendor_corp_name
+                ORDER BY update_date DESC
+            ) AS rn
+            FROM public.relation
+            WHERE corp_code = :corp_code
+            {query_condition}
+        ) AS subquery
+        WHERE rn = 1
+        """
+    )
+    result = db.execute(query, params).all()
+    return result
 
 
 def get_naver_stock_price(stcd: str, db: Session):
