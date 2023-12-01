@@ -49,7 +49,7 @@ class OverviewBase(BaseModel):
     ceoName: Optional[str] = Field(None, alias="ceo_nm")
     establishDate: Optional[str] = Field(None, alias="est_dt")
     adress: Optional[str] = Field(None, alias="adres")
-    hompageUrl: Optional[str] = Field(None, alias="hm_url")
+    homepageUrl: Optional[str] = Field(None, alias="hm_url")
 
     class Config:
         from_attributes = True
