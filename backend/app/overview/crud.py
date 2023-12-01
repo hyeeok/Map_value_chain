@@ -146,32 +146,81 @@ def get_openapi_sub_company_list(crno: str, db: Session):
     return result
 
 
-# TODO: corp_code 검색이 구현되면 삭제 예정
-def get_corp_name_by_corp_code(corp_code: str, db: Session):
-    query = text(
-        """
-        SELECT corp_name FROM source.dart_corp_info
-        WHERE corp_code LIKE :corp_code
-        """
-    )
-    result = db.execute(query, {"corp_code": corp_code}).fetchone()
+# TODO: relations corp_code 삽입용
+def get_relations(db: Session):
+    query = text("SELECT * FROM public.relation")
+    result = db.execute(query).all()
     return result
 
 
-# TODO: 향후 corp_code를 통해 검색하도록 하는게 바람직
-def get_vendor_corp_list(corp_name: str, vendor_class: str | None, db: Session):
-    corp_name = corp_name.replace("(주)", "")
-    query_condition = ""
+# TODO: relations corp_code 삽입용
+def get_corp_code_by_corp_name(corp_name: str, db: Session):
+    corp_name = corp_name.replace("㈜", "")
     params = {"corp_name": f"%{corp_name}%"}
+    query = text(
+        """
+        SELECT corp_code FROM source.dart_corp_info
+        WHERE corp_name ILIKE :corp_name
+        """
+    )
+    result = db.execute(query, params).fetchone()
+    return result
+
+
+# TODO: relations corp_code 삽입용
+def patch_corp_code_by_corp_name(
+    corp_name: str,
+    corp_code: str,
+    vendor_corp_name: str,
+    vendor_corp_code: str,
+    db: Session,
+):
+    corp_name = corp_name.replace("(주)", "")
+    vendor_corp_name = vendor_corp_name.replace("(주)", "")
+    params = {
+        "corp_name": f"%{corp_name}%",
+        "corp_code": corp_code,
+        "vendor_corp_name": f"%{vendor_corp_name}%",
+        "vendor_corp_code": vendor_corp_code,
+    }
+    query = text(
+        """
+        UPDATE public.relation
+        SET corp_code = :corp_code, vendor_corp_code = :vendor_corp_code
+        WHERE corp_name ILIKE :corp_name
+        AND vendor_corp_name ILIKE :vendor_corp_name
+        """
+    )
+    try:
+        db.execute(query, params)
+        db.commit()
+        print("succeed:", corp_name, corp_code, vendor_corp_name, vendor_corp_code)
+
+    except Exception as e:
+        print("sql error", repr(e))
+        db.rollback()
+        raise e
+
+
+def get_vendor_corp_list(corp_code: str, vendor_class: str | None, db: Session):
+    query_condition = ""
+    params = {"corp_code": corp_code}
     if vendor_class:
         query_condition = f"AND vendor_class=:vendor_class"
         params.update({"vendor_class": vendor_class})
     query = text(
         f"""
         SELECT *
-        FROM public.relation
-        WHERE corp_name ILIKE :corp_name
-        {query_condition}
+        FROM (
+            SELECT *, ROW_NUMBER() OVER(
+                PARTITION BY vendor_corp_name
+                ORDER BY update_date DESC
+            ) AS rn
+            FROM public.relation
+            WHERE corp_code = :corp_code
+            {query_condition}
+        ) AS subquery
+        WHERE rn = 1
         """
     )
     result = db.execute(query, params).all()

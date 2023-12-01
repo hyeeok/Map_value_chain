@@ -73,6 +73,36 @@ def read_deps(db: Session = Depends(get_mvc_db)):
     return {"length": len(result), "data": result}
 
 
+@router.get("/relations", summary="(temp) update corp code for relation db")
+async def update_corp_code(
+    mvc_db: Session = Depends(get_mvc_db), dev_db: Session = Depends(get_dev_db)
+):
+    try:
+        results = crud.get_relations(db=dev_db)
+        results = [row._asdict() for row in results]
+        for item in results:
+            corp_code = crud.get_corp_code_by_corp_name(item["corp_name"], db=mvc_db)
+            vendor_corp_code = crud.get_corp_code_by_corp_name(
+                item["vendor_corp_name"], db=mvc_db
+            )
+            if not corp_code or not vendor_corp_code:
+                continue
+            crud.patch_corp_code_by_corp_name(
+                corp_code=corp_code[0],
+                corp_name=item["corp_name"],
+                vendor_corp_name=item["vendor_corp_name"],
+                vendor_corp_code=vendor_corp_code[0],
+                db=dev_db,
+            )
+            print(item["corp_name"])
+        response = {"msg": "completed"}
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get(
     "/{corp_code}/description",
     response_model=OverviewDescription,
@@ -152,46 +182,42 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/{corp_code}/relations")
+@router.get(
+    "/{corp_code}/relations",
+    response_model=OverviewRelationList,
+    response_model_by_alias=False,
+)
 async def read_overview_relations(
     corp_code: str,
-    mvc_db: Session = Depends(get_mvc_db),
-    dev_db: Session = Depends(get_dev_db),
+    db: Session = Depends(get_dev_db),
 ):
     try:
-        corp_name = crud.get_corp_name_by_corp_code(corp_code, db=mvc_db)
-        if corp_name == None:
-            return HTTPException(status_code=404, detail="corp_name not found")
         result = []
         depth_one_list = crud.get_vendor_corp_list(
-            corp_name=corp_name[0], vendor_class=None, db=dev_db
+            corp_code=corp_code, vendor_class=None, db=db
         )
-        print(depth_one_list)
         depth_one_list = [row._asdict() for row in depth_one_list]
-        depth_one_list = sorted(depth_one_list, key=lambda x: x['vendor_class'])
-        print(depth_one_list)
 
-        for depth_one_item in depth_one_list:
-            depth_one_corp_name = depth_one_item['vendor_corp_name']
-            print(depth_one_corp_name)
-            if depth_one_item['vendor_class'] == "구매":
-                depth_two_list = crud.get_vendor_corp_list(
-                    corp_name=depth_one_corp_name, vendor_class="구매", db=dev_db
-                )
-                depth_two_list = [row._asdict() for row in depth_two_list]
-                for depth_two_item in depth_two_list:
-                    result.append(depth_two_item)
-                result.append(depth_one_item)
-            elif depth_one_item['vendor_class'] == "판매":
-                depth_two_list = crud.get_vendor_corp_list(
-                    corp_name=depth_one_corp_name, vendor_class="판매", db=dev_db
-                )
-                depth_two_list = [row._asdict() for row in depth_two_list]
-                for depth_two_item in depth_two_list:
-                    result.append(depth_two_item)
-                result.append(depth_one_item)
-        response = {"data": result}
+        def process_vendor_corp(vendor_class: str):
+            for depth_one_item in depth_one_list:
+                depth_one_corp_code = depth_one_item["vendor_corp_code"]
+                depth_one_vendor_class = depth_one_item["vendor_class"]
+                if depth_one_corp_code and depth_one_vendor_class == vendor_class:
+                    depth_two_list = crud.get_vendor_corp_list(
+                        corp_code=depth_one_corp_code,
+                        vendor_class=vendor_class,
+                        db=db,
+                    )
+                    depth_two_list = [row._asdict() for row in depth_two_list]
+                    result.extend(depth_two_list)
+                    result.append(depth_one_item)
+
+        process_vendor_corp("구매")
+        process_vendor_corp("판매")
+
+        response = {"length": len(result), "data": result}
         return response
+
     except Exception as e:
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
