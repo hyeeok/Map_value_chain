@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -13,14 +12,6 @@ import {
 const IndustryInfo = () => {
   return (
     <div className="flex flex-col gap-6">
-      <section>
-        <h3 className="scroll-m-20 text-lg font-bold tracking-tight">
-          주요 거래처
-        </h3>
-        <div className="mt-2">
-          <Skeleton className="w-full h-[200px] rounded-md" />
-        </div>
-      </section>
       <section>
         <h3 className="scroll-m-20 text-lg font-bold tracking-tight">
           [ 연결 | 개별] , [ 연간 | 분기 ] , 통화단위, 금액단위

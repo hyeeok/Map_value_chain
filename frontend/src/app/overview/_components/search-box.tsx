@@ -53,6 +53,7 @@ const SearchBox = () => {
         onChange={(event) => onSearchKeywordChange(event)}
       />
       <Button
+        type="submit"
         onClick={() => handleSearch(searchCategory, searchKeyword)}
         className="w-[200px]"
       >
