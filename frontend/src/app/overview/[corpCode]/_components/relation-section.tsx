@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 
 import { getOverviewRelation } from '@/api/overview/api';
+import { Button } from '@/components/ui/button';
 
 interface OverviewRelationType {
   id: number;
@@ -99,11 +100,21 @@ const RelationSection = ({
       .finally(() => setCyCorpCode(clickedId));
   };
 
+  const handleReset = () => {
+    setCyElements(formatCyElements(data));
+    setCyCorpCode(corpCode);
+  };
+
   return (
     <section>
-      <h3 className="scroll-m-20 text-lg font-bold tracking-tight">
-        주요 거래처
-      </h3>
+      <div className="flex justify-between">
+        <h3 className="scroll-m-20 text-lg font-bold tracking-tight inline-flex items-end">
+          주요 거래처
+        </h3>
+        <Button variant={'outline'} size={'sm'} onClick={handleReset}>
+          초기화
+        </Button>
+      </div>
       <div className="rounded-md mt-2">
         <CytoscapeComponent
           key={cyCorpCode}
