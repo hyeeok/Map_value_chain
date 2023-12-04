@@ -34,18 +34,22 @@ class DepsList(BaseModel):
         from_attributes = True
 
 
+class Affiliate(TypedDict):
+    # corpCode: Optional[str]
+    corpName: str
+
+
 class OverviewBase(BaseModel):
     corpCode: str = Field(..., alias="corp_code")
-    firmName: str = Field(..., alias="firm")
-    bizrNo: str = Field(..., alias="bizr_no")
+    stockName: Optional[str] = Field(None, alias="stock_name")
+    bizrNo: Optional[str] = Field(None, alias="bizr_no")
     corpClass: str = Field(..., alias="corp_cls")
-    stockCode: str = Field(..., alias="stock_code")
-    conglomerateName: str | None = Field(None, alias="stock_name")
-    ceoName: str | None = Field(None, alias="ceo_nm")
-    establishDate: str = Field(..., alias="bsns_year")
-    adress1: str = Field(..., alias="adres_1")
-    adress2: str = Field(..., alias="adres_2")
-    hompageUrl: str | None = Field(None, alias="hm_url")
+    stockCode: Optional[str] = Field(None, alias="stock_code")
+    affiliateList: List[Affiliate] = Field([], alias="affiliate_list")
+    ceoName: Optional[str] = Field(None, alias="ceo_nm")
+    establishDate: Optional[str] = Field(None, alias="est_dt")
+    adress: Optional[str] = Field(None, alias="adres")
+    homepageUrl: Optional[str] = Field(None, alias="hm_url")
 
     class Config:
         from_attributes = True
@@ -55,10 +59,8 @@ class OverviewList(BaseModel):
     length: int
     data: List[OverviewBase]
 
-
-class Affiliate(TypedDict):
-    # corpCode: Optional[str]
-    corpName: str
+    class Config:
+        from_attributes = True
 
 
 class SubCorp(TypedDict):
@@ -67,28 +69,28 @@ class SubCorp(TypedDict):
 
 
 class OverviewDescriptionBase(BaseModel):
-    stockName: str = Field(..., alias="stock_name")
-    stockCode: Optional[str] = Field(..., alias="stock_code")
-    bizrNo: str = Field(..., alias="bizr_no")
+    stockName: Optional[str] = Field(None, alias="stock_name")
+    stockCode: Optional[str] = Field(None, alias="stock_code")
+    bizrNo: Optional[str] = Field(None, alias="bizr_no")
     jurirNo: str = Field(..., alias="jurir_no")
     corpName: str = Field(..., alias="corp_name")
     corpNameEng: str = Field(..., alias="corp_name_eng")
     corpNameHistory: Optional[List[dict]] = Field(None, alias="corp_name_history")
-    establishDate: str = Field(..., alias="est_dt")
+    establishDate: Optional[str] = Field(None, alias="est_dt")
     corpClass: Optional[str] = Field(None, alias="corp_cls")
     listDate: Optional[str] = Field(None, alias="list_date")
     delistDate: Optional[str] = Field(None, alias="delist_date")
     homepageUrl: Optional[str] = Field(None, alias="hm_url")
     phoneNum: str = Field(..., alias="phn_no")
-    adress: str = Field(..., alias="adres")
-    ceoName: str = Field(..., alias="ceo_nm")
+    adress: Optional[str] = Field(None, alias="adres")
+    ceoName: Optional[str] = Field(None, alias="ceo_nm")
     affiliateList: List[Affiliate] = Field(..., alias="affiliate_list")
     isSMCorp: Optional[str] = Field(None, alias="smenpyn")
     isVenture: Optional[str]
     subCorpList: Optional[List[SubCorp]] = Field(None, alias="sub_corp_list")
     shareholderNum: Optional[int] = Field(None, alias="shareholder_num")
     employeeNum: int = Field(..., alias="enpempecnt")
-    avgSalary: str = Field(..., alias="enppn1avgslryamt")
+    avgSalary: float = Field(..., alias="enppn1avgslryamt")
     auditorReportOpinion: Optional[str] = Field(None, alias="audtrptopnnctt")
     settleMonth: int = Field(..., alias="acc_mt")
     issuerRate: Optional[str]
@@ -101,6 +103,29 @@ class OverviewDescriptionBase(BaseModel):
 
 class OverviewDescription(OverviewDescriptionBase):
     pass
+
+
+class OverviewRelationBase(BaseModel):
+    id: int
+    industryClass: str
+    corpName: str = Field(..., alias="corp_name")
+    corpCode: Optional[str] = Field(None, alias="corp_code")
+    vendorCorpName: str = Field(..., alias="vendor_corp_name")
+    vendorCorpCode: Optional[str] = Field(None, alias="vendor_corp_code")
+    vendorClass: str = Field(None, alias="vendor_class")
+    industryClass: str = Field(None, alias="industry_class")
+    updateDate: str = Field(None, alias="update_date")
+
+    class Config:
+        from_attributes = True
+
+
+class OverviewRelationList(BaseModel):
+    length: int
+    data: List[OverviewRelationBase]
+
+    class Config:
+        from_attributes = True
 
 
 class OverviewFinancialsBase(BaseModel):
