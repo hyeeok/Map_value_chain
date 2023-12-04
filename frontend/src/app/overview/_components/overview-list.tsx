@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import Pagination from '@/app/overview/_components/pagination';
+import { formatDate } from '@/app/overview/[corpCode]/_components/desc-section';
 import {
   Table,
   TableBody,
@@ -25,7 +26,7 @@ interface OverviewData {
   ceoName: string | null;
   establishDate: string | null;
   adress: string | null;
-  hompageUrl?: string | null;
+  homepageUrl?: string | null;
 }
 interface OverviewListData {
   length: number;
@@ -85,17 +86,17 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                       <TableCell>{data.stockCode || '-'}</TableCell>
                       <TableCell>{data.affiliateList.length || '-'}</TableCell>
                       <TableCell>{data.ceoName || '-'}</TableCell>
-                      <TableCell>{data.establishDate}</TableCell>
+                      <TableCell>{formatDate(data.establishDate)}</TableCell>
                       <TableCell>
                         {data.adress ? data.adress.split(' ')[0] : '-'}
                       </TableCell>
                       <TableCell>
-                        {data.hompageUrl ? (
+                        {data.homepageUrl ? (
                           <Link
                             target="_blank"
                             rel="noopener noreferrer"
-                            href={`https://${data.hompageUrl}`}
-                            className="hover:underline"
+                            href={`https://${data.homepageUrl}`}
+                            className="underline hover:opacity-80"
                           >
                             바로가기
                           </Link>

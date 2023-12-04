@@ -14,7 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const formatDate = (inputDate: string | null) => {
+export const formatDate = (inputDate: string | null) => {
   if (!inputDate) {
     return inputDate;
   }

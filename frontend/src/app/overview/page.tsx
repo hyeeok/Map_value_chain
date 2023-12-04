@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import React from 'react';
 
 import { baseUrl } from '@/api/api-client';
+import OverviewList from '@/app/overview/_components/overview-list';
 
 const getOverview = async () => {
   const cookieStore = cookies();
@@ -15,11 +16,11 @@ const getOverview = async () => {
 };
 
 const OverviewPage = async () => {
-  // const OverviewListData = await getOverview();
+  const OverviewListData = await getOverview();
   return (
     <>
       <div>hello</div>
-      {/* <OverviewList data={OverviewListData} /> */}
+      <OverviewList data={OverviewListData} />
     </>
   );
 };
