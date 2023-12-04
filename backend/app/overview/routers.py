@@ -189,3 +189,13 @@ async def read_overview_financials(corp_code: str, db: Session = Depends(get_mvc
         # thstrm_amount=dart_balance_sheet.thstrm_amount,
     )
     return response
+
+
+@router.get(
+    "/{corp_code}/relations",
+    response_model=OverviewRelations,
+    response_model_by_alias=False,
+)
+async def read_overview_relations(corp_code: str, db: Session = Depends(get_mvc_db)):
+    overviw_relation = crud.get_overview_relations
+    pass

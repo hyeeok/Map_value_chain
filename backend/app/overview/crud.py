@@ -182,3 +182,7 @@ def get_krx_corp_info(stcd: str, db: Session):
 #     )
 #     result = db.execute(query, {"stcd": stcd}).fetchone()
 #     return result
+
+
+def get_overview_relations():
+    pass

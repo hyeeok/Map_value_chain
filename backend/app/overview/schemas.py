@@ -140,3 +140,11 @@ class OverviewFinancialsBase(BaseModel):
 
 class OverviewFinancials(OverviewFinancialsBase):
     pass
+
+
+class OverviewRelationsBase(BaseModel):
+    pass
+
+
+class OverviewRelations(OverviewRelationsBase):
+    pass
