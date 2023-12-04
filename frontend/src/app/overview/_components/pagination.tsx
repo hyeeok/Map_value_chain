@@ -1,4 +1,9 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -11,8 +16,11 @@ const Pagination = ({
   currentPage: number;
   pageNum: number;
 }) => {
-  const startPageNum = currentPage - 1 - ((currentPage - 1) % 10) + 1;
-  const endPageNum = currentPage - 1 - ((currentPage - 1) % 10) + 10;
+  const startPageNum = Math.floor((currentPage - 1) / 10) * 10 + 1;
+  const endPageNum = Math.min(
+    (Math.floor((currentPage - 1) / 10) + 1) * 10,
+    pageNum
+  );
 
   const numArray = Array.from(
     { length: endPageNum - startPageNum + 1 },
@@ -21,6 +29,14 @@ const Pagination = ({
 
   return (
     <>
+      <Button
+        variant="link"
+        size="sm"
+        onClick={() => handlePageClick(1)}
+        disabled={currentPage === 1}
+      >
+        <ChevronsLeft className="w-4 h-4" />
+      </Button>
       <Button
         variant="link"
         size="sm"
@@ -49,6 +65,14 @@ const Pagination = ({
         disabled={currentPage >= pageNum}
       >
         <ChevronRight className="w-4 h-4" />
+      </Button>
+      <Button
+        variant="link"
+        size="sm"
+        onClick={() => handlePageClick(pageNum)}
+        disabled={currentPage == pageNum}
+      >
+        <ChevronsRight className="w-4 h-4" />
       </Button>
     </>
   );
