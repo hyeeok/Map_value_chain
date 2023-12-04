@@ -2,8 +2,10 @@
 
 import cytoscape, { ElementDefinition } from 'cytoscape';
 import klay from 'cytoscape-klay';
-import React from 'react';
+import React, { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+
+import { getOverviewRelation } from '@/api/overview/api';
 
 interface OverviewRelationType {
   id: number;
@@ -16,8 +18,7 @@ interface OverviewRelationType {
   updateDate: string;
 }
 
-const RelationSection = ({ data }: { data: OverviewRelationType[] }) => {
-  console.log(data);
+const formatCyElements = (data: OverviewRelationType[]) => {
   let elements: ElementDefinition[] = [];
   data.map((item: OverviewRelationType) => {
     elements.push({
@@ -48,6 +49,19 @@ const RelationSection = ({ data }: { data: OverviewRelationType[] }) => {
       });
     }
   });
+  return elements;
+};
+
+const RelationSection = ({
+  data,
+  corpCode,
+}: {
+  data: OverviewRelationType[];
+  corpCode: string;
+}) => {
+  const [cyCorpCode, setCyCorpCode] = useState(corpCode);
+  const [cyElements, setCyElements] = useState(formatCyElements(data));
+
   cytoscape.use(klay);
   const layout = { name: 'klay' };
   const cyStyleSheet = [
@@ -72,6 +86,19 @@ const RelationSection = ({ data }: { data: OverviewRelationType[] }) => {
     },
   ];
 
+  const handleClick = (event: cytoscape.EventObject) => {
+    const clickedId = event?.target._private.data.id;
+    getOverviewRelation(clickedId)
+      .then((response) => {
+        if (response.data.length > 0) {
+          const cyElements = formatCyElements(response.data);
+          setCyElements(cyElements);
+        }
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setCyCorpCode(clickedId));
+  };
+
   return (
     <section>
       <h3 className="scroll-m-20 text-lg font-bold tracking-tight">
@@ -79,11 +106,17 @@ const RelationSection = ({ data }: { data: OverviewRelationType[] }) => {
       </h3>
       <div className="rounded-md mt-2">
         <CytoscapeComponent
-          elements={elements}
+          key={cyCorpCode}
+          elements={cyElements}
           layout={layout}
           style={{ width: 'w-full', height: '480px' }}
           stylesheet={cyStyleSheet}
           wheelSensitivity={0.1}
+          cy={(cy) => {
+            cy.on('tap', 'node', (event) => {
+              handleClick(event);
+            });
+          }}
         />
       </div>
     </section>

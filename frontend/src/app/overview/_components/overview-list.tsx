@@ -108,12 +108,15 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
               </TableBody>
             </Table>
           </div>
-          <div className="flex justify-center pt-6">
+          <div className="pt-6">
             <Pagination
               handlePageClick={handlePageClick}
               currentPage={parseInt(params.page)}
               pageNum={pageNum}
             />
+            <div className="h-9 py-2 mt-4 text-sm text-muted-foreground text-center">
+              [{params.page || 1}/{pageNum}] [총 {data.length || 0}건]
+            </div>
           </div>
         </div>
       </section>

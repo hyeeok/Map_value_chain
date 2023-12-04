@@ -47,7 +47,7 @@ const DescSection = ({ data }: { data: OverviewDescType }) => {
   return (
     <div className="flex flex-col gap-6">
       <section>
-        <div className="mb-4">
+        <div className="h-9 mb-4">
           <Button
             variant="link"
             onClick={() => router.back()}
@@ -75,13 +75,13 @@ const DescSection = ({ data }: { data: OverviewDescType }) => {
       </section>
 
       <section className="border rounded-md">
-        <Table>
+        <Table className="table-fixed">
           <TableBody>
             <TableRow>
-              <TableHead>사업자등록번호</TableHead>
-              <TableCell>{data.bizrNo || `-`}</TableCell>
-              <TableHead>법인등록번호</TableHead>
-              <TableCell>{data.jurirNo || `-`}</TableCell>
+              <TableHead className="w-1/6">사업자등록번호</TableHead>
+              <TableCell className="w-1/3">{data.bizrNo || `-`}</TableCell>
+              <TableHead className="w-1/6">법인등록번호</TableHead>
+              <TableCell className="w-1/3">{data.jurirNo || `-`}</TableCell>
             </TableRow>
             <TableRow>
               <TableHead>정식회사명</TableHead>

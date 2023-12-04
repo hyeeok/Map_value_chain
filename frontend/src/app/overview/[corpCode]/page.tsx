@@ -34,10 +34,16 @@ const IndustryInfoPage = async ({
 }) => {
   const overviewDescData = await getOverviewDesc(params.corpCode);
   const overviewRelationData = await getOverviewRelation(params.corpCode);
+
   return (
     <div className="flex flex-col gap-6">
       <DescSection data={overviewDescData} />
-      <RelationSection data={overviewRelationData} />
+      {overviewRelationData.length > 0 && (
+        <RelationSection
+          data={overviewRelationData}
+          corpCode={params.corpCode}
+        />
+      )}
       <IndustryInfo />
     </div>
   );

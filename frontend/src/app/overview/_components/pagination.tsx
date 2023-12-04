@@ -28,7 +28,7 @@ const Pagination = ({
   );
 
   return (
-    <>
+    <div className="flex justify-center">
       <Button
         variant="link"
         size="sm"
@@ -74,7 +74,7 @@ const Pagination = ({
       >
         <ChevronsRight className="w-4 h-4" />
       </Button>
-    </>
+    </div>
   );
 };
 

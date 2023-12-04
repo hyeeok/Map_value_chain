@@ -12,7 +12,6 @@ export const getOverviewhList = async ({
   page?: string | number | null;
 }) => {
   try {
-    console.log(typeof keyword);
     const response = await apiClient().get(`/overview`, {
       params: {
         // ...(option && { option: option }),
@@ -22,10 +21,18 @@ export const getOverviewhList = async ({
         page,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
     throw error;
+  }
+};
+
+export const getOverviewRelation = async (corpCode: string) => {
+  try {
+    const response = await apiClient().get(`/overview/${corpCode}/relations`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 };
