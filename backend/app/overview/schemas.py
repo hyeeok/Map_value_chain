@@ -35,7 +35,7 @@ class DepsList(BaseModel):
 
 
 class Affiliate(TypedDict):
-    # corpCode: Optional[str]
+    corpCode: Optional[str]
     corpName: str
 
 
@@ -68,6 +68,18 @@ class SubCorp(TypedDict):
     corpName: str
 
 
+class CeoNameHistory(TypedDict):
+    seq: int
+    ceoName: str
+    update_date: str
+
+
+class CorpNameHistory(TypedDict):
+    seq: int
+    corpName: str
+    update_date: str
+
+
 class OverviewDescriptionBase(BaseModel):
     stockName: Optional[str] = Field(None, alias="stock_name")
     stockCode: Optional[str] = Field(None, alias="stock_code")
@@ -75,7 +87,9 @@ class OverviewDescriptionBase(BaseModel):
     jurirNo: str = Field(..., alias="jurir_no")
     corpName: str = Field(..., alias="corp_name")
     corpNameEng: str = Field(..., alias="corp_name_eng")
-    corpNameHistory: Optional[List[dict]] = Field(None, alias="corp_name_history")
+    corpNameHistory: Optional[List[CorpNameHistory]] = Field(
+        None, alias="corp_name_history"
+    )
     establishDate: Optional[str] = Field(None, alias="est_dt")
     corpClass: Optional[str] = Field(None, alias="corp_cls")
     listDate: Optional[str] = Field(None, alias="list_date")
@@ -84,11 +98,11 @@ class OverviewDescriptionBase(BaseModel):
     phoneNum: str = Field(..., alias="phn_no")
     adress: Optional[str] = Field(None, alias="adres")
     ceoName: Optional[str] = Field(None, alias="ceo_nm")
+    ceoNameHistory: Optional[List[CeoNameHistory]] = Field(None, alias="ceo_nm_history")
     affiliateList: List[Affiliate] = Field(..., alias="affiliate_list")
     isSMCorp: Optional[str] = Field(None, alias="smenpyn")
     isVenture: Optional[str]
     subCorpList: Optional[List[SubCorp]] = Field(None, alias="sub_corp_list")
-    shareholderNum: Optional[int] = Field(None, alias="shareholder_num")
     employeeNum: int = Field(..., alias="enpempecnt")
     avgSalary: float = Field(..., alias="enppn1avgslryamt")
     auditorReportOpinion: Optional[str] = Field(None, alias="audtrptopnnctt")
@@ -103,6 +117,29 @@ class OverviewDescriptionBase(BaseModel):
 
 class OverviewDescription(OverviewDescriptionBase):
     pass
+
+
+class Shareholder(BaseModel):
+    name: str = Field(..., alias="nm")
+    relate: str = Field(..., alias="relate")
+    stockKind: str = Field(..., alias="stock_knd")
+    reportCode: str = Field(..., alias="reprt_code")
+    basisStockCount: str = Field(..., alias="bsis_posesn_stock_co")
+    basisStockRate: str = Field(..., alias="bsis_posesn_stock_qota_rt")
+    endStockCount: str = Field(..., alias="trmend_posesn_stock_co")
+    endStockRate: str = Field(..., alias="trmend_posesn_stock_qota_rt")
+    note: str = Field(..., alias="rm")
+
+    class Config:
+        from_attributes = True
+
+
+class OverviewShareholderList(BaseModel):
+    length: int
+    data: Optional[List[Shareholder]] = None
+
+    class Config:
+        from_attributes = True
 
 
 class OverviewRelationBase(BaseModel):
