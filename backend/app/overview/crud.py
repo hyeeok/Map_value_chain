@@ -9,7 +9,6 @@ def get_overview_list(
 ):
     query_condition = ""
     params = {}
-
     if keyword:
         if category == "stock_name":
             query_condition = f"""
@@ -122,11 +121,51 @@ def get_openapi_outline(crno: str, db: Session):
     return result
 
 
+def get_ceo_name_history_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT seq, ceo_nm, update_date
+        FROM source.dart_ceo_nm_change_history
+        WHERE corp_code = :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).all()
+    return result
+
+
+def get_corp_name_history_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT seq, corp_name, update_date
+        FROM source.dart_corp_name_change_history
+        WHERE corp_code = :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).all()
+    return result
+
+
+def get_shareholder_list_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT nm, relate, stock_knd, reprt_code,
+            bsis_posesn_stock_co, bsis_posesn_stock_qota_rt,
+            trmend_posesn_stock_co, trmend_posesn_stock_qota_rt, rm
+        FROM source.dart_hyslr_sttus
+        WHERE corp_code = :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).all()
+    return result
+
+
 def get_openapi_affiliate_list(crno: str, db: Session):
     query = text(
         """
-        SELECT afilcmpynm, afilcmpycrno
-        FROM source.openapi_corp_affiliate
+        SELECT o.afilcmpynm, d.corp_code 
+        FROM source.openapi_corp_affiliate o
+            LEFT JOIN source.dart_corp_info d
+            ON o.afilcmpycrno  = d.jurir_no
         WHERE crno = :crno
         """
     )
