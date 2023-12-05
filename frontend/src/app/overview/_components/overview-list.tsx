@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import Pagination from '@/app/overview/_components/pagination';
-import { formatDate } from '@/app/overview/[corpCode]/_components/desc-section';
+import { formatDate } from '@/app/overview/_lib/format-date';
+import { OverviewListData } from '@/app/overview/_types/types';
 import {
   Table,
   TableBody,
@@ -14,24 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-interface OverviewData {
-  id?: number;
-  corpCode: string;
-  stockName: string;
-  bizrNo: string;
-  corpClass: string | null;
-  stockCode: string | null;
-  affiliateList: string[];
-  ceoName: string | null;
-  establishDate: string | null;
-  adress: string | null;
-  homepageUrl?: string | null;
-}
-interface OverviewListData {
-  length: number;
-  data: OverviewData[];
-}
 
 const OverviewList = ({ data }: { data: OverviewListData }) => {
   console.log(data);

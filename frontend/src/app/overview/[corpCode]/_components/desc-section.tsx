@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { formatDate, formatListDate } from '@/app/overview/_lib/format-date';
 import DescDialog from '@/app/overview/[corpCode]/_components/desc-dialog';
 import {
   OverviewDescType,
@@ -18,32 +19,6 @@ import {
   TableHead,
   TableRow,
 } from '@/components/ui/table';
-
-export const formatDate = (inputDate: string | null) => {
-  if (!inputDate) {
-    return inputDate;
-  }
-  const year = inputDate.slice(0, 4);
-  const month = parseInt(inputDate.slice(4, 6), 10);
-  const day = parseInt(inputDate.slice(6), 10);
-  const formattedDate = `${year}년 ${month}월 ${day}일`;
-  return formattedDate;
-};
-
-const formatListDate = (inputDate: string | null) => {
-  if (!inputDate) {
-    return inputDate;
-  }
-  const parts = inputDate.split('/');
-  const year =
-    parseInt(parts[0]) < 23
-      ? 2000 + parseInt(parts[0])
-      : 1900 + parseInt(parts[0]);
-  const month = parseInt(parts[1]);
-  const day = parseInt(parts[2]);
-  const formattedDate = `${year}년 ${month}월 ${day}일`;
-  return formattedDate;
-};
 
 const DescSection = ({
   data,
@@ -125,9 +100,13 @@ const DescSection = ({
             </TableRow>
             <TableRow>
               <TableHead>설립일</TableHead>
-              <TableCell>{formatDate(data.establishDate)}</TableCell>
+              <TableCell>
+                {data.establishDate ? formatDate(data.establishDate) : '-'}
+              </TableCell>
               <TableHead>상장일</TableHead>
-              <TableCell>{formatListDate(data.listDate)}</TableCell>
+              <TableCell>
+                {data.listDate ? formatListDate(data.listDate) : '-'}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableHead>홈페이지</TableHead>
@@ -178,7 +157,7 @@ const DescSection = ({
               <TableHead>계열사수</TableHead>
               <TableCell>
                 <div className="flex flex-wrap justify-between">
-                  {data.affiliateList.length + `개` || `-`}
+                  {data.affiliateList.length || `-`}
                   {data.affiliateList && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
@@ -213,7 +192,7 @@ const DescSection = ({
               <TableHead>종속회사수</TableHead>
               <TableCell>
                 <div className="flex flex-wrap justify-between">
-                  {data.subCorpList.length + `개` || `-`}
+                  {data.subCorpList.length || `-`}
                   {data.subCorpList && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
@@ -236,7 +215,7 @@ const DescSection = ({
               <TableHead>주주수</TableHead>
               <TableCell>
                 <div className="flex flex-wrap justify-between">
-                  {shareholderData.length + `명` || `-`}
+                  {shareholderData.length || `-`}
                   {shareholderData.data && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
