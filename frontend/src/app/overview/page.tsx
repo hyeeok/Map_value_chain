@@ -19,7 +19,6 @@ const OverviewPage = async () => {
   const OverviewListData = await getOverview();
   return (
     <>
-      <div>hello</div>
       <OverviewList data={OverviewListData} />
     </>
   );
