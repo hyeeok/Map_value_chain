@@ -48,8 +48,8 @@ const SearchBox = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="stockName">회사명</SelectItem>
-            <SelectItem value="corpCode">사업자등록번호</SelectItem>
-            <SelectItem value="regCode">법인등록번호</SelectItem>
+            <SelectItem value="bizrNo">사업자등록번호</SelectItem>
+            <SelectItem value="jurirNo">법인등록번호</SelectItem>
             <SelectItem value="stockCode">증권종목코드</SelectItem>
           </SelectContent>
         </Select>
