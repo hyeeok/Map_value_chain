@@ -27,8 +27,6 @@ const DescSection = ({
   data: OverviewDescType;
   shareholderData: { length: number; data: OverviewShareholderType[] };
 }) => {
-  console.log(data);
-  console.log(shareholderData);
   const router = useRouter();
 
   return (

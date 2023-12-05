@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/table';
 
 const OverviewList = ({ data }: { data: OverviewListData }) => {
-  console.log(data);
   const router = useRouter();
   const limit = 20;
   const pageNum = Math.ceil(data?.length / limit);
