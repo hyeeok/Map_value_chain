@@ -5,7 +5,7 @@ export interface OverviewDescType {
   jurirNo: number;
   corpName: string;
   corpNameEng: string;
-  corpNameHistory: object[];
+  corpNameHistory: { seq: number; corpName: string }[];
   establishDate: string;
   corpClass: string;
   listDate: string;
@@ -14,10 +14,11 @@ export interface OverviewDescType {
   phoneNum: string;
   adress: string;
   ceoName: string;
-  affiliateList: [];
+  ceoNameHistory: { seq: number; ceoName: string }[];
+  affiliateList: { corpCode: string; corpName: string }[];
   isSMCorp: string;
   isVenture: string;
-  subCorpList: [];
+  subCorpList: { corpName: string }[];
   shareholderNum: null;
   employeeNum: number;
   avgSalary: number;
@@ -26,4 +27,16 @@ export interface OverviewDescType {
   issuerRate: string;
   mainBiz: string;
   classList: [];
+}
+
+export interface OverviewShareholderType {
+  name: string;
+  relate: string;
+  stockKind: string;
+  reportCode: string;
+  basisStockCount: string;
+  basisStockRate: string;
+  endStockCount: string;
+  endStockRate: string;
+  note: string;
 }

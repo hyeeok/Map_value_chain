@@ -15,6 +15,18 @@ const getOverviewDesc = async (corpCode: string) => {
     console.log(error);
   }
 };
+const getOverviewShareholders = async (corpCode: string) => {
+  const cookieStore = cookies();
+  try {
+    const response = await fetch(
+      `${baseUrl}/overview/${corpCode}/shareholders`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getOverviewRelation = async (corpCode: string) => {
   const cookieStore = cookies();
@@ -33,11 +45,15 @@ const IndustryInfoPage = async ({
   params: { corpCode: string };
 }) => {
   const overviewDescData = await getOverviewDesc(params.corpCode);
+  const overviewShareholders = await getOverviewShareholders(params.corpCode);
   const overviewRelationData = await getOverviewRelation(params.corpCode);
 
   return (
     <div className="flex flex-col gap-6">
-      <DescSection data={overviewDescData} />
+      <DescSection
+        data={overviewDescData}
+        shareholderData={overviewShareholders}
+      />
       {overviewRelationData.length > 0 && (
         <RelationSection
           data={overviewRelationData}

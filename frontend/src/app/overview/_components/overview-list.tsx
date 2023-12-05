@@ -34,6 +34,7 @@ interface OverviewListData {
 }
 
 const OverviewList = ({ data }: { data: OverviewListData }) => {
+  console.log(data);
   const router = useRouter();
   const limit = 20;
   const pageNum = Math.ceil(data?.length / limit);
@@ -62,7 +63,7 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                   <TableHead>사업자등록번호</TableHead>
                   <TableHead>법인구분</TableHead>
                   <TableHead>종목코드</TableHead>
-                  <TableHead>계열사</TableHead>
+                  {/* <TableHead>계열사</TableHead> */}
                   <TableHead>대표자명</TableHead>
                   <TableHead>설립일</TableHead>
                   <TableHead>지역</TableHead>
@@ -84,7 +85,7 @@ const OverviewList = ({ data }: { data: OverviewListData }) => {
                       <TableCell>{data.bizrNo}</TableCell>
                       <TableCell>{data.corpClass}</TableCell>
                       <TableCell>{data.stockCode || '-'}</TableCell>
-                      <TableCell>{data.affiliateList.length || '-'}</TableCell>
+                      {/* <TableCell>{data.affiliateList.length || '-'}</TableCell> */}
                       <TableCell>{data.ceoName || '-'}</TableCell>
                       <TableCell>{formatDate(data.establishDate)}</TableCell>
                       <TableCell>

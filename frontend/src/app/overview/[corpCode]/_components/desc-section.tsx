@@ -4,8 +4,13 @@ import { ArrowLeft, ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { OverviewDescType } from '@/app/overview/[corpCode]/_types/types';
+import DescDialog from '@/app/overview/[corpCode]/_components/desc-dialog';
+import {
+  OverviewDescType,
+  OverviewShareholderType,
+} from '@/app/overview/[corpCode]/_types/types';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import {
   Table,
   TableBody,
@@ -40,8 +45,15 @@ const formatListDate = (inputDate: string | null) => {
   return formattedDate;
 };
 
-const DescSection = ({ data }: { data: OverviewDescType }) => {
+const DescSection = ({
+  data,
+  shareholderData,
+}: {
+  data: OverviewDescType;
+  shareholderData: { length: number; data: OverviewShareholderType[] };
+}) => {
   console.log(data);
+  console.log(shareholderData);
   const router = useRouter();
 
   return (
@@ -85,7 +97,29 @@ const DescSection = ({ data }: { data: OverviewDescType }) => {
             </TableRow>
             <TableRow>
               <TableHead>정식회사명</TableHead>
-              <TableCell>{data.corpName || `-`}</TableCell>
+              <TableCell>
+                <div className="flex flex-wrap justify-between">
+                  {data.corpName || `-`}
+                  {data.corpNameHistory && (
+                    <Dialog>
+                      <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
+                        [회사명변경내역]
+                      </DialogTrigger>
+                      <DescDialog
+                        title="회사명변경내역"
+                        headDataList={['순서', '회사명']}
+                      >
+                        {data.corpNameHistory.map((corpName, cni) => (
+                          <TableRow key={cni}>
+                            <TableCell>{corpName.seq}</TableCell>
+                            <TableCell>{corpName.corpName}</TableCell>
+                          </TableRow>
+                        ))}
+                      </DescDialog>
+                    </Dialog>
+                  )}
+                </div>
+              </TableCell>
               <TableHead>회사영문명</TableHead>
               <TableCell>{data.corpNameEng || `-`}</TableCell>
             </TableRow>
@@ -118,9 +152,56 @@ const DescSection = ({ data }: { data: OverviewDescType }) => {
             </TableRow>
             <TableRow>
               <TableHead>대표자명</TableHead>
-              <TableCell>{data.ceoName || `-`}</TableCell>
+              <TableCell>
+                <div className="flex flex-wrap justify-between">
+                  {data.ceoName || `-`}
+                  {data.ceoNameHistory && (
+                    <Dialog>
+                      <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
+                        [대표자변경내역]
+                      </DialogTrigger>
+                      <DescDialog
+                        title="대표자변경내역"
+                        headDataList={['순서', '대표자명']}
+                      >
+                        {data.ceoNameHistory.map((ceoName, ceoi) => (
+                          <TableRow key={ceoi}>
+                            <TableCell>{ceoName.seq}</TableCell>
+                            <TableCell>{ceoName.ceoName}</TableCell>
+                          </TableRow>
+                        ))}
+                      </DescDialog>
+                    </Dialog>
+                  )}
+                </div>
+              </TableCell>
               <TableHead>계열사수</TableHead>
-              <TableCell>{data.affiliateList.length || `-`}</TableCell>
+              <TableCell>
+                <div className="flex flex-wrap justify-between">
+                  {data.affiliateList.length + `개` || `-`}
+                  {data.affiliateList && (
+                    <Dialog>
+                      <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
+                        [계열사목록]
+                      </DialogTrigger>
+                      <DescDialog title="계열사목록" headDataList={['회사명']}>
+                        {data.affiliateList.map((affiliate, ai) => (
+                          <TableRow key={ai}>
+                            <TableCell>
+                              <Link
+                                href={`/overview/${affiliate.corpCode}`}
+                                className="underline hover:opacity-80"
+                              >
+                                {affiliate.corpName}
+                              </Link>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </DescDialog>
+                    </Dialog>
+                  )}
+                </div>
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableHead>중소기업여부</TableHead>
@@ -130,9 +211,70 @@ const DescSection = ({ data }: { data: OverviewDescType }) => {
             </TableRow>
             <TableRow>
               <TableHead>종속회사수</TableHead>
-              <TableCell>{data.subCorpList.length || `-`}</TableCell>
+              <TableCell>
+                <div className="flex flex-wrap justify-between">
+                  {data.subCorpList.length + `개` || `-`}
+                  {data.subCorpList && (
+                    <Dialog>
+                      <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
+                        [종속회사목록]
+                      </DialogTrigger>
+                      <DescDialog
+                        title="종속회사목록"
+                        headDataList={['회사명']}
+                      >
+                        {data.subCorpList.map((subCorp, sci) => (
+                          <TableRow key={sci}>
+                            <TableCell>{subCorp.corpName}</TableCell>
+                          </TableRow>
+                        ))}
+                      </DescDialog>
+                    </Dialog>
+                  )}
+                </div>
+              </TableCell>
               <TableHead>주주수</TableHead>
-              <TableCell>{data.shareholderNum || `-`}</TableCell>
+              <TableCell>
+                <div className="flex flex-wrap justify-between">
+                  {shareholderData.length + `명` || `-`}
+                  {shareholderData.data && (
+                    <Dialog>
+                      <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
+                        [주요주주목록]
+                      </DialogTrigger>
+                      <DescDialog
+                        title="주요주주목록"
+                        headDataList={[
+                          '성명',
+                          '관계',
+                          '주식종류',
+                          '기초소유주식수',
+                          '기초소유주식지분율',
+                          '기말소유주식수',
+                          '기말소유주식지분율',
+                          '비고',
+                        ]}
+                        size={'large'}
+                      >
+                        {shareholderData.data.map((shareholder, si) => (
+                          <TableRow key={si}>
+                            <TableCell>{shareholder.name}</TableCell>
+                            <TableCell>{shareholder.relate}</TableCell>
+                            <TableCell>{shareholder.stockKind}</TableCell>
+                            <TableCell>{shareholder.basisStockCount}</TableCell>
+                            <TableCell>{shareholder.basisStockRate}</TableCell>
+                            <TableCell>{shareholder.endStockCount}</TableCell>
+                            <TableCell>{shareholder.endStockRate}</TableCell>
+                            <TableCell className="max-w-[180px]">
+                              {shareholder.note}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </DescDialog>
+                    </Dialog>
+                  )}
+                </div>
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableHead>기업종업원수</TableHead>
