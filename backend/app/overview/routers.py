@@ -1,7 +1,6 @@
 from typing import Dict, List, Union
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_dev_db, get_mvc_db
@@ -59,7 +58,7 @@ async def read_company_items_by_category(
     category: str = Query(
         ...,
         description="Search category: 'firm' or 'bizr_no' or 'jurir_no' or 'stock_code'",
-        # 아직 mvc db에는 jurir_no가 없음
+        # 아직 mvc db에는 bizr_no가 없음
     ),
     db: Session = Depends(get_dev_db),
 ):
@@ -140,11 +139,36 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
 
         affiliate_result = crud.get_openapi_affiliate_list(crno=crno, db=db)
         affiliate_list = [
-            Affiliate(corpName=affiliate[1]) for affiliate in affiliate_result
+            Affiliate(corpName=affiliate[0], corpCode=affiliate[1])
+            for affiliate in affiliate_result
         ]
 
         sub_corp_result = crud.get_openapi_sub_company_list(crno=crno, db=db)
         sub_corp_list = [SubCorp(corpName=sub_corp[0]) for sub_corp in sub_corp_result]
+
+        ceo_name_history_result = crud.get_ceo_name_history_by_corp_code(
+            corp_code=corp_code, db=db
+        )
+        ceo_name_history_list = [
+            CeoNameHistory(
+                seq=ceo_name_history[0],
+                ceoName=ceo_name_history[1],
+                update_date=ceo_name_history[2],
+            )
+            for ceo_name_history in ceo_name_history_result
+        ]
+
+        corp_name_history_result = crud.get_corp_name_history_by_corp_code(
+            corp_code=corp_code, db=db
+        )
+        corp_name_history_list = [
+            CorpNameHistory(
+                seq=corp_name_history[0],
+                corpName=corp_name_history[1],
+                update_date=corp_name_history[2],
+            )
+            for corp_name_history in corp_name_history_result
+        ]
 
         response = OverviewDescription(
             stock_name=dart_corp_info.stock_name,
@@ -153,7 +177,7 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
             jurir_no=dart_corp_info.jurir_no,
             corp_name=dart_corp_info.corp_name,
             corp_name_eng=dart_corp_info.corp_name_eng,
-            corp_name_history=None,
+            corp_name_history=corp_name_history_list,
             corp_cls=corp_class,
             est_dt=dart_corp_info.est_dt,
             list_date=list_date,
@@ -162,11 +186,11 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
             phn_no=dart_corp_info.phn_no,
             adres=dart_corp_info.adres,
             ceo_nm=dart_corp_info.ceo_nm,
+            ceo_nm_history=ceo_name_history_list,
             affiliate_list=affiliate_list,
             smenpyn=openapi_outline.smenpyn,
             isVenture=None,
             sub_corp_list=sub_corp_list,
-            shareholder_num=None,
             enpempecnt=openapi_outline.enpempecnt,
             enppn1avgslryamt=openapi_outline.enppn1avgslryamt,
             audtrptopnnctt=openapi_outline.audtrptopnnctt,
@@ -175,6 +199,40 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
             enpmainbiznm=openapi_outline.enpmainbiznm,
             classList=[],
         )
+        return response
+
+    except Exception as e:
+        print(repr(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get(
+    "/{corp_code}/shareholders",
+    response_model=OverviewShareholderList,
+    response_model_by_alias=False,
+)
+async def read_overview_description_shareholders(
+    corp_code: str, db: Session = Depends(get_mvc_db)
+):
+    try:
+        shareholder_result = crud.get_shareholder_list_by_corp_code(
+            corp_code=corp_code, db=db
+        )
+        shareholder_list = [
+            Shareholder(
+                nm=shareholder.nm,
+                relate=shareholder.relate,
+                stock_knd=shareholder.stock_knd,
+                reprt_code=shareholder.reprt_code,
+                bsis_posesn_stock_co=shareholder.bsis_posesn_stock_co,
+                bsis_posesn_stock_qota_rt=shareholder.bsis_posesn_stock_qota_rt,
+                trmend_posesn_stock_co=shareholder.trmend_posesn_stock_co,
+                trmend_posesn_stock_qota_rt=shareholder.trmend_posesn_stock_qota_rt,
+                rm=shareholder.rm,
+            )
+            for shareholder in shareholder_result
+        ]
+        response = {"length": len(shareholder_list), "data": shareholder_list}
         return response
 
     except Exception as e:
@@ -249,13 +307,3 @@ async def read_overview_financials(corp_code: str, db: Session = Depends(get_mvc
         # thstrm_amount=dart_balance_sheet.thstrm_amount,
     )
     return response
-
-
-@router.get(
-    "/{corp_code}/relations",
-    response_model=OverviewRelations,
-    response_model_by_alias=False,
-)
-async def read_overview_relations(corp_code: str, db: Session = Depends(get_mvc_db)):
-    overviw_relation = crud.get_overview_relations
-    pass
