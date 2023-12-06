@@ -254,7 +254,6 @@ def get_krx_corp_info(stcd: str, db: Session):
         WHERE isu_srt_cd = :stcd
         """
     )
-
     result = db.execute(query, {"stcd": stcd}).fetchone()
     return result
 

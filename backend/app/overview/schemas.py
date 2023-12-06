@@ -132,15 +132,15 @@ class OverviewFinancialsBase(BaseModel):
     # 시가총액(전체)
 
     # 발행주식수
-    listShrs: str = Field(..., alias="list_shrs")
+    listShrs: str = Field(None, alias="list_shrs")
 
     # 자기주식수
     # 액면가
-    parval: str = Field(..., alias="parval")
+    parval: str = Field(None, alias="parval")
 
     # 발행주식수(보통주)
     # 주가(보통주)
-    closePrice: str = Field(..., alias="close_price")
+    closePrice: str = Field(None, alias="close_price")
 
     # 발행주식수(우선주)
     # 주가(우선주)

@@ -229,6 +229,7 @@ async def read_overview_relations(
     response_model_by_alias=False,
 )
 async def read_overview_financials(corp_code: str, db: Session = Depends(get_mvc_db)):
+    # 테스트코드 = corp_code = '00100601'
     dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
     if dart_corp_info is None:
         return HTTPException(
@@ -236,28 +237,9 @@ async def read_overview_financials(corp_code: str, db: Session = Depends(get_mvc
         )
 
     stcd = dart_corp_info.stock_code
-
     naver_stock_price = crud.get_naver_stock_price(stcd=stcd, db=db)
-    print(naver_stock_price)
-    if naver_stock_price is None:
-        return HTTPException(
-            status_code=404,
-            detail="Naver stock price data not found for the given corp_code",
-        )
-
     krx_corp_info = crud.get_krx_corp_info(stcd=stcd, db=db)
-    if krx_corp_info is None:
-        return HTTPException(
-            status_code=404,
-            detail="KRX corporate info not found for the given corp_code",
-        )
-
     # dart_balance_sheet = crud.get_dart_balance_sheet(stcd=stcd, db=db)
-    # if dart_balance_sheet is None:
-    #     return HTTPException(
-    #         status_code=404,
-    #         detail="Dart balance sheet not found for the given corp_code",
-    #     )
 
     response = OverviewFinancials(
         close_price=naver_stock_price.close_price,
