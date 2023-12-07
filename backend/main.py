@@ -6,7 +6,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import get_dev_db
 from app.flowmap.routers import router as flowmap_router
-from app.flowmap.utils.init_db import load_csv_to_db
 from app.overview.routers import router as overview_router
 
 # async def initialize_db():

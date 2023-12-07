@@ -9,16 +9,22 @@ def get_overview_list(
 ):
     query_condition = ""
     params = {}
-
     if keyword:
-        query_condition = f"WHERE {category} ILIKE :keyword"
+        if category == "stock_name":
+            query_condition = f"""
+            WHERE stock_name ILIKE :keyword
+            OR corp_name ILIKE :keyword
+            OR corp_name_eng ILIKE :keyword
+            """
+        else:
+            query_condition = f"WHERE {category} ILIKE :keyword"
         params["keyword"] = f"%{keyword}%"
 
     query = text(
         f"""
-        SELECT corp_code, firm, bizr_no, corp_cls, stock_code,
-            bsns_year, adres_1, adres_2
-        FROM mvc_fake_data
+        SELECT corp_code, stock_name, stock_code,
+            bizr_no, corp_cls, ceo_nm, est_dt, adres, hm_url
+        FROM source.dart_corp_info
         {query_condition}
         LIMIT :limit OFFSET (:page - 1) * :limit
         """
@@ -29,7 +35,7 @@ def get_overview_list(
     count_query = text(
         f"""
         SELECT COUNT(*) AS total_count
-        FROM mvc_fake_data
+        FROM source.dart_corp_info
         {query_condition}
         """
     )
@@ -61,22 +67,19 @@ def get_deps(db: Session):
     query = text(
         """
         SELECT
-            ic.id AS industryClassId,
             ic.name AS industryClassName,
             ic.code AS industryClassCode,
-            d.id AS domainId,
             d.name AS domainName,
             d.code AS domainCode,
-            deps.id AS subClassId,
-            deps.code AS subClassCode,
-            deps.name AS subClassName,
-            deps.level AS subClassLevel
+            sub_class.code AS subClassCode,
+            sub_class.name AS subClassName,
+            sub_class.level AS subClassLevel
         FROM
-            app_metadata.industry_class AS ic
+            industry_class AS ic
         LEFT JOIN
-            app_metadata.domain AS d ON ic.domain_id = d.id
+            domain AS d ON ic.domain_code = d.code
         LEFT JOIN
-            app_metadata.deps ON deps.industry_class_code = ic.code;
+            sub_class ON sub_class.industry_class_code = ic.code;
         """
     )
     result = db.execute(query).all()
@@ -115,11 +118,51 @@ def get_openapi_outline(crno: str, db: Session):
     return result
 
 
+def get_ceo_name_history_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT seq, ceo_nm, update_date
+        FROM source.dart_ceo_nm_change_history
+        WHERE corp_code = :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).all()
+    return result
+
+
+def get_corp_name_history_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT seq, corp_name, update_date
+        FROM source.dart_corp_name_change_history
+        WHERE corp_code = :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).all()
+    return result
+
+
+def get_shareholder_list_by_corp_code(corp_code: str, db: Session):
+    query = text(
+        """
+        SELECT nm, relate, stock_knd, reprt_code,
+            bsis_posesn_stock_co, bsis_posesn_stock_qota_rt,
+            trmend_posesn_stock_co, trmend_posesn_stock_qota_rt, rm
+        FROM source.dart_hyslr_sttus
+        WHERE corp_code = :corp_code
+        """
+    )
+    result = db.execute(query, {"corp_code": corp_code}).all()
+    return result
+
+
 def get_openapi_affiliate_list(crno: str, db: Session):
     query = text(
         """
-        SELECT afilcmpynm, afilcmpycrno
-        FROM source.openapi_corp_affiliate
+        SELECT o.afilcmpynm, d.corp_code 
+        FROM source.openapi_corp_affiliate o
+            LEFT JOIN source.dart_corp_info d
+            ON o.afilcmpycrno  = d.jurir_no
         WHERE crno = :crno
         """
     )
@@ -139,11 +182,127 @@ def get_openapi_sub_company_list(crno: str, db: Session):
     return result
 
 
-def get_corp_cls(corp_code: str, db: Session):
+# TODO: relations corp_code 삽입용
+def get_relations(db: Session):
+    query = text("SELECT * FROM public.relation")
+    result = db.execute(query).all()
+    return result
+
+
+# TODO: relations corp_code 삽입용
+def get_corp_code_by_corp_name(corp_name: str, db: Session):
+    corp_name = corp_name.replace("㈜", "")
+    params = {"corp_name": f"%{corp_name}%"}
     query = text(
-        "select corp_cls from source.dart_corp_info where corp_code = :corp_code"
+        """
+        SELECT corp_code FROM source.dart_corp_info
+        WHERE corp_name ILIKE :corp_name
+        """
+    )
+    result = db.execute(query, params).fetchone()
+    return result
+
+
+# TODO: relations corp_code 삽입용
+def patch_corp_code_by_corp_name(
+    corp_name: str,
+    corp_code: str,
+    vendor_corp_name: str,
+    vendor_corp_code: str,
+    db: Session,
+):
+    corp_name = corp_name.replace("(주)", "")
+    vendor_corp_name = vendor_corp_name.replace("(주)", "")
+    params = {
+        "corp_name": f"%{corp_name}%",
+        "corp_code": corp_code,
+        "vendor_corp_name": f"%{vendor_corp_name}%",
+        "vendor_corp_code": vendor_corp_code,
+    }
+    query = text(
+        """
+        UPDATE public.relation
+        SET corp_code = :corp_code, vendor_corp_code = :vendor_corp_code
+        WHERE corp_name ILIKE :corp_name
+        AND vendor_corp_name ILIKE :vendor_corp_name
+        """
+    )
+    try:
+        db.execute(query, params)
+        db.commit()
+        print("succeed:", corp_name, corp_code, vendor_corp_name, vendor_corp_code)
+
+    except Exception as e:
+        print("sql error", repr(e))
+        db.rollback()
+        raise e
+
+
+def get_vendor_corp_list(corp_code: str, vendor_class: str | None, db: Session):
+    query_condition = ""
+    params = {"corp_code": corp_code}
+    if vendor_class:
+        query_condition = f"AND vendor_class=:vendor_class"
+        params.update({"vendor_class": vendor_class})
+    query = text(
+        f"""
+        SELECT *
+        FROM (
+            SELECT *, ROW_NUMBER() OVER(
+                PARTITION BY vendor_corp_name
+                ORDER BY update_date DESC
+            ) AS rn
+            FROM public.relation
+            WHERE corp_code = :corp_code
+            {query_condition}
+        ) AS subquery
+        WHERE rn = 1
+        """
+    )
+    result = db.execute(query, params).all()
+    return result
+
+
+def get_naver_stock_price(stcd: str, db: Session):
+    query = text(
+        """
+        SELECT close_price
+        FROM source.naver_stock_price
+        WHERE stock_code = :stcd
+        AND base_date IN (
+            SELECT MAX(base_date)
+            FROM source.naver_stock_price
+            WHERE stock_code = :stcd
+            GROUP BY SUBSTRING(base_date, 1, 4)
+        );
+        """
     )
 
-    param = {"corp_code": f"{corp_code}"}
-    result = db.execute(query, param).fetchone()
+    result = db.execute(query, {"stcd": stcd}).fetchone()
     return result
+
+
+def get_krx_corp_info(stcd: str, db: Session):
+    query = text(
+        """
+        SELECT parval, list_shrs
+        FROM source.krx_corp_info
+        WHERE isu_srt_cd = :stcd
+        """
+    )
+    result = db.execute(query, {"stcd": stcd}).fetchone()
+    return result
+
+
+# def get_dart_balance_sheet(stcd: str, db: Session):
+#     query = text(
+#         """
+#         select currency, thstrm_amount from source.dart_balance_sheet where stock_code = :stcd
+#         """
+#     )
+#     result = db.execute(query, {"stcd": stcd}).fetchone()
+#     return result
+
+
+def get_overview_relations():
+    pass

@@ -4,23 +4,19 @@ from pydantic import BaseModel, Field
 
 
 class IndustryClassBase(BaseModel):
-    industryClassCode: str = Field(..., alias="code")
-    industryClassName: str = Field(..., alias="name")
+    domainCode: str = Field(..., alias="domain_code")
+    domainName: str = Field(..., alias="domain_name")
+    domainDivision: int = Field(..., alias="domain_division")
+    industryClassCode: str = Field(..., alias="industry_class_code")
+    industryClassName: str = Field(..., alias="industry_class_name")
+    industryClassType: str = Field(..., alias="industry_class_type")
 
     class Config:
         from_attributes = True
 
 
 class IndustryClass(IndustryClassBase):
-    industryClassId: int = Field(..., alias="id")
-
-
-class IndustryClassName(BaseModel):
-    industryClassName: str = Field(..., alias="name")
-
-
-class IndustryClassCode(BaseModel):
-    industryClassCode: str = Field(..., alias="code")
+    pass
 
 
 class IndustryClassList(BaseModel):
@@ -29,17 +25,6 @@ class IndustryClassList(BaseModel):
 
     class Config:
         from_attributes = True
-
-
-class DomainBase(BaseModel):
-    domainId: int = Field(..., alias="id")
-    domainCode: str = Field(..., alias="code")
-    domainName: str = Field(..., alias="name")
-
-
-class Domain(DomainBase):
-    classes: Optional[List[IndustryClass]] = []
-    themes: Optional[List[IndustryClass]] = []
 
 
 class FlowmapList(BaseModel):

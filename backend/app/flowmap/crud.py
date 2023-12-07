@@ -1,3 +1,4 @@
+from collections import namedtuple
 import json
 from typing import List
 
@@ -46,10 +47,16 @@ def put_main_flowmap(new_data: FlowmapCreate, db: Session):
 def get_industry_class_list(db: Session):
     query = text(
         """
-        SELECT ic.*, d.name AS domain_name, d.code AS domain_code
-        FROM app_metadata.industry_class AS ic
-        LEFT JOIN app_metadata.domain AS d
-        ON ic.domain_id = d.id
+        SELECT
+            d.code domain_code,
+            d.name domain_name,
+            d.division domain_division,
+            ic.code industry_class_code, 
+            ic.name industry_class_name,
+            ic.type industry_class_type
+        FROM industry_class ic
+        INNER JOIN domain d
+        ON ic.domain_code = d.code
         """
     )
     result = db.execute(query).all()
@@ -61,18 +68,34 @@ def get_flowmap(industry_class_id: int, db: Session):
         """
         SELECT
             (SELECT expanded_node
-             FROM app_metadata.flowmap,
-                  LATERAL jsonb_array_elements(node) AS expanded_node
-             WHERE industry_class_id IS NULL
-               AND expanded_node->>'id' = (SELECT code FROM app_metadata.domain WHERE id = (SELECT domain_id FROM app_metadata.industry_class WHERE id = :industry_class_id))
-             ) AS node,
+            FROM app_metadata.flowmap,
+                LATERAL jsonb_array_elements(node) AS expanded_node
+            WHERE industry_class_id IS NULL
+                AND expanded_node->>'id' = (
+                    SELECT code
+                    FROM app_metadata.domain
+                    WHERE id = (
+                        SELECT domain_id
+                        FROM app_metadata.industry_class
+                        WHERE id = :industry_class_id
+                    )
+                )
+            ) AS node,
             (SELECT expanded_edge
-             FROM app_metadata.flowmap,
-                  LATERAL jsonb_array_elements(edge) AS expanded_edge
-             WHERE industry_class_id IS NULL
-               AND expanded_edge->>'id' = (SELECT code FROM app_metadata.domain WHERE id = (SELECT domain_id FROM app_metadata.industry_class WHERE id = :industry_class_id))
-             ) AS edge;
-        """
+            FROM app_metadata.flowmap,
+                LATERAL jsonb_array_elements(edge) AS expanded_edge
+            WHERE industry_class_id IS NULL
+                AND expanded_edge->>'id' = (
+                    SELECT code
+                    FROM app_metadata.domain
+                    WHERE id = (
+                        SELECT domain_id
+                        FROM app_metadata.industry_class
+                        WHERE id = :industry_class_id
+                    )
+                )
+            ) AS edge;
+    """
     )
     result = db.execute(query, {"industry_class_id": industry_class_id}).fetchone()
     return result
