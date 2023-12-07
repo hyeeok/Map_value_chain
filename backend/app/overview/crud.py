@@ -67,22 +67,19 @@ def get_deps(db: Session):
     query = text(
         """
         SELECT
-            ic.id AS industryClassId,
             ic.name AS industryClassName,
             ic.code AS industryClassCode,
-            d.id AS domainId,
             d.name AS domainName,
             d.code AS domainCode,
-            deps.id AS subClassId,
-            deps.code AS subClassCode,
-            deps.name AS subClassName,
-            deps.level AS subClassLevel
+            sub_class.code AS subClassCode,
+            sub_class.name AS subClassName,
+            sub_class.level AS subClassLevel
         FROM
-            app_metadata.industry_class AS ic
+            industry_class AS ic
         LEFT JOIN
-            app_metadata.domain AS d ON ic.domain_id = d.id
+            domain AS d ON ic.domain_code = d.code
         LEFT JOIN
-            app_metadata.deps ON deps.industry_class_code = ic.code;
+            sub_class ON sub_class.industry_class_code = ic.code;
         """
     )
     result = db.execute(query).all()

@@ -5,7 +5,6 @@ from typing_extensions import TypedDict
 
 
 class DepsBase(BaseModel):
-    subClassId: Optional[int] = Field(..., alias="subclassid")
     subClassName: Optional[str] = Field(..., alias="subclassname")
     subClassCode: Optional[str] = Field(..., alias="subclasscode")
     subClassLevel: Optional[int] = Field(..., alias="subclasslevel")
@@ -15,10 +14,8 @@ class DepsBase(BaseModel):
 
 
 class Deps(DepsBase):
-    domainId: Optional[int] = Field(..., alias="domainid")
     domainCode: Optional[str] = Field(..., alias="domaincode")
     domainName: Optional[str] = Field(..., alias="domainname")
-    industryClassId: Optional[int] = Field(..., alias="industryclassid")
     industryClassName: Optional[str] = Field(..., alias="industryclassname")
     industryClassCode: Optional[str] = Field(..., alias="industryclasscode")
 

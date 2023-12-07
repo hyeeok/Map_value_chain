@@ -67,7 +67,7 @@ async def read_company_items_by_category(
 
 
 @router.get("/index", response_model=DepsList, response_model_by_alias=False)
-def read_deps(db: Session = Depends(get_mvc_db)):
+def read_deps(db: Session = Depends(get_dev_db)):
     result = crud.get_deps(db=db)
     return {"length": len(result), "data": result}
 

@@ -49,14 +49,14 @@ def get_industry_class_list(db: Session):
         SELECT
             ic.code AS industryClassCode,
             ic.name AS industryClassName,
-            ic.id AS industryClassId,
-            d.id AS domainId,
+            ic.seq AS industryClassSeq,
+            d.seq AS domainSeq,
             d.name AS domainName,
             d.code AS domainCode
         FROM
-            app_metadata.industry_class AS ic
+            industry_class AS ic
         LEFT JOIN
-            app_metadata.domain AS d ON ic.domain_id = d.id
+            domain AS d ON ic.domain_code = d.code
     """
     )
     result = db.execute(query).all()
