@@ -14,16 +14,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { showThemeAtom } from '@/lib/atoms/base';
 
 interface IndustryClass {
-  industryClassId: number;
-  industryClassCode: number;
+  industryClassCode: string;
   industryClassName: string;
+  industryClassType: string;
 }
 
 interface CustomNodeProps {
   id: string;
   data: {
-    domainId: number;
-    domainCode: number;
+    domainCode: string;
     domainName: string;
     classes: IndustryClass[];
     themes: IndustryClass[];
@@ -34,13 +33,8 @@ interface CustomNodeProps {
 }
 // 개별 industryClass 내용은 우선 contents에 저장 예정?
 
-const nodeColors = {
-  red: 'bg-red-500',
-  blue: 'bg-blue-500',
-  green: 'bg-green-500',
-};
-
 const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
+  console.log(data);
   const showTheme = useAtomValue(showThemeAtom);
   const { setNodes } = useReactFlow();
   const store = useStoreApi();
@@ -52,7 +46,6 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
         if (node.id === nodeId) {
           node.data = {
             ...node.data,
-            color: color,
           };
         }
         return node;
@@ -76,7 +69,7 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
         style={{ backgroundColor: data.color }}
       >
         <CardHeader className="w-full h-[64px]">
-          <CardTitle className="inline-block flex justify-between">
+          <CardTitle className="inline-block flex justify-between text-primary-foreground">
             <span>{data.domainName}</span>
             <input
               className="nodrag h-full inline-flex ml-auto overflow-hidden"
@@ -86,15 +79,25 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="overflow-y-auto h-[calc(100%-64px)] nowheel">
-          {/* <div>
+          <div>
             <p className="text-sm font-medium leading-none mb-2">Classes</p>
             <div className="flex flex-wrap gap-2">
               {data.classes.map((classItem, i) => (
-                <Button asChild key={i}>
-                  <Link href="#">
-                    <div>{classItem.industryClassName}</div>
-                  </Link>
-                </Button>
+                <>
+                  <div
+                    key={i}
+                    className="
+                      inline-flex items-center justify-center whitespace-nowrap
+                      rounded-md text-sm font-medium h-9 px-4 py-2
+                      bg-primary text-primary-foreground
+                    "
+                  >
+                    {classItem.industryClassName}
+                  </div>
+                  {/* <Button asChild key={i}>
+                    <Link href="#">{classItem.industryClassName}</Link>
+                  </Button> */}
+                </>
               ))}
             </div>
           </div>
@@ -116,7 +119,7 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
                 ))}
               </div>
             </div>
-          )} */}
+          )}
         </CardContent>
       </Card>
       <Handle type="source" position={Position.Top} id="top" />
