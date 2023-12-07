@@ -28,6 +28,7 @@ const DescSection = ({
   shareholderData: { length: number; data: OverviewShareholderType[] };
 }) => {
   const router = useRouter();
+  console.log(data);
 
   return (
     <div className="flex flex-col gap-6">
@@ -73,9 +74,12 @@ const DescSection = ({
               <TableCell>
                 <div className="flex flex-wrap justify-between">
                   {data.corpName || `-`}
-                  {data.corpNameHistory && (
+                  {data.corpNameHistory.length > 0 && (
                     <Dialog>
-                      <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
+                      <DialogTrigger
+                        disabled={data.corpNameHistory.length === 0}
+                        className="text-blue-600 pr-2 underline hover:opacity-80"
+                      >
                         [회사명변경내역]
                       </DialogTrigger>
                       <DescDialog
@@ -132,7 +136,7 @@ const DescSection = ({
               <TableCell>
                 <div className="flex flex-wrap justify-between">
                   {data.ceoName || `-`}
-                  {data.ceoNameHistory && (
+                  {data.ceoNameHistory.length > 0 && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
                         [대표자변경내역]
@@ -156,7 +160,7 @@ const DescSection = ({
               <TableCell>
                 <div className="flex flex-wrap justify-between">
                   {data.affiliateList.length || `-`}
-                  {data.affiliateList && (
+                  {data.affiliateList.length > 0 && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
                         [계열사목록]
@@ -191,7 +195,7 @@ const DescSection = ({
               <TableCell>
                 <div className="flex flex-wrap justify-between">
                   {data.subCorpList.length || `-`}
-                  {data.subCorpList && (
+                  {data.subCorpList.length > 0 && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
                         [종속회사목록]
@@ -214,7 +218,7 @@ const DescSection = ({
               <TableCell>
                 <div className="flex flex-wrap justify-between">
                   {shareholderData.length || `-`}
-                  {shareholderData.data && (
+                  {shareholderData.length > 0 && (
                     <Dialog>
                       <DialogTrigger className="text-blue-600 pr-2 underline hover:opacity-80">
                         [주요주주목록]
