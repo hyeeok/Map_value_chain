@@ -34,7 +34,6 @@ interface CustomNodeProps {
 // 개별 industryClass 내용은 우선 contents에 저장 예정?
 
 const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
-  console.log(data);
   const showTheme = useAtomValue(showThemeAtom);
   const { setNodes } = useReactFlow();
   const store = useStoreApi();
@@ -80,7 +79,9 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
         </CardHeader>
         <CardContent className="overflow-y-auto h-[calc(100%-64px)] nowheel">
           <div>
-            <p className="text-sm font-medium leading-none mb-2">Classes</p>
+            <p className="text-sm font-medium leading-none mb-2 text-primary-foreground">
+              Classes
+            </p>
             <div className="flex flex-wrap gap-2">
               {data.classes.map((classItem, i) => (
                 <>
@@ -103,7 +104,9 @@ const CustomNode = ({ id, data, selected }: CustomNodeProps) => {
           </div>
           {showTheme && (
             <div className="pt-4">
-              <p className="text-sm font-medium leading-none mb-2">Themes</p>
+              <p className="text-sm font-medium leading-none mb-2 text-primary-foreground">
+                Themes
+              </p>
               <div className="flex flex-wrap gap-2">
                 {data.themes.map((themeItem, i) => (
                   <div
