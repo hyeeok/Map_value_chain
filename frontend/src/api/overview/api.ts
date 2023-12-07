@@ -8,8 +8,8 @@ export const getOverviewhList = async ({
 }: {
   category?: string | null;
   keyword?: string | null;
-  limit?: number;
-  page?: number;
+  limit?: string | number | null;
+  page?: string | number | null;
 }) => {
   try {
     const response = await apiClient().get(`/overview`, {
@@ -21,10 +21,18 @@ export const getOverviewhList = async ({
         page,
       },
     });
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
     throw error;
+  }
+};
+
+export const getOverviewRelation = async (corpCode: string) => {
+  try {
+    const response = await apiClient().get(`/overview/${corpCode}/relations`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
   }
 };

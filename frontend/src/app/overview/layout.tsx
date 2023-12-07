@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import React from 'react';
 
 import { baseUrl } from '@/api/api-client';
+import SearchBox from '@/app/overview/_components/search-box';
 import Sidenav from '@/app/overview/_components/sidenav';
 import { buildHierarchy } from '@/app/overview/_lib/sidenav-lib';
 import { SIDENAV_DATA } from '@/app/overview/_test/sidenav';
@@ -11,7 +12,7 @@ const getOverviewIndex = async () => {
   try {
     const response = await fetch(`${baseUrl}/overview/index`);
     const responseJson = await response.json();
-    const data = buildHierarchy(responseJson);
+    const data = buildHierarchy(responseJson.data);
     return data;
   } catch (error) {
     console.log(error);
@@ -26,7 +27,12 @@ const OverviewLayout = async ({ children }: { children: React.ReactNode }) => {
     <div className="container flex flex-col px-8">
       <section className="flex flex-1 gap-6">
         <Sidenav sidenav={sidenavData} />
-        {children}
+        <div className="flex-1">
+          <section className="pt-6 pb-4">
+            <SearchBox />
+          </section>
+          {children}
+        </div>
       </section>
     </div>
   );

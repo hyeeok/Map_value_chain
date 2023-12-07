@@ -28,6 +28,7 @@ const getIndustryClassList = async () => {
 
 const FlowmapPage = async () => {
   const flowmapData = await getFlowmap();
+  // const flowmapData = { node: initialNodes, edge: initialEdges };
   const industryClassListData = await getIndustryClassList();
 
   return (
