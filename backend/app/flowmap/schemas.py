@@ -3,20 +3,28 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
 
-class IndustryClassesBase(BaseModel):
-    industryClassCode: str = Field(..., alias="industryClassCode")
-    industryClassName: str = Field(..., alias="industryClassName")
-    industryClassSeq: int = Field(..., alias="industryClassSeq")
-    domainSeq: int = Field(..., alias="domainSeq")
-    domainName: str = Field(..., alias="domainName")
-    domainCode: str = Field(..., alias="domainCode")
+class IndustryClassBase(BaseModel):
+    domainCode: str = Field(..., alias="domain_code")
+    domainName: str = Field(..., alias="domain_name")
+    domainDivision: int = Field(..., alias="domain_division")
+    industryClassCode: str = Field(..., alias="industry_class_code")
+    industryClassName: str = Field(..., alias="industry_class_name")
+    industryClassType: str = Field(..., alias="industry_class_type")
 
     class Config:
         from_attributes = True
 
 
-class IndustryClasses(IndustryClassesBase):
+class IndustryClass(IndustryClassBase):
     pass
+
+
+class IndustryClassList(BaseModel):
+    length: int
+    data: List[IndustryClass]
+
+    class Config:
+        from_attributes = True
 
 
 class FlowmapList(BaseModel):
