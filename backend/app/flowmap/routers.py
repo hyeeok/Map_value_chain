@@ -1,12 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-# from app.database import get_dev_db
+from app.database import get_dev_db
 from app.database import get_mvc_db
 
 
 from . import crud
-from .models import *
 from .schemas import *
 
 router = APIRouter(prefix="/flowmap")
@@ -46,15 +45,15 @@ def update_main_flowmap(
     "/industry-classes",
     response_model_by_alias=False,
 )
-def read_industry_class_list(db: Session = Depends(get_mvc_db)):
+def read_industry_class_list(db: Session = Depends(get_dev_db)):
     try:
         result = crud.get_industry_class_list(db=db)
         industry_class_list = [
             IndustryClasses(
                 industryClassCode=item[0],
                 industryClassName=item[1],
-                industryClassId=item[2],
-                domainId=item[3],
+                industryClassSeq=item[2],
+                domainSeq=item[3],
                 domainName=item[4],
                 domainCode=item[5],
             )

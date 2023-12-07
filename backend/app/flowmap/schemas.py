@@ -6,8 +6,8 @@ from pydantic import BaseModel, Field
 class IndustryClassesBase(BaseModel):
     industryClassCode: str = Field(..., alias="industryClassCode")
     industryClassName: str = Field(..., alias="industryClassName")
-    industryClassId: int = Field(..., alias="industryClassId")
-    domainId: int = Field(..., alias="domainId")
+    industryClassSeq: int = Field(..., alias="industryClassSeq")
+    domainSeq: int = Field(..., alias="domainSeq")
     domainName: str = Field(..., alias="domainName")
     domainCode: str = Field(..., alias="domainCode")
 
