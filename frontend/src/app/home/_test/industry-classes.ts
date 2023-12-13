@@ -2,7 +2,7 @@ export const IC_DATA = [
   {
     domainCode: 'AF',
     domainName: '농림축수산',
-    domainDivision: 1,
+    domainDivision: '1',
     classList: [
       {
         industryClassCode: 'AFCAA',
@@ -192,7 +192,7 @@ export const IC_DATA = [
   {
     domainCode: 'AF',
     domainName: '농림축수산',
-    domainDivision: 2,
+    domainDivision: '2',
     classList: [
       {
         industryClassCode: 'AFCAA',

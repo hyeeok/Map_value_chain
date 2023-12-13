@@ -1,0 +1,12 @@
+.container {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-areas:
+    'a a a'
+    'b c c'
+    'b c c';
+}
+
+.AF {
+  grid-area: a;
+}

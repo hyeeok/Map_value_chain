@@ -1,16 +1,37 @@
+import { cookies } from 'next/headers';
 import React from 'react';
 
-import VCMap from '@/app/home/_components/vc-map';
-import { IC_DATA } from '@/app/home/_test/industry-classes';
+import { baseUrl } from '@/api/api-client';
+import ValueChain from '@/app/home/_components/value-chain';
 
-const icData = IC_DATA;
+const getIndustryClassList = async () => {
+  const cookieStore = cookies();
+  try {
+    const response = await fetch(`${baseUrl}/industry`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const HomePage = () => {
+const ValueChainPage = async () => {
+  const industryData = await getIndustryClassList();
+
   return (
-    <div className="container py-4">
-      <VCMap data={icData} />
+    <div className="h-[calc(100vh-45px)] flex flex-col">
+      <section className="">
+        {industryData ? (
+          <ValueChain data={industryData} />
+        ) : (
+          <div>No data found.</div>
+        )}
+      </section>
     </div>
+    // <div className="container py-4">
+    //   <ValueChain data={industryData} />
+    // </div>
   );
 };
 
-export default HomePage;
+export default ValueChainPage;

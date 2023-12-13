@@ -20,6 +20,6 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
 
   "stylelint.validate": ["css", "scss"],
-  "css.validate": false,
+  "css.validate": true,
   "scss.validate": false
 }
