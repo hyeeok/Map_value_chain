@@ -4,33 +4,6 @@ from pydantic import BaseModel, Field
 from typing_extensions import TypedDict
 
 
-class DepsBase(BaseModel):
-    subClassName: Optional[str] = Field(..., alias="subclassname")
-    subClassCode: Optional[str] = Field(..., alias="subclasscode")
-    subClassLevel: Optional[int] = Field(..., alias="subclasslevel")
-
-    class Config:
-        from_attributes = True
-
-
-class Deps(DepsBase):
-    domainCode: Optional[str] = Field(..., alias="domaincode")
-    domainName: Optional[str] = Field(..., alias="domainname")
-    industryClassName: Optional[str] = Field(..., alias="industryclassname")
-    industryClassCode: Optional[str] = Field(..., alias="industryclasscode")
-
-    class Config:
-        from_attributes = True
-
-
-class DepsList(BaseModel):
-    length: int
-    data: List[Deps]
-
-    class Config:
-        from_attributes = True
-
-
 class Affiliate(TypedDict):
     corpCode: Optional[str]
     corpName: str
