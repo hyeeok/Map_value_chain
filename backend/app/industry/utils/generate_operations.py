@@ -14,9 +14,9 @@ division_color_dict = {
 def check_industry_class_type(type: str):
     type = type.lower()
     if type == "c":
-        industry_type = "classes"
+        industry_type = "classList"
     elif type == "t":
-        industry_type = "themes"
+        industry_type = "themeList"
     else:
         industry_type = "etc"
     return industry_type
@@ -40,7 +40,7 @@ def generate_source_data(industry_class_list: list):
             industry_class["industry_class_type"]
         )
         industry_class_list = industry_class_dict.setdefault(
-            domain_code, {"classes": [], "themes": []}
+            domain_code, {"classList": [], "themeList": []}
         )[industry_class_type]
         industry_class_list.append(
             {
@@ -55,10 +55,7 @@ def generate_source_data(industry_class_list: list):
         domain_division = domain_dict[domain_code]["division"]
         node_color = division_color_dict.get(str(domain_division))
         node = {
-            "id": domain_code,
-            "type": "custom",
-            "position": {"x": randint(0, 500), "y": randint(0, 500)},
-            "data": {
+            "classList": {
                 "color": node_color if node_color else "#fff",
                 "domainId": domain_code,
                 "domainCode": domain_code,

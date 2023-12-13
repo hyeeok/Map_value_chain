@@ -1,53 +1,9 @@
-# from app.database import SessionLocal
-from contextlib import asynccontextmanager
-
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.database import get_dev_db
-from app.flowmap.routers import router as flowmap_router
+from app.industry.routers import router as industry_router
 from app.overview.routers import router as overview_router
 
-# async def initialize_db():
-#     filepath = "./source/mvc_map.csv"
-#     db = SessionLocal()
-#     load_csv_to_db(filepath, db)
-#     db.commit()
-#     db.close()
-
-
-# async def initialize_db(db=Depends(get_dev_db)):
-#     filepath = "./source/mvc_map.csv"
-#     load_csv_to_db(filepath, db)
-#     db.commit()
-#     db.close()
-
-
-# async def wait_for_postgres():
-#     while True:
-#         try:
-#             await initialize_db()
-#             print("Connected to PostgreSQL")
-#             return
-
-#         except Exception as e:
-#             print(f"Waiting for PostgreSQL: {e}")
-#             await asyncio.sleep(1)
-
-
-# async def lifespan(app: FastAPI):
-#     asyncio.create_task(wait_for_postgres())
-#     await initialize_db()
-#     yield
-
-
-# @asynccontextmanager
-# async def lifespan(app: FastAPI):
-#     await initialize_db()
-#     yield
-
-
-# app = FastAPI(lifespan=lifespan, redoc_url=None)
 app = FastAPI(redoc_url=None)
 
 # 허용할 오리진(출처) 목록
@@ -66,5 +22,5 @@ app.add_middleware(
     allow_headers=["*"],  # 허용할 HTTP 헤더
 )
 
-app.include_router(flowmap_router)
+app.include_router(industry_router)
 app.include_router(overview_router)

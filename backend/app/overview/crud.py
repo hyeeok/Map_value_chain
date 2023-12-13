@@ -63,29 +63,6 @@ def get_company_items_by_category(
     return items
 
 
-def get_deps(db: Session):
-    query = text(
-        """
-        SELECT
-            ic.name AS industryClassName,
-            ic.code AS industryClassCode,
-            d.name AS domainName,
-            d.code AS domainCode,
-            sub_class.code AS subClassCode,
-            sub_class.name AS subClassName,
-            sub_class.level AS subClassLevel
-        FROM
-            industry_class AS ic
-        LEFT JOIN
-            domain AS d ON ic.domain_code = d.code
-        LEFT JOIN
-            sub_class ON sub_class.industry_class_code = ic.code;
-        """
-    )
-    result = db.execute(query).all()
-    return result
-
-
 def get_dart_corp_info(corp_code: str, db: Session):
     query = text(
         """
