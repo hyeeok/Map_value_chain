@@ -30,7 +30,7 @@ const Header = () => {
         <NavigationMenu>
           <NavigationMenuList className="gap-2">
             <NavigationMenuItem>
-              <Link href="/home" legacyBehavior passHref>
+              <Link href="/value-chain" legacyBehavior passHref>
                 <NavigationMenuLink
                   className={
                     (cn(navigationMenuTriggerStyle()), 'bg-transparent')

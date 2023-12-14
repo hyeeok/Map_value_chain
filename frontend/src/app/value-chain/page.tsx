@@ -19,7 +19,7 @@ const ValueChainPage = async () => {
   const industryData = await getIndustryClassList();
 
   return (
-    <div className="h-[calc(100vh-45px)] flex flex-col">
+    <div className="min-h-[calc(100vh-45px)] flex flex-col">
       <section className="">
         {industryData ? (
           <ValueChain data={industryData} />
