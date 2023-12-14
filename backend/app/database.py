@@ -14,6 +14,13 @@ SQLALCHEMY_DEV_DATABASE_URL = os.getenv("DEV_DB_URL") or ""
 
 Base = declarative_base()
 
+# def get_db():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
+
 
 def get_db(database_url: str):
     engine = create_engine(database_url)

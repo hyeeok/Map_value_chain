@@ -1,8 +1,11 @@
 FROM node:16-alpine AS base
 
+
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
+
+RUN apt-get update -y && apt-get install curl -y
 
 COPY package*.json ./
 RUN npm ci --omit=dev

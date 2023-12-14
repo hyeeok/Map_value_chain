@@ -6,7 +6,7 @@ export const baseUrl = apiEndpoint;
 
 export const apiClient = () =>
   axios.create({
-    baseURL: apiEndpointLocal,
+    baseURL: apiEndpoint,
     headers: {
       'Content-Type': 'application/json',
     },
