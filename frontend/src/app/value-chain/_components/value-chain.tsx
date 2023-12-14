@@ -35,7 +35,7 @@ const ValueChain = ({
         value="map"
         className="h-[90%] md:w-screen md:mx-[calc(50%-50vw)]"
       >
-        <div className="h-full w-full px-6 rounded-md md:rounded-none">
+        <div className="h-full w-full rounded-md md:rounded-none">
           <ValueChainMap data={data.data} />
         </div>
       </TabsContent>

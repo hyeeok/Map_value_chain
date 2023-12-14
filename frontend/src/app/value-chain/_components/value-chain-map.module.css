@@ -1,0 +1,194 @@
+@media screen and (min-width: 1024px) {
+  .container {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-areas:
+      'a a b b b b c c'
+      'd d e e f f g g'
+      'h i j j j k k k'
+      'h i l l l m m m'
+      'n n o o p p p p';
+  }
+  .AF .icContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .MH .icContainer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+  }
+  .FR .icContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .ER .icContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .MB .icContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .CG .icContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .DS .icContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .UT .icContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.5rem;
+  }
+  .EF .icContainer {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.5rem;
+  }
+  .IH .icContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+  .IS .icContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+  }
+  .MD .icContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+  .CM .icContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+  }
+  .CI .icContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .TL .icContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .BS .icContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-areas:
+      'a b'
+      'h b'
+      'd c'
+      'f g'
+      'e i'
+      'l j'
+      'k k'
+      'm p'
+      'o n';
+  }
+  .icContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-areas:
+      'a'
+      'b'
+      'c'
+      'd'
+      'e'
+      'f'
+      'g'
+      'h'
+      'i'
+      'j'
+      'k'
+      'l'
+      'm'
+      'n'
+      'o'
+      'p';
+  }
+  .icContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 0.5rem;
+  }
+}
+
+.AF {
+  grid-area: a;
+}
+.MH {
+  grid-area: b;
+}
+.FR {
+  grid-area: c;
+}
+.ER {
+  grid-area: d;
+}
+.MB {
+  grid-area: e;
+}
+.CG {
+  grid-area: f;
+}
+.DS {
+  grid-area: g;
+}
+.UT {
+  grid-area: h;
+}
+.EF {
+  grid-area: i;
+}
+.IH {
+  grid-area: j;
+}
+.IS {
+  grid-area: k;
+}
+.MD {
+  grid-area: l;
+}
+.CM {
+  grid-area: m;
+}
+.CI {
+  grid-area: n;
+}
+.TL {
+  grid-area: o;
+}
+.BS {
+  grid-area: p;
+}
+.ZZ {
+  display: none;
+}

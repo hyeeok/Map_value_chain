@@ -4,7 +4,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/flowmap',
+        destination: '/value-chain',
         permanent: true,
       },
     ];

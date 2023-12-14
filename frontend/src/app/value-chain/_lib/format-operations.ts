@@ -10,14 +10,14 @@ export type IndustryType = {
 export type IndustryClassType = {
   industryClassCode: string;
   industryClassName: string;
+  industryClassType: string;
 };
 
 export type DomainType = {
   domainCode: string;
   domainName: string;
   domainDivision: string;
-  classList: IndustryClassType[];
-  themeList: IndustryClassType[];
+  industryClassList: IndustryClassType[];
 };
 
 export const buildICHierarchy = (data: IndustryType[]) => {
@@ -37,22 +37,15 @@ export const buildICHierarchy = (data: IndustryType[]) => {
         domainName,
         domainCode,
         domainDivision,
-        classList: [],
-        themeList: [],
+        industryClassList: [],
       };
     }
 
-    if (industryClassType.toLowerCase() === 'c') {
-      industryMap[domainCode].classList.push({
-        industryClassCode,
-        industryClassName,
-      });
-    } else if (industryClassType.toLowerCase() === 't') {
-      industryMap[domainCode].themeList.push({
-        industryClassCode,
-        industryClassName,
-      });
-    }
+    industryMap[domainCode].industryClassList.push({
+      industryClassCode,
+      industryClassName,
+      industryClassType,
+    });
   });
 
   const result = Object.values(industryMap);
