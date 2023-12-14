@@ -6,7 +6,7 @@ import {
   buildICHierarchy,
   DomainType,
   IndustryType,
-} from '@/app/home/_lib/format-operations';
+} from '@/app/value-chain/_lib/format-operations';
 import { Button } from '@/components/ui/button';
 import { showThemeAtom } from '@/lib/atoms/base';
 
