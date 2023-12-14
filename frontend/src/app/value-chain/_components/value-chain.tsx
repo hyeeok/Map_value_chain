@@ -3,8 +3,8 @@
 import { useAtom } from 'jotai';
 import React from 'react';
 
-import ValueChainMap from '@/app/home/_components/value-chain-map';
-import { IndustryType } from '@/app/home/_lib/format-operations';
+import ValueChainMap from '@/app/value-chain/_components/value-chain-map';
+import { IndustryType } from '@/app/value-chain/_lib/format-operations';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { showThemeAtom } from '@/lib/atoms/base';

@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import React from 'react';
 
 import { baseUrl } from '@/api/api-client';
-import ValueChain from '@/app/home/_components/value-chain';
+import ValueChain from '@/app/value-chain/_components/value-chain';
 
 const getIndustryClassList = async () => {
   const cookieStore = cookies();
