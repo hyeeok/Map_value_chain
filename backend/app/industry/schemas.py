@@ -6,10 +6,8 @@ from pydantic import BaseModel, Field
 class ClassBase(BaseModel):
     domainCode: Optional[str] = Field(..., alias="domain_code")
     domainName: Optional[str] = Field(..., alias="domain_name")
-    domainSeq: Optional[int] = Field(..., alias="domain_seq")
     industryClassCode: Optional[str] = Field(..., alias="industry_class_code")
     industryClassName: Optional[str] = Field(..., alias="industry_class_name")
-    industryClassSeq: Optional[int] = Field(..., alias="industry_class_seq")
 
     class Config:
         from_attributes = True
@@ -17,7 +15,9 @@ class ClassBase(BaseModel):
 
 class Industry(ClassBase):
     domainDivision: Optional[str] = Field(..., alias="domain_division")
+    domainSeq: Optional[int] = Field(..., alias="domain_seq")
     industryClassType: Optional[str] = Field(..., alias="industry_class_type")
+    industryClassSeq: Optional[int] = Field(..., alias="industry_class_seq")
 
     class Config:
         from_attributes = True
