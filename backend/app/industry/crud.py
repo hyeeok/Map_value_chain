@@ -8,10 +8,12 @@ def get_industry_class_list(db: Session):
         SELECT
             d.code domain_code,
             d.name domain_name,
+            d.seq domain_seq,
             d.division domain_division,
             ic.code industry_class_code, 
             ic.name industry_class_name,
-            ic.type industry_class_type
+            ic.type industry_class_type,
+            ic.seq industry_class_seq
         FROM industry_class ic
         INNER JOIN domain d
         ON ic.domain_code = d.code
