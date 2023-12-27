@@ -17,16 +17,22 @@ class Industry(ClassBase):
     domainDivision: Optional[str] = Field(..., alias="domain_division")
     domainSeq: Optional[int] = Field(..., alias="domain_seq")
     industryClassType: Optional[str] = Field(..., alias="industry_class_type")
-    industryClassSeq: Optional[int] = Field(..., alias="industry_class_seq")
+    industryClassSeqList: Optional[int] = Field(..., alias="industry_class_seq_list")
+    industryClassSeqGrid: Optional[int] = Field(..., alias="industry_class_seq_grid")
 
     class Config:
         from_attributes = True
 
 
-class Sub(ClassBase):
-    subClassCode: Optional[str] = Field(..., alias="sub_class_code")
-    subClassName: Optional[str] = Field(..., alias="sub_class_name")
-    subClassLevel: Optional[int] = Field(..., alias="sub_class_level")
+class SubMinor(ClassBase):
+    subClassCode: Optional[str] = Field(..., alias="subclass_code")
+    subClassName: Optional[str] = Field(..., alias="subclass_name")
+    subClassIndustryclasscode: Optional[str] = Field(
+        ..., alias="subclass_industryclasscode"
+    )
+    subClassMajorcode: Optional[str] = Field(..., alias="subclass_majorcode")
+    subClassSeqlist: Optional[int] = Field(..., alias="subclass_seqlist")
+    subClassSeqgrid: Optional[int] = Field(..., alias="subclass_seqgrid")
 
     class Config:
         from_attributes = True
@@ -42,7 +48,7 @@ class IndustryList(BaseModel):
 
 class SubList(BaseModel):
     length: int
-    data: List[Sub]
+    data: List[SubMinor]
 
     class Config:
         from_attributes = True
