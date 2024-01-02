@@ -21,7 +21,7 @@ def read_industry_class(db: Session = Depends(get_dev_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/subclass_minor", response_model=SubList, response_model_by_alias=False)
+@router.get("/subclass", response_model=SubList, response_model_by_alias=False)
 def read_sub_class(db: Session = Depends(get_dev_db)):
     try:
         result = crud.get_sub_class_list(db=db)

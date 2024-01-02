@@ -32,16 +32,19 @@ def get_sub_class_list(db: Session):
             ic.code AS industry_class_code,
             d.name AS domain_name,
             d.code AS domain_code,
-            subclass_minor.code AS subclass_code,
-            subclass_minor.name AS subclass_name,
-            subclass_minor.industry_class_code AS subclass_industryclasscode,
-            subclass_minor.subclass_major_code as subclass_majorcode,
-            subclass_minor.seq_list as subclass_seqlist,
-            subclass_minor.seq_grid as subclass_seqgrid
+            subclass_major.name AS subclass_major_name,
+            subclass_major.seq_list AS subclass_major_seqlist,
+            subclass_minor.code AS subclass_minor_code,
+            subclass_minor.name AS subclass_minor_name,
+            subclass_minor.subclass_major_code as subclass_minor_majorcode,
+            subclass_minor.seq_list as subclass_minor_seqlist,
+            subclass_minor.seq_grid as subclass_minor_seqgrid
         FROM
             industry_class AS ic
         LEFT JOIN
             domain AS d ON ic.domain_code = d.code
+        LEFT JOIN
+            subclass_major ON subclass_major.industry_class_code = ic.code
         LEFT JOIN
             subclass_minor ON subclass_minor.industry_class_code = ic.code;
         """
