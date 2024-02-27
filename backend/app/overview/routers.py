@@ -119,7 +119,7 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
         start_time_before_redis = time.time()  # 레디스 저장 전 시간 기록
 
         redis_client = redis.StrictRedis(
-            host="redis-server", port=6379, decode_responses=True
+            host="localhost", port=6379, decode_responses=True
         )
 
         redis_key = f"corp_code:{corp_code}"
