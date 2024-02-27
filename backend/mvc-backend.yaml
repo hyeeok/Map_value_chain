@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mvc-backend
-        image: kdu9303/mvc-backend:0.0.5
+        image: kdu9303/mvc-backend:0.0.6
         imagePullPolicy: Always
         # envFrom:
         #   - secretRef:
