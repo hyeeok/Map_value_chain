@@ -50,13 +50,17 @@ class CorpNameHistory(TypedDict):
     update_date: str
 
 
+from typing import Optional, List
+from pydantic import BaseModel, Field
+
+
 class OverviewDescriptionBase(BaseModel):
     stockName: Optional[str] = Field(None, alias="stock_name")
     stockCode: Optional[str] = Field(None, alias="stock_code")
     bizrNo: Optional[str] = Field(None, alias="bizr_no")
-    jurirNo: str = Field(..., alias="jurir_no")
-    corpName: str = Field(..., alias="corp_name")
-    corpNameEng: str = Field(..., alias="corp_name_eng")
+    jurirNo: Optional[str] = Field(None, alias="jurir_no")
+    corpName: Optional[str] = Field(None, alias="corp_name")
+    corpNameEng: Optional[str] = Field(None, alias="corp_name_eng")
     corpNameHistory: Optional[List[CorpNameHistory]] = Field(
         None, alias="corp_name_history"
     )
@@ -65,24 +69,21 @@ class OverviewDescriptionBase(BaseModel):
     listDate: Optional[str] = Field(None, alias="list_date")
     delistDate: Optional[str] = Field(None, alias="delist_date")
     homepageUrl: Optional[str] = Field(None, alias="hm_url")
-    phoneNum: str = Field(..., alias="phn_no")
+    phoneNum: Optional[str] = Field(None, alias="phn_no")
     adress: Optional[str] = Field(None, alias="adres")
     ceoName: Optional[str] = Field(None, alias="ceo_nm")
     ceoNameHistory: Optional[List[CeoNameHistory]] = Field(None, alias="ceo_nm_history")
-    affiliateList: List[Affiliate] = Field(..., alias="affiliate_list")
+    affiliateList: Optional[List[Affiliate]] = Field(None, alias="affiliate_list")
     isSMCorp: Optional[str] = Field(None, alias="smenpyn")
-    isVenture: Optional[str]
+    isVenture: Optional[str] = Field(None, alias="isVenture")
     subCorpList: Optional[List[SubCorp]] = Field(None, alias="sub_corp_list")
-    employeeNum: int = Field(..., alias="enpempecnt")
-    avgSalary: float = Field(..., alias="enppn1avgslryamt")
+    employeeNum: Optional[int] = Field(None, alias="enpempecnt")
+    avgSalary: Optional[float] = Field(None, alias="enppn1avgslryamt")
     auditorReportOpinion: Optional[str] = Field(None, alias="audtrptopnnctt")
-    settleMonth: int = Field(..., alias="acc_mt")
-    issuerRate: Optional[str]
-    mainBiz: str = Field(..., alias="enpmainbiznm")
-    classList: List[dict]
-
-    class Config:
-        from_attributes = True
+    settleMonth: Optional[int] = Field(None, alias="acc_mt")
+    issuerRate: Optional[str] = Field(None, alias="issuerRate")
+    mainBiz: Optional[str] = Field(None, alias="enpmainbiznm")
+    classList: Optional[List[dict]] = None
 
 
 class OverviewDescription(OverviewDescriptionBase):
@@ -136,35 +137,19 @@ class OverviewRelationList(BaseModel):
 
 
 class OverviewFinancialsBase(BaseModel):
-    # 시가총액(전체)
+    krxOpenapiStockPriceId: str = Field(..., alias="krx_openapi_stock_price_id")
+    isuNm: Optional[str] = Field(..., alias="isu_nm")
+    mktcap: int = Field(..., alias="mktcap")
+    mktcapDifferencePercentage: Optional[float] = Field(
+        ..., alias="mktcap_difference_percentage"
+    )
 
-    # 발행주식수
-    listShrs: str = Field(None, alias="list_shrs")
+    class Config:
+        from_attributes = True
 
-    # 자기주식수
-    # 액면가
-    parval: str = Field(None, alias="parval")
 
-    # 발행주식수(보통주)
-    # 주가(보통주)
-    closePrice: str = Field(None, alias="close_price")
-
-    # 발행주식수(우선주)
-    # 주가(우선주)
-
-    # 자산총계
-    # thstrmAmount: str = Field(..., alias="thstrm_amount")
-
-    # 통화단위
-    # currency: str = Field(..., alias="currency")
-
-    # 유동자산
-    # 현금및현금성자산
-    # 매출채권
-    # 단기금융상품
-    # 단기금융자산
-
-    # 등등
+class OverviewFinancialList(BaseModel):
+    data: List[OverviewFinancialsBase]
 
     class Config:
         from_attributes = True

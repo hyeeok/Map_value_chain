@@ -1,3 +1,4 @@
+import time
 from typing import Dict, List, Union
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -8,7 +9,17 @@ from app.database import get_dev_db, get_mvc_db
 from . import crud
 from .schemas import *
 
+import redis
+import json
+
 router = APIRouter(prefix="/overview")
+
+
+class OverviewDescriptionEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, OverviewDescription):
+            return obj.dict()
+        return super().default(obj)
 
 
 def map_corp_cls(corp_cls: str):
@@ -103,6 +114,61 @@ async def update_corp_code(
 )
 async def read_overview_description(corp_code: str, db: Session = Depends(get_mvc_db)):
     try:
+        start_time_before_redis = time.time()  # 레디스 저장 전 시간 기록
+
+        redis_client = redis.StrictRedis(
+            host="localhost", port=6379, decode_responses=True
+        )
+
+        redis_key = f"corp_code:{corp_code}"
+        cached_data = redis_client.get(redis_key)
+
+        if cached_data:
+            # 캐시된 데이터가 있다면 이를 파싱하여 딕셔너리로 변환하여 반환
+            # 캐시된 데이터에서 키 매핑 수정
+            end_time_before_redis = time.time()  # 레디스 저장 전 시간 기록
+            execution_time_before_redis = (
+                end_time_before_redis - start_time_before_redis
+            )
+
+            cached_dict = json.loads(cached_data)
+            cached_dict = {
+                "stock_name": cached_dict["stockName"],
+                "stock_code": cached_dict["stockCode"],
+                "bizr_no": cached_dict["bizrNo"],
+                "jurir_no": cached_dict["jurirNo"],
+                "corp_name": cached_dict["corpName"],
+                "corp_name_eng": cached_dict["corpNameEng"],
+                "corp_name_history": cached_dict["corpNameHistory"],
+                "est_dt": cached_dict["establishDate"],
+                "corp_cls": cached_dict["corpClass"],
+                "list_date": cached_dict["listDate"],
+                "delist_date": cached_dict["delistDate"],
+                "hm_url": cached_dict["homepageUrl"],
+                "phn_no": cached_dict["phoneNum"],
+                "adress": cached_dict["adress"],
+                "ceo_nm": cached_dict["ceoName"],
+                "ceo_nm_history": cached_dict["ceoNameHistory"],
+                "affiliate_list": cached_dict["affiliateList"],
+                "smenpyn": cached_dict["isSMCorp"],
+                "isVenture": cached_dict["isVenture"],
+                "sub_corp_list": cached_dict["subCorpList"],
+                "enpempecnt": cached_dict["employeeNum"],
+                "enppn1avgslryamt": cached_dict["avgSalary"],
+                "audtrptopnnctt": cached_dict["auditorReportOpinion"],
+                "acc_mt": cached_dict["settleMonth"],
+                "issuerRate": cached_dict["issuerRate"],
+                "enpmainbiznm": cached_dict["mainBiz"],
+                "classList": cached_dict["classList"],
+            }
+
+            # 레디스 저장 후 수행 시간 출력
+            start_time_after_redis = time.time()
+            execution_time_after_redis = start_time_after_redis - end_time_before_redis
+            print(f"Redis 전환 후 실행 시간: {execution_time_after_redis} 초")
+
+            return OverviewDescription(**cached_dict)
+
         dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
         if dart_corp_info == None:
             return HTTPException(status_code=404, detail="dart data not found")
@@ -193,6 +259,19 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
             enpmainbiznm=openapi_outline.enpmainbiznm,
             classList=[],
         )
+
+        # 레디스에 데이터 저장
+        redis_client.setex(
+            redis_key,
+            600,
+            json.dumps(response, cls=OverviewDescriptionEncoder, ensure_ascii=False),
+        )
+
+        # 레디스에 저장하기 전 수행 시간 출력
+        end_time_before_redis = time.time()
+        execution_time_before_redis = end_time_before_redis - start_time_before_redis
+        print(f"Redis 전환 전 실행 시간: {execution_time_before_redis} 초")
+
         return response
 
     except Exception as e:
@@ -276,28 +355,18 @@ async def read_overview_relations(
 
 
 @router.get(
-    "/{corp_code}/financials",
-    response_model=OverviewFinancials,
+    "/{isu_cd}/financials",
+    response_model=OverviewFinancialList,
     response_model_by_alias=False,
 )
-async def read_overview_financials(corp_code: str, db: Session = Depends(get_mvc_db)):
-    # 테스트코드 = corp_code = '00100601'
-    dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
-    if dart_corp_info is None:
-        return HTTPException(
-            status_code=404, detail="DART data not found for the given corp_code"
-        )
+async def read_overview_financials(isu_cd: str, db: Session = Depends(get_mvc_db)):
+    # dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
+    # if dart_corp_info is None:
+    #     return HTTPException(
+    #         status_code=404, detail="DART data not found for the given corp_code"
+    #     )
 
-    stcd = dart_corp_info.stock_code
-    naver_stock_price = crud.get_naver_stock_price(stcd=stcd, db=db)
-    krx_corp_info = crud.get_krx_corp_info(stcd=stcd, db=db)
-    # dart_balance_sheet = crud.get_dart_balance_sheet(stcd=stcd, db=db)
-
-    response = OverviewFinancials(
-        close_price=naver_stock_price.close_price,
-        list_shrs=krx_corp_info.list_shrs,
-        parval=krx_corp_info.parval,
-        # currency=dart_balance_sheet.currency,
-        # thstrm_amount=dart_balance_sheet.thstrm_amount,
-    )
+    # stcd = dart_corp_info.stock_code
+    result = crud.get_mktcap_percent(isu_cd=isu_cd, db=db)
+    response = {"data": result}
     return response

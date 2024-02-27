@@ -3,15 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.industry.routers import router as industry_router
 from app.overview.routers import router as overview_router
+from app.auth.routers import router as auth_router
 
 app = FastAPI(redoc_url=None)
 
-# # 허용할 오리진(출처) 목록
-# origins = [
-#     "http://localhost",
-#     "http://localhost:3000",
-#     "http://localhost:5173",
-# ]
+# 허용할 오리진(출처) 목록
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:5173",
+]
 
 # CORS 미들웨어 추가해 오리진 허용
 app.add_middleware(
@@ -24,3 +25,4 @@ app.add_middleware(
 
 app.include_router(industry_router)
 app.include_router(overview_router)
+app.include_router(auth_router)

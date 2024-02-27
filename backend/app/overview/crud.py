@@ -240,45 +240,36 @@ def get_vendor_corp_list(corp_code: str, vendor_class: str | None, db: Session):
     return result
 
 
-def get_naver_stock_price(stcd: str, db: Session):
+def get_mktcap_percent(isu_cd: str, db: Session):
     query = text(
         """
-        SELECT close_price
-        FROM source.naver_stock_price
-        WHERE stock_code = :stcd
-        AND base_date IN (
-            SELECT MAX(base_date)
-            FROM source.naver_stock_price
-            WHERE stock_code = :stcd
-            GROUP BY SUBSTRING(base_date, 1, 4)
-        );
+        WITH MaxDateCTE AS (
+            SELECT
+                EXTRACT(YEAR FROM TO_DATE(bas_dd, 'YYYYMMDD')) AS year,
+                MAX(TO_DATE(bas_dd, 'YYYYMMDD')) AS max_date
+            FROM
+                "source".krx_openapi_stock_price
+            WHERE
+                isu_cd = :isu_cd
+            GROUP BY
+                EXTRACT(YEAR FROM TO_DATE(bas_dd, 'YYYYMMDD'))
+        )
+        SELECT
+            kosp.krx_openapi_stock_price_id,
+            kosp.isu_nm,
+            kosp.mktcap,
+            ROUND((CAST(kosp.mktcap AS NUMERIC) - LAG(CAST(kosp.mktcap AS NUMERIC)) OVER (PARTITION BY kosp.isu_cd ORDER BY TO_DATE(kosp.bas_dd, 'YYYYMMDD'))) / NULLIF(LAG(CAST(kosp.mktcap AS NUMERIC)) OVER (PARTITION BY kosp.isu_cd ORDER BY TO_DATE(kosp.bas_dd, 'YYYYMMDD')), 0) * 100, 1) AS mktcap_difference_percentage
+        FROM
+            "source".krx_openapi_stock_price kosp
+            JOIN MaxDateCTE ON EXTRACT(YEAR FROM TO_DATE(kosp.bas_dd, 'YYYYMMDD')) = MaxDateCTE.year
+                        AND TO_DATE(kosp.bas_dd, 'YYYYMMDD') = MaxDateCTE.max_date
+        WHERE
+            kosp.isu_cd = :isu_cd;
         """
     )
-
-    result = db.execute(query, {"stcd": stcd}).fetchone()
+    params = {"isu_cd": isu_cd}
+    result = db.execute(query, params).all()
     return result
-
-
-def get_krx_corp_info(stcd: str, db: Session):
-    query = text(
-        """
-        SELECT parval, list_shrs
-        FROM source.krx_corp_info
-        WHERE isu_srt_cd = :stcd
-        """
-    )
-    result = db.execute(query, {"stcd": stcd}).fetchone()
-    return result
-
-
-# def get_dart_balance_sheet(stcd: str, db: Session):
-#     query = text(
-#         """
-#         select currency, thstrm_amount from source.dart_balance_sheet where stock_code = :stcd
-#         """
-#     )
-#     result = db.execute(query, {"stcd": stcd}).fetchone()
-#     return result
 
 
 def get_overview_relations():

@@ -1,6 +1,6 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 
 class ClassBase(BaseModel):
@@ -48,6 +48,27 @@ class IndustryList(BaseModel):
 class SubList(BaseModel):
     length: int
     data: List[Sub]
+
+    class Config:
+        from_attributes = True
+
+
+
+class IndustryInfo(BaseModel):
+    domainName: Optional[str] = Field(None, alias="domainName")
+    industryClassName: Optional[str] = Field(None, alias="industryClassName")
+    subClassMajorName: str = ""
+    subClassMinorName: str = ""
+    # subClassMajorName: str = Optional[str] = Field(None, alias="subClassMajorName")
+    # subClassMinorName: str = Optional[str] = Field(None, alias="subClassMinorName")
+    cnt: Dict[str, Optional[int]] = {}
+
+    class Config:
+        from_attributes = True
+
+class IndustryInfoList(BaseModel):
+    length: int
+    data: List[IndustryInfo]
 
     class Config:
         from_attributes = True
