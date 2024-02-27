@@ -116,14 +116,10 @@ async def update_corp_code(
 )
 async def read_overview_description(corp_code: str, db: Session = Depends(get_mvc_db)):
     try:
-
-        redis_host = os.getenv("REDIS_HOST", "localhost")
-        redis_port = os.getenv("REDIS_PORT", "6379")
-
         start_time_before_redis = time.time()  # 레디스 저장 전 시간 기록
 
         redis_client = redis.StrictRedis(
-            host=redis_host, port=int(redis_port), decode_responses=True
+            host="redis-server", port=6379, decode_responses=True
         )
 
         redis_key = f"corp_code:{corp_code}"

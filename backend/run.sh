@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# 레디스 서버 실행
-redis-server --daemonize yes
+redis-server --bind 0.0.0.0 --port 6379 &
 
-# 유비콘 실행
+sleep 10
+
 uvicorn main:app --host 0.0.0.0 --port 8000
