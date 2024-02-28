@@ -12,8 +12,6 @@ from .schemas import *
 import redis
 import json
 
-import os
-
 router = APIRouter(prefix="/overview")
 
 
@@ -116,61 +114,6 @@ async def update_corp_code(
 )
 async def read_overview_description(corp_code: str, db: Session = Depends(get_mvc_db)):
     try:
-        start_time_before_redis = time.time()  # 레디스 저장 전 시간 기록
-
-        redis_client = redis.StrictRedis(
-            host="localhost", port=6379, decode_responses=True
-        )
-
-        redis_key = f"corp_code:{corp_code}"
-        cached_data = redis_client.get(redis_key)
-
-        if cached_data:
-            # 캐시된 데이터가 있다면 이를 파싱하여 딕셔너리로 변환하여 반환
-            # 캐시된 데이터에서 키 매핑 수정
-            end_time_before_redis = time.time()  # 레디스 저장 전 시간 기록
-            execution_time_before_redis = (
-                end_time_before_redis - start_time_before_redis
-            )
-
-            cached_dict = json.loads(cached_data)
-            cached_dict = {
-                "stock_name": cached_dict["stockName"],
-                "stock_code": cached_dict["stockCode"],
-                "bizr_no": cached_dict["bizrNo"],
-                "jurir_no": cached_dict["jurirNo"],
-                "corp_name": cached_dict["corpName"],
-                "corp_name_eng": cached_dict["corpNameEng"],
-                "corp_name_history": cached_dict["corpNameHistory"],
-                "est_dt": cached_dict["establishDate"],
-                "corp_cls": cached_dict["corpClass"],
-                "list_date": cached_dict["listDate"],
-                "delist_date": cached_dict["delistDate"],
-                "hm_url": cached_dict["homepageUrl"],
-                "phn_no": cached_dict["phoneNum"],
-                "adress": cached_dict["adress"],
-                "ceo_nm": cached_dict["ceoName"],
-                "ceo_nm_history": cached_dict["ceoNameHistory"],
-                "affiliate_list": cached_dict["affiliateList"],
-                "smenpyn": cached_dict["isSMCorp"],
-                "isVenture": cached_dict["isVenture"],
-                "sub_corp_list": cached_dict["subCorpList"],
-                "enpempecnt": cached_dict["employeeNum"],
-                "enppn1avgslryamt": cached_dict["avgSalary"],
-                "audtrptopnnctt": cached_dict["auditorReportOpinion"],
-                "acc_mt": cached_dict["settleMonth"],
-                "issuerRate": cached_dict["issuerRate"],
-                "enpmainbiznm": cached_dict["mainBiz"],
-                "classList": cached_dict["classList"],
-            }
-
-            # 레디스 저장 후 수행 시간 출력
-            start_time_after_redis = time.time()
-            execution_time_after_redis = start_time_after_redis - end_time_before_redis
-            print(f"Redis 전환 후 실행 시간: {execution_time_after_redis} 초")
-
-            return OverviewDescription(**cached_dict)
-
         dart_corp_info = crud.get_dart_corp_info(corp_code=corp_code, db=db)
         if dart_corp_info == None:
             return HTTPException(status_code=404, detail="dart data not found")
@@ -261,18 +204,6 @@ async def read_overview_description(corp_code: str, db: Session = Depends(get_mv
             enpmainbiznm=openapi_outline.enpmainbiznm,
             classList=[],
         )
-
-        # 레디스에 데이터 저장
-        redis_client.setex(
-            redis_key,
-            600,
-            json.dumps(response, cls=OverviewDescriptionEncoder, ensure_ascii=False),
-        )
-
-        # 레디스에 저장하기 전 수행 시간 출력
-        end_time_before_redis = time.time()
-        execution_time_before_redis = end_time_before_redis - start_time_before_redis
-        print(f"Redis 전환 전 실행 시간: {execution_time_before_redis} 초")
 
         return response
 
