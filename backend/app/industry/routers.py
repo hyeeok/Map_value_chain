@@ -24,6 +24,33 @@ def read_industry_class(db: Session = Depends(get_dev_db)):
         print(repr(e))
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/download")
+async def download_industry(db: Session = Depends(get_dev_db)):
+
+    data = crud.get_industry_class_download_format(db)
+    
+    wb = Workbook()
+    ws = wb.active
+
+    ws.append(["도메인 코드", "도메인 명", "도메인 그룹", "산업분류 코드", "산업분류 명", "산업분류 유형"])
+
+    for entry in data:
+        row = [
+            entry["domainCode"],
+            entry["domainName"],
+            entry["domainDivision"],
+            entry["industryClassCode"],
+            entry["industryClassName"],
+            entry["industryClassType"],
+        ]
+        ws.append(row)
+
+    file_stream = io.BytesIO()
+    wb.save(file_stream)
+    file_stream.seek(0)
+    
+    return StreamingResponse(file_stream, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", headers={"Content-Disposition": "attachment; filename=industry.xlsx"})
+
 
 @router.get("/subclass", response_model=SubList, response_model_by_alias=False)
 def read_sub_class(db: Session = Depends(get_dev_db)):

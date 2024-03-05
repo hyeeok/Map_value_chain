@@ -24,6 +24,40 @@ def get_industry_class_list(db: Session):
     result = db.execute(query).all()
     return result
 
+def get_industry_class_download_format(db: Session):
+    query = text(
+        """
+        SELECT
+            d.code domain_code,
+            d.name domain_name,
+            d.seq domain_seq,
+            d.division domain_division,
+            ic.code industry_class_code, 
+            ic.name industry_class_name,
+            ic.type industry_class_type,
+            ic.seq_list industry_class_seq_list,
+            ic.seq_grid industry_class_seq_grid
+        FROM industry_class ic
+        INNER JOIN domain d
+        ON ic.domain_code = d.code
+        """
+    )
+    result = db.execute(query).fetchall()
+
+    formatted_result = []
+    for row in result:
+        formatted_row = {
+            "domainCode": row[0],
+            "domainName": row[1],
+            "domainDivision": row[3],
+            "industryClassCode": row[4],
+            "industryClassName": row[5],
+            "industryClassType": row[6],
+        }
+        formatted_result.append(formatted_row)
+
+    return formatted_result
+
 
 def get_sub_class_list(db: Session):
     query = text(
