@@ -52,25 +52,37 @@ async def download_industry_info(db: Session = Depends(get_mvc_db)):
     
     wb = Workbook()
     ws = wb.active
-    ws.append(["Index", "Domain Name", "Industry Class Name", "TOTAL", "Y", "K", "N", "비상장외감", "비외감"])
-    # ws.append(["Index", "Domain Name", "Industry Class Name", "Sub Major Class Name", "Sub Minor Class Name", "TOTAL", "Y", "K", "N", "비상장외감", "비외감"])
+
+    ws.append(["Index", "Domain Name", "Industry Class Name", "TOTAL", "Y", "K", "N", "비상장외감", "비외감", "TOTAL Rate", "Y Rate", "K Rate", "N Rate", "비상장외감 Rate", "비외감 Rate"])
+    # ws.append(["Index", "Domain Name", "Industry Class Name", "Sub Major Class Name", "Sub Minor Class Name", "TOTAL", "Y", "K", "N", "비상장외감", "비외감", "TOTAL Rate", "Y Rate", "K Rate", "N Rate", "비상장외감 Rate", "비외감 Rate"])
 
     for index, entry in enumerate(data, start=1):
         row = [
             index,
             entry["domainName"],
             entry["industryClassName"],
-            # entry["subMajorClassName"],
-            # entry["subMinorClassName"],
+            # entry["subClassMajorName"],
+            # entry["subClassMinorName"],
             entry["cnt"]["TOTAL"],
             entry["cnt"]["Y"],
             entry["cnt"]["K"],
             entry["cnt"]["N"],
             entry["cnt"]["비상장외감"],
-            entry["cnt"]["비외감"]
+            entry["cnt"]["비외감"],
+            entry["rate"]["TOTAL"],
+            entry["rate"]["Y"],
+            entry["rate"]["K"],
+            entry["rate"]["N"],
+            entry["rate"]["비상장외감"],
+            entry["rate"]["비외감"],
         ]
         ws.append(row)
 
+    for column in ws.columns:
+        for cell in column:
+            if isinstance(cell.value, float):
+                cell.number_format = '0.000000'
+                
     file_stream = io.BytesIO()
     wb.save(file_stream)
     file_stream.seek(0)

@@ -62,6 +62,7 @@ class IndustryInfo(BaseModel):
     # subClassMajorName: str = Optional[str] = Field(None, alias="subClassMajorName")
     # subClassMinorName: str = Optional[str] = Field(None, alias="subClassMinorName")
     cnt: Dict[str, Optional[int]] = {}
+    rate: Dict[str, Optional[float]] = {}
 
     class Config:
         from_attributes = True

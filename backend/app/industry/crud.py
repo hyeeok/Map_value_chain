@@ -84,6 +84,8 @@ def get_industry_class_info_list(db: Session):
     result = db.execute(query).fetchall()
 
     formatted_result = []
+    total_cnt = 0
+
     for row in result:
         domainName = row[0]
         industryClassName = row[1]
@@ -91,6 +93,8 @@ def get_industry_class_info_list(db: Session):
         # subMinorClassName = row[3]
         corpCls = row[2]
         corpClsCnt = row[3]
+
+        total_cnt += corpClsCnt 
 
         data_entry = {
             "domainName": domainName,
@@ -104,7 +108,15 @@ def get_industry_class_info_list(db: Session):
                 "N": 0,
                 "비상장외감": 0,
                 "비외감": 0
-            }
+            },
+            "rate": {
+                "TOTAL": 0,
+                "Y": 0,
+                "K": 0,
+                "N": 0,
+                "비상장외감": 0,
+                "비외감": 0
+            },
         }
 
         existing_entry = next((entry for entry in formatted_result if entry["domainName"] == domainName and entry["industryClassName"] == industryClassName), None)
@@ -119,5 +131,9 @@ def get_industry_class_info_list(db: Session):
             data_entry["cnt"][corpCls] = corpClsCnt
             data_entry["cnt"]["TOTAL"] = corpClsCnt  
             formatted_result.append(data_entry)
+
+    for entry in formatted_result:
+        for key in entry["cnt"]:
+            entry["rate"][key] = round(entry["cnt"][key] / total_cnt, 6) if total_cnt > 0 else 0.0
 
     return formatted_result

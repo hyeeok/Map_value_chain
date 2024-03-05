@@ -9,7 +9,6 @@ from app.database import get_dev_db, get_mvc_db
 from . import crud
 from .schemas import *
 
-import redis
 import json
 
 router = APIRouter(prefix="/overview")
