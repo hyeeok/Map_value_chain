@@ -1,4 +1,3 @@
-import time
 from typing import Dict, List, Union
 
 from fastapi import APIRouter, Depends, HTTPException, Query
