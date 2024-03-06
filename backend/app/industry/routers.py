@@ -49,7 +49,7 @@ async def download_industry(db: Session = Depends(get_dev_db)):
     wb.save(file_stream)
     file_stream.seek(0)
     
-    return StreamingResponse(file_stream, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", headers={"Content-Disposition": "attachment; filename=industry.xlsx"})
+    return StreamingResponse(file_stream, media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", headers={"Content-Disposition": "attachment; filename=industry_class.xlsx"})
 
 
 @router.get("/subclass", response_model=SubList, response_model_by_alias=False)
