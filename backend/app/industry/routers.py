@@ -80,7 +80,7 @@ async def download_industry_info(db: Session = Depends(get_mvc_db)):
     wb = Workbook()
     ws = wb.active
 
-    ws.append(["Index", "Domain Name", "Industry Class Name", "TOTAL", "Y", "K", "N", "비상장외감", "비외감", "TOTAL Rate", "Y Rate", "K Rate", "N Rate", "비상장외감 Rate", "비외감 Rate"])
+    ws.append(["Index", "도메인 명", "산업분류 명", "합계", "코스피", "코스닥", "코넥스", "비상장외감", "비외감", "합계 비율", "코스피 비율", "코스닥 비율", "코넥스 비율", "비상장외감 비율", "비외감 비율"])
     # ws.append(["Index", "Domain Name", "Industry Class Name", "Sub Major Class Name", "Sub Minor Class Name", "TOTAL", "Y", "K", "N", "비상장외감", "비외감", "TOTAL Rate", "Y Rate", "K Rate", "N Rate", "비상장외감 Rate", "비외감 Rate"])
 
     for index, entry in enumerate(data, start=1):
