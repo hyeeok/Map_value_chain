@@ -1,4 +1,3 @@
-
 # MVC Backend
 MVC 애플리케이션의 백엔드입니다.
 
@@ -51,14 +50,4 @@ uvicorn main:app --reload
 ```
 
 5. http://localhost:8000/docs 접속해 확인
-
-
-## Third Party Licenses
-
-...
-
-
-## Support
-
-...
 
